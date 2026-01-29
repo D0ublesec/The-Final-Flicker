@@ -308,7 +308,7 @@
             
             <div id="class-tool">
                 <h3 style="border:none; margin:0;">The Random Selector</h3>
-                <p id="pool-status" style="color:#888; font-size:0.9em; margin-bottom:15px;">25 Classes Available in the Darkness.</p>
+                <p id="pool-status" style="color:#888; font-size:0.9em; margin-bottom:15px;">Classes Available in the Darkness.</p>
                 
                 <button class="tool-btn" onclick="drawClasses()">Draw 2 Classes</button>
                 <button class="tool-btn secondary" onclick="resetPool()">Reset Ritual</button>
@@ -458,6 +458,15 @@
                 <div class="class-card"><span class="class-name">THE ARCHITECT</span>Play cards Face Down in your Shadow as 'Walls' (Str 0). Ghosts hit walls first.</div>
                 <div class="class-card"><span class="class-name">THE CLOWN</span>Ghosts you Haunt cannot be Banished by Numbers, only Face or Cleanse (6).</div>
                 <div class="class-card"><span class="class-name">THE PHANTOM</span>If you have 0 Cards in Hand, you cannot be targeted by Haunts.</div>
+                
+                <div class="class-card"><span class="class-name">THE DOLL</span>When you are forced to Burn cards by a Haunt, the attacker must Burn the same amount.</div>
+                <div class="class-card"><span class="class-name">THE CROW</span>If a Neighbour Burns a Face Card, you may add it to your Hand.</div>
+                <div class="class-card"><span class="class-name">THE VESSEL</span>The first Ghost in your Shadow does not cause you to Burn cards.</div>
+                <div class="class-card"><span class="class-name">THE WARDEN</span>You are immune to Ghosts being moved into your Shadow (Mirror/Possess).</div>
+                <div class="class-card"><span class="class-name">THE SILENCE</span>Your actions cannot be interrupted by Salt (4).</div>
+                <div class="class-card"><span class="class-name">THE ORACLE</span>You play with your Hand revealed. You draw 2 cards every turn (instead of 1).</div>
+                <div class="class-card"><span class="class-name">THE PLAGUE</span>If a Ghost you Haunted is Banished, it moves to the other Neighbour instead of The Dark.</div>
+                <div class="class-card"><span class="class-name">THE SIREN</span>When you play a 5 (Greed), you may Steal 1 card from a Neighbour instead of Drawing.</div>
             </div>
         </section>
 
@@ -548,7 +557,16 @@
             { name: "THE JESTER", desc: "When Haunted, discard 1 to redirect it to the other Neighbour." },
             { name: "THE ARCHITECT", desc: "Play cards Face Down in your Shadow as 'Walls' (Str 0). Ghosts hit walls first." },
             { name: "THE CLOWN", desc: "Ghosts you Haunt cannot be Banished by Numbers, only Face or Cleanse (6)." },
-            { name: "THE PHANTOM", desc: "If you have 0 Cards in Hand, you cannot be targeted by Haunts." }
+            { name: "THE PHANTOM", desc: "If you have 0 Cards in Hand, you cannot be targeted by Haunts." },
+            // NEW SPOOKY CLASSES
+            { name: "THE DOLL", desc: "When you are forced to Burn cards by a Haunt, the attacker must Burn the same amount." },
+            { name: "THE CROW", desc: "If a Neighbour Burns a Face Card, you may add it to your Hand." },
+            { name: "THE VESSEL", desc: "The first Ghost in your Shadow does not cause you to Burn cards." },
+            { name: "THE WARDEN", desc: "You are immune to Ghosts being moved into your Shadow (Mirror/Possess)." },
+            { name: "THE SILENCE", desc: "Your actions cannot be interrupted by Salt (4)." },
+            { name: "THE ORACLE", desc: "You play with your Hand revealed. You draw 2 cards every turn (instead of 1)." },
+            { name: "THE PLAGUE", desc: "If a Ghost you Haunted is Banished, it moves to the other Neighbour instead of The Dark." },
+            { name: "THE SIREN", desc: "When you play a 5 (Greed), you may Steal 1 card from a Neighbour instead of Drawing." }
         ];
 
         let classPool = [...allClasses];
