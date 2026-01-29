@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE FINAL FLICKER: Manual & Game</title>
+    <title>THE FINAL FLICKER: Official Manual</title>
     <style>
         :root {
             --bg-color: #121212;
             --text-color: #e0e0e0;
-            --accent-color: #d84315;
-            --card-bg: #f0f0f0;
-            --panel-bg: #1e1e1e;
+            --accent-color: #d84315; /* Burning Orange/Red */
+            --card-bg: #1e1e1e;
             --border-color: #333;
         }
 
@@ -18,136 +17,223 @@
             font-family: 'Georgia', serif;
             background-color: var(--bg-color);
             color: var(--text-color);
+            line-height: 1.6;
             margin: 0;
             padding: 0;
-            overflow-x: hidden;
         }
 
-        /* TABS */
-        .tab-bar {
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1, h2, h3 {
+            color: var(--accent-color);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 3em;
+            text-transform: uppercase;
+            border-bottom: none;
+            margin-bottom: 0;
+            font-weight: 900;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #888;
+            font-style: italic;
+            margin-top: 0;
+            margin-bottom: 40px;
+        }
+
+        .flavor-text {
+            background-color: #080808;
+            border-left: 4px solid var(--accent-color);
+            padding: 20px;
+            font-style: italic;
+            color: #ccc;
+            margin-bottom: 30px;
+            font-size: 1.05em;
+        }
+        
+        .tagline {
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-top: 15px;
+            display: block;
+        }
+
+        /* Navigation */
+        nav {
+            background-color: var(--card-bg);
+            padding: 10px;
+            text-align: center;
             position: sticky;
             top: 0;
-            background: #000;
-            z-index: 1000;
-            display: flex;
-            justify-content: center;
-            border-bottom: 2px solid var(--accent-color);
+            z-index: 100;
+            border-bottom: 1px solid var(--accent-color);
         }
-        .tab-btn {
-            background: none;
-            border: none;
-            color: #888;
-            padding: 15px 30px;
-            font-size: 1.2em;
-            cursor: pointer;
-            font-family: 'Georgia', serif;
-            text-transform: uppercase;
-        }
-        .tab-btn.active {
+
+        nav a {
             color: var(--text-color);
-            background: var(--accent-color);
+            text-decoration: none;
+            margin: 0 15px;
+            font-family: sans-serif;
             font-weight: bold;
+            font-size: 0.9em;
         }
-        .tab-btn:hover { color: white; }
 
-        .content-section { display: none; padding: 20px; max-width: 900px; margin: 0 auto; }
-        .content-section.active { display: block; }
+        nav a:hover {
+            color: var(--accent-color);
+        }
 
-        /* MANUAL STYLES */
-        h1, h2, h3 { color: var(--accent-color); border-bottom: 1px solid var(--border-color); }
-        h1 { text-align: center; font-size: 3em; border: none; text-transform: uppercase; margin-bottom: 0; }
-        .subtitle { text-align: center; color: #888; font-style: italic; margin-top: 0; }
-        .flavor-text { background-color: #080808; border-left: 4px solid var(--accent-color); padding: 20px; font-style: italic; color: #ccc; margin-bottom: 30px; }
-        .tagline { font-weight: bold; color: var(--accent-color); display: block; margin-top: 10px; }
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: var(--card-bg);
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            color: var(--accent-color);
+            text-transform: uppercase;
+            font-size: 0.85em;
+        }
+
+        /* Sections */
+        section {
+            margin-bottom: 50px;
+        }
+
+        .rules-list, .setup-list {
+            padding-left: 20px;
+        }
         
-        table { width: 100%; border-collapse: collapse; background: var(--panel-bg); margin: 20px 0; }
-        th, td { padding: 12px; border-bottom: 1px solid #333; text-align: left; }
-        th { color: var(--accent-color); }
-
-        /* CSS PLAYING CARDS */
-        .card-visual {
-            display: inline-block;
-            width: 60px;
-            height: 84px;
-            background-color: white;
-            border-radius: 5px;
-            box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
-            position: relative;
-            margin: 5px;
-            color: black;
-            font-family: 'Arial', sans-serif;
-            border: 1px solid #999;
-            user-select: none;
-        }
-        .card-visual.red { color: #d00; }
-        .card-visual .rank { position: absolute; top: 2px; left: 4px; font-size: 14px; font-weight: bold; }
-        .card-visual .suit-small { position: absolute; top: 16px; left: 4px; font-size: 14px; }
-        .card-visual .suit-center {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            font-size: 30px;
-        }
-        .card-visual.face-down {
-            background: repeating-linear-gradient(45deg, #1a237e, #1a237e 5px, #283593 5px, #283593 10px);
-            border: 2px solid white;
+        .rules-list li {
+            margin-bottom: 10px;
         }
 
-        /* GAME BOARD STYLES */
-        #game-board {
+        /* Cheat Sheet Special Styling */
+        #cheatsheet {
+            border: 2px dashed var(--accent-color);
+            padding: 20px;
+            background-color: #1a1a1a;
+        }
+
+        .cheat-grid {
             display: grid;
-            grid-template-rows: auto auto auto;
+            grid-template-columns: 1fr 1fr;
             gap: 20px;
-            text-align: center;
-            user-select: none;
         }
-        .zone {
-            background: var(--panel-bg);
+
+        @media (max-width: 700px) {
+            .cheat-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Classes Grid */
+        .classes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .class-card {
+            background-color: var(--card-bg);
             padding: 15px;
-            border-radius: 8px;
-            border: 1px solid #333;
-            min-height: 120px;
-        }
-        .zone h3 { margin-top: 0; font-size: 1em; border: none; }
-        
-        .hand-container { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
-        
-        .selectable-card { cursor: pointer; transition: transform 0.2s; }
-        .selectable-card:hover { transform: translateY(-10px); z-index: 10; border: 2px solid var(--accent-color); }
-        .selected { border: 3px solid var(--accent-color); transform: translateY(-15px); }
-
-        .btn {
-            background: var(--accent-color); color: white; border: none; padding: 10px 20px;
-            font-size: 1em; cursor: pointer; margin: 5px; border-radius: 4px;
-        }
-        .btn:disabled { background: #555; cursor: not-allowed; }
-        .btn:hover:not(:disabled) { background: #ff5722; }
-
-        .log-box {
-            height: 150px; overflow-y: scroll; background: #000; border: 1px solid #333;
-            font-family: monospace; padding: 10px; text-align: left; color: #0f0; font-size: 0.9em;
+            border: 1px solid var(--border-color);
         }
 
-        .candle-count { font-size: 2em; font-weight: bold; color: #fff; }
-        
-        /* Modal for GameOver */
-        #modal {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9); z-index: 2000; align-items: center; justify-content: center;
+        .class-name {
+            color: var(--accent-color);
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
         }
-        .modal-content { background: var(--panel-bg); padding: 40px; text-align: center; border: 2px solid var(--accent-color); }
 
+        /* Print Button */
+        .print-btn {
+            display: block;
+            margin: 20px auto;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-family: sans-serif;
+        }
+
+        .print-btn:hover {
+            background-color: #bf360c;
+        }
+
+        /* PRINT STYLES */
+        @media print {
+            body {
+                background-color: white;
+                color: black;
+            }
+            .container {
+                width: 100%;
+                max-width: 100%;
+            }
+            nav, .print-btn {
+                display: none;
+            }
+            h1, h2, h3, th, .class-name {
+                color: black;
+                border-color: black;
+            }
+            .flavor-text {
+                background-color: #f0f0f0;
+                color: #333;
+                border-left-color: black;
+            }
+            table, .class-card, #cheatsheet {
+                background-color: white;
+                border: 1px solid #ccc;
+            }
+            a {
+                text-decoration: none;
+                color: black;
+            }
+            /* Force page break before Cheat Sheet for easy printing */
+            #cheatsheet {
+                page-break-before: always;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <div class="tab-bar">
-        <button class="tab-btn active" onclick="switchTab('manual')">The Manual</button>
-        <button class="tab-btn" onclick="switchTab('game')">Play Game (vs AI)</button>
-    </div>
+    <nav>
+        <a href="#setup">SETUP</a>
+        <a href="#rules">RULES</a>
+        <a href="#grimoire">CARDS</a>
+        <a href="#classes">CLASSES</a>
+        <a href="#cheatsheet" style="color: var(--accent-color);">CHEAT SHEET</a>
+    </nav>
 
-    <div id="manual" class="content-section active">
+    <div class="container">
         <header>
             <h1>The Final Flicker</h1>
             <p class="subtitle">Official Manual: Version 1.0</p>
+            
             <div class="flavor-text">
                 <p>This candle is your heartbeat. As long as it flickers, you are safe. But every card you burn brings you one step closer to being Consumed by the Darkness.</p>
                 <p>However, the dark isn't the only danger. If you let too many ghosts gather, you won't just die—you will lose your mind to the Possession. You must balance your fading light against your crumbling sanity.</p>
@@ -156,412 +242,279 @@
             </div>
         </header>
 
-        <section>
-            <h2>Card Examples</h2>
-            <p><strong>Numbers (The Whispers):</strong> Used to Haunt or Invoke effects.</p>
-            <div style="display:flex; gap:10px; margin-bottom: 20px;">
-                <div class="card-visual"><div class="rank">4</div><div class="suit-small">♠</div><div class="suit-center">♠</div></div>
-                <div class="card-visual red"><div class="rank">7</div><div class="suit-small">♦</div><div class="suit-center">♦</div></div>
-                <div class="card-visual"><div class="rank">10</div><div class="suit-small">♣</div><div class="suit-center">♣</div></div>
-            </div>
-            <p><strong>Face Cards (The Arcana):</strong> Used to Summon powerful abilities.</p>
-            <div style="display:flex; gap:10px;">
-                <div class="card-visual red"><div class="rank">K</div><div class="suit-small">♥</div><div class="suit-center">♚</div></div>
-                <div class="card-visual"><div class="rank">Q</div><div class="suit-small">♠</div><div class="suit-center">♛</div></div>
-                <div class="card-visual red"><div class="rank">J</div><div class="suit-small">♦</div><div class="suit-center">JOK</div></div>
-            </div>
-        </section>
-
-        <section>
-            <h2>The Rules</h2>
-            <h3>1. The Setup</h3>
-            <ul>
-                <li><strong>Ratio:</strong> 1 Standard Deck per 2 players (2 Jokers max).</li>
-                <li><strong>The Candle:</strong> Your life deck. Do not look at it.</li>
-                <li><strong>The Shadow:</strong> The space in front of you.</li>
+        <section id="setup">
+            <h2>1. The Setup</h2>
+            <h3>The Supplies</h3>
+            <p><strong>Ratio:</strong> Roughly 1 Standard Deck for every 2 players.</p>
+            <ul class="setup-list">
+                <li><strong>IMPORTANT:</strong> Use strictly <strong>2 Jokers per Deck</strong>. If your decks have extra promotional jokers (3-4), remove them.</li>
+                <li>2-4 Players: 2 Decks</li>
+                <li>5-6 Players: 3 Decks</li>
+                <li>7-8 Players: 4 Decks</li>
+                <li>9-20 Players: Scale accordingly (1 deck per 2 players)</li>
             </ul>
+            <p><strong>The Shuffle:</strong> Shuffle all decks together to create one massive pool.</p>
 
-            <h3>2. Turn Structure</h3>
-            <ol>
-                <li><strong>THE HAUNTING:</strong> Count ghosts in your Shadow. Burn that many cards from your Candle.</li>
-                <li><strong>THE BURN:</strong> Draw 1 card. (If empty, you die).</li>
-                <li><strong>THE RITUAL:</strong> Perform ONE action:
-                    <ul>
-                        <li><strong>HAUNT (Attack):</strong> Play Number card into Neighbor's Shadow.</li>
-                        <li><strong>BANISH (Defend):</strong> Play card on your own Ghost (Higher/Equal Value).</li>
-                        <li><strong>INVOKE/SUMMON:</strong> Discard for Effect.</li>
-                    </ul>
-                </li>
-                <li><strong>THE BURDEN:</strong> Discard down to 7 cards.</li>
+            <h3>The Circle</h3>
+            <ol class="setup-list">
+                <li>Sit in a circle.</li>
+                <li>Deal the <strong>ENTIRE</strong> pool of cards evenly until they run out.</li>
+                <li><strong>The Candle:</strong> This stack is your life. <strong>Do not look at it.</strong> If it runs out, you are Consumed by the Darkness.</li>
+                <li><strong>The Hand:</strong> Draw <strong>5 cards</strong> from your Candle.</li>
+                <li><strong>The Shadow:</strong> The empty space on the table directly in front of you. This is where ghosts manifest.</li>
             </ol>
         </section>
 
-        <section>
-            <h2>The Grimoire (Card Effects)</h2>
+        <section id="rules">
+            <h2>2. The Laws of the Circle</h2>
+            <ul class="rules-list">
+                <li><strong>Line of Sight:</strong> You can only interact with your Immediate Neighbors (Left/Right).</li>
+                <li><strong>The Accumulation:</strong> Ghosts played against you gather in your personal <strong>Shadow</strong>.</li>
+                <li><strong>Forbidden Knowledge:</strong> Never look through <strong>The Dark</strong> (Discard Pile) unless a card tells you to.</li>
+                <li><strong>The Closing Gap:</strong> When a player dies, they are removed. The circle shrinks.
+                    <ul>
+                        <li><em>Standard:</em> Ghosts are banished to The Dark.</li>
+                        <li><em>Dark Mode:</em> Ghosts split between neighbors.</li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+
+        <section id="turn">
+            <h2>3. The Passage of Time (Turn Structure)</h2>
+            
+            <h3>Phase A: THE HAUNTING</h3>
+            <p>Look into your <strong>Shadow</strong>. Count the Ghosts. For <strong>every Ghost</strong> currently haunting you, <strong>BURN (Discard) 1 card</strong> from your Candle into The Dark.</p>
+            
+            <h3>Phase B: THE BURN</h3>
+            <p>Draw <strong>1 card</strong> from the top of your Candle.</p>
+            <p><em>If your Candle is empty when you try to Draw, you are Consumed by the Darkness.</em></p>
+
+            <h3>Phase C: THE RITUAL</h3>
+            <p>Perform <strong>EXACTLY ONE</strong> of the following:</p>
+            <ul>
+                <li><strong>HAUNT (Attack):</strong> Play a Number Card (A-10) into a Neighbor's Shadow.</li>
+                <li><strong>BANISH (Defend):</strong> Play a card from hand onto a Ghost in <em>your</em> Shadow.
+                    <br><em>Requirement:</em> Must be <strong>Higher</strong> or <strong>Equal</strong> value.
+                    <br><em>Suits:</em> ♠ Spades > ♥ Hearts > ♣ Clubs > ♦ Diamonds.
+                </li>
+                <li><strong>INVOKE (Effect):</strong> Discard a Number Card to use its Ability.</li>
+                <li><strong>SUMMON (Power):</strong> Discard a Face Card to use its Power.</li>
+            </ul>
+
+            <h3>Phase D: THE BURDEN</h3>
+            <p>If you have <strong>8+ cards</strong> in hand, discard down to <strong>7</strong>.</p>
+        </section>
+
+        <section id="grimoire">
+            <h2>4. The Grimoire (Card Effects)</h2>
+            
+            <h3>The Whispers (Number Cards)</h3>
+            <p><em>Action: Play into Neighbor's Shadow to HAUNT, or Discard to INVOKE.</em></p>
             <table>
-                <tr><th>Rank</th><th>Name</th><th>Effect</th></tr>
-                <tr><td>A</td><td>DRAFT</td><td>Foe Burns 2 cards.</td></tr>
-                <tr><td>2</td><td>SCARE</td><td>Foe Discards 2 random cards.</td></tr>
-                <tr><td>3</td><td>OMEN</td><td>Reveal 3 from Candle, Play 1.</td></tr>
-                <tr><td>4</td><td>SALT</td><td>Cancel an Action.</td></tr>
-                <tr><td>5</td><td>GREED</td><td>Draw 2 cards.</td></tr>
-                <tr><td>6</td><td>CLEANSE</td><td>Destroy 1 Ghost (Self).</td></tr>
-                <tr><td>7</td><td>SIGHT</td><td>Steal 1 card from Foe.</td></tr>
-                <tr><td>8</td><td>VANISH</td><td>Return Ghost to Hand.</td></tr>
-                <tr><td>9</td><td>POSSESS</td><td>Move Ghost to Foe.</td></tr>
-                <tr><td>10</td><td>REKINDLE</td><td>Get 3 from Discard to Candle.</td></tr>
-                <tr><td>J</td><td>MIRROR</td><td>Swap Ghosts with Foe.</td></tr>
-                <tr><td>Q</td><td>MEDIUM</td><td>Fetch card from Discard.</td></tr>
-                <tr><td>K</td><td>PURGE</td><td>Destroy ALL Ghosts (Self).</td></tr>
-                <tr><td>Joker</td><td>HAUNTED</td><td>All Foes get 1 Ghost.</td></tr>
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Name</th>
+                        <th>Invoke Effect (Discard to Use)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>A</td><td>DRAFT</td><td>Force a Neighbor to <strong>Burn 2 cards</strong> from their Candle.</td></tr>
+                    <tr><td>2</td><td>SCARE</td><td>Force a Neighbor to discard <strong>2 random cards</strong> from Hand.</td></tr>
+                    <tr><td>3</td><td>OMEN</td><td>Reveal top 3 of your Candle. <strong>Play 1 immediately</strong>. Rest to bottom.</td></tr>
+                    <tr><td>4</td><td>SALT</td><td><strong>Interrupt:</strong> Cancel an action targeting you. (Salt can be Salted).</td></tr>
+                    <tr><td>5</td><td>GREED</td><td>Draw 2 cards.</td></tr>
+                    <tr><td>6</td><td>CLEANSE</td><td>Destroy 1 Ghost in your <em>own</em> Shadow (no value check).</td></tr>
+                    <tr><td>7</td><td>SIGHT</td><td>Look at Neighbor's Hand and <strong>Steal 1 Card</strong>.</td></tr>
+                    <tr><td>8</td><td>VANISH</td><td>Return a Ghost from <strong>Any Board</strong> to your Hand.</td></tr>
+                    <tr><td>9</td><td>POSSESS</td><td>Move a Ghost from your Shadow to a Neighbor's Shadow.</td></tr>
+                    <tr><td>10</td><td>REKINDLE</td><td>Take top 3 cards from Discard; put at bottom of your Candle.</td></tr>
+                </tbody>
+            </table>
+
+            <h3>The Arcana (Face Cards)</h3>
+            <p><em>Action: Cannot be Ghosts. Must Discard to SUMMON.</em></p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Name</th>
+                        <th>Summon Power</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>JACK</td><td>THE MIRROR</td><td><strong>Swap</strong> all ghosts in your Shadow with a Neighbor's ghosts.</td></tr>
+                    <tr><td>QUEEN</td><td>THE MEDIUM</td><td>Pick any card from <strong>The Dark</strong> and put it in your Hand.</td></tr>
+                    <tr><td>KING</td><td>THE PURGE</td><td>Banish <strong>ALL</strong> Ghosts in your Shadow instantly.</td></tr>
+                    <tr><td>JOKER</td><td>THE HAUNTED</td><td><strong>Cataclysm.</strong> Reveal from Discard until you find 1 Ghost per opponent. Place 1 in every opponent's Shadow.</td></tr>
+                </tbody>
             </table>
         </section>
 
-        <footer style="text-align: center; margin-top: 50px; color: #555; border-top: 1px solid #333; padding-top: 20px;">
-            <p><strong>THE FINAL FLICKER</strong> &copy; 2026. All Rights Reserved.</p>
+        <section id="classes">
+            <h2>5. The Cursed (Classes)</h2>
+            <div class="classes-grid">
+                <div class="class-card">
+                    <span class="class-name">THE SKEPTIC</span>
+                    Immune to Aces (Drafts).
+                </div>
+                <div class="class-card">
+                    <span class="class-name">THE PRIEST</span>
+                    When you Banish a Ghost, Draw 1 Card.
+                </div>
+                <div class="class-card">
+                    <span class="class-name">THE SHADOW</span>
+                    Can Burn 1 card from Candle to cancel a Haunt targeting you.
+                </div>
+                <div class="class-card">
+                    <span class="class-name">THE EXORCIST</span>
+                    Your 6 (Cleanse) destroys 2 Ghosts instead of 1.
+                </div>
+                <div class="class-card">
+                    <span class="class-name">THE SURVIVOR</span>
+                    If you have 2 or fewer cards in Hand, take no damage during The Haunting.
+                </div>
+                <div class="class-card">
+                    <span class="class-name">THE PYROMANIAC</span>
+                    Discard a Red Card to force a Neighbor to Burn 2 cards.
+                </div>
+                <div class="class-card">
+                    <span class="class-name">THE SADIST</span>
+                    When you play a 2 (Scare), you choose the cards they discard.
+                </div>
+                <div class="class-card">
+                    <span class="class-name">THE BINDER</span>
+                    Ghosts you Haunt cannot be moved (Possess) or returned (Vanish).
+                </div>
+                <div class="class-card">
+                    <span class="class-name">THE WARLOCK</span>
+                    You can use Face Cards to Haunt (Strength 10) instead of Summon.
+                </div>
+                <div class="class-card">
+                    <span class="class-name">THE VULTURE</span>
+                    When a Neighbor dies, shuffle 5 cards from The Dark into your Candle.
+                </div>
+                <div class="class-card">
+                    <span class="class-name">THE OCCULTIST</span>
+                    Your 9 (Possess) can target any player, not just Neighbors.
+                </div>
+                <div class="class-card">
+                    <span class="class-name">THE TRADER</span>
+                    Discard 1 to see Neighbor's hand. You may Swap 1 card with theirs.
+                </div>
+                <div class="class-card">
+                    <span class="class-name">THE SEER</span>
+                    Once per turn, you may look at the Top Card of any player's Candle.
+                </div>
+                <div class="class-card">
+                    <span class="class-name">THE HOARDER</span>
+                    Hand Limit is 10 (instead of 7).
+                </div>
+                <div class="class-card">
+                    <span class="class-name">THE MIMIC</span>
+                    Once per game, swap Candles (Decks) with a Neighbor.
+                </div>
+                <div class="class-card">
+                    <span class="class-name">THE GRAVEDIGGER</span>
+                    When a Neighbor dies, add their remaining Candle to yours.
+                </div>
+                <div class="class-card">
+                    <span class="class-name">THE FATALIST</span>
+                    Discard 1 Card to change the Suit of any Ghost on the board.
+                </div>
+                <div class="class-card">
+                    <span class="class-name">THE LEECH</span>
+                    When you Banish a Ghost, put it on the bottom of your Candle.
+                </div>
+                <div class="class-card">
+                    <span class="class-name">THE MARTYR</span>
+                    When taking Damage during The Haunting, you may Draw 1 Card.
+                </div>
+                <div class="class-card">
+                    <span class="class-name">THE LICH</span>
+                    The first time you die, steal top 2 Cards from everyone alive to revive.
+                </div>
+                <div class="class-card">
+                    <span class="class-name">THE JUDGE</span>
+                    When you play a 7 (Sight), force that player to Burn 3 cards.
+                </div>
+                <div class="class-card">
+                    <span class="class-name">THE JESTER</span>
+                    When Haunted, discard 1 to redirect it to the other Neighbor.
+                </div>
+                <div class="class-card">
+                    <span class="class-name">THE ARCHITECT</span>
+                    Play cards Face Down in your Shadow as "Walls" (Str 0). Ghosts hit walls first.
+                </div>
+                <div class="class-card">
+                    <span class="class-name">THE CLOWN</span>
+                    Ghosts you Haunt cannot be Banished by Numbers, only Face or Cleanse (6).
+                </div>
+                <div class="class-card">
+                    <span class="class-name">THE PHANTOM</span>
+                    If you have 0 Cards in Hand, you cannot be targeted by Haunts.
+                </div>
+            </div>
+        </section>
+
+        <section id="cheatsheet">
+            <h2 style="text-align: center; border: none; margin-bottom: 0;">THE FINAL FLICKER CHEAT SHEET</h2>
+            <div style="text-align: center; margin-bottom: 20px;"><em>Quick Reference Guide</em></div>
+            
+            <div class="cheat-grid">
+                <div>
+                    <h3>Turn Structure</h3>
+                    <ol>
+                        <li><strong>THE HAUNTING:</strong> Count ghosts in your Shadow. Burn that many cards from Candle.</li>
+                        <li><strong>THE BURN:</strong> Draw 1 Card.</li>
+                        <li><strong>THE RITUAL:</strong> Perform <strong>ONE</strong> action:
+                            <ul>
+                                <li><strong>Haunt:</strong> Play Number into Neighbor's Shadow.</li>
+                                <li><strong>Banish:</strong> Destroy ghost in own Shadow (Higher/Equal Value). ♠ > ♥ > ♣ > ♦.</li>
+                                <li><strong>Invoke:</strong> Discard Number for effect.</li>
+                                <li><strong>Summon:</strong> Discard Face Card for power.</li>
+                            </ul>
+                        </li>
+                        <li><strong>THE BURDEN:</strong> Discard down to 7 cards.</li>
+                    </ol>
+                    <h3>Endings</h3>
+                    <ul>
+                        <li><strong>Consumed:</strong> 0 Cards in Candle.</li>
+                        <li><strong>Possession:</strong> End turn with 3 Ghosts of SAME SUIT in Shadow.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3>Card Effects</h3>
+                    <table style="font-size: 0.9em;">
+                        <tr><td><strong>A</strong></td><td><strong>Draft:</strong> Foe Burns 2 cards.</td></tr>
+                        <tr><td><strong>2</strong></td><td><strong>Scare:</strong> Foe Discards 2 random cards.</td></tr>
+                        <tr><td><strong>3</strong></td><td><strong>Omen:</strong> Reveal 3 from Candle, Play 1.</td></tr>
+                        <tr><td><strong>4</strong></td><td><strong>Salt:</strong> Cancel an Action.</td></tr>
+                        <tr><td><strong>5</strong></td><td><strong>Greed:</strong> Draw 2.</td></tr>
+                        <tr><td><strong>6</strong></td><td><strong>Cleanse:</strong> Destroy 1 Ghost (Self).</td></tr>
+                        <tr><td><strong>7</strong></td><td><strong>Sight:</strong> Steal 1 card from Foe.</td></tr>
+                        <tr><td><strong>8</strong></td><td><strong>Vanish:</strong> Return Ghost to Hand.</td></tr>
+                        <tr><td><strong>9</strong></td><td><strong>Possess:</strong> Move Ghost to Foe.</td></tr>
+                        <tr><td><strong>10</strong></td><td><strong>Rekindle:</strong> Get 3 from Discard to Candle.</td></tr>
+                        <tr><td colspan="2" style="border-top: 2px solid #555;"></td></tr>
+                        <tr><td><strong>J</strong></td><td><strong>Mirror:</strong> Swap Ghosts with Foe.</td></tr>
+                        <tr><td><strong>Q</strong></td><td><strong>Medium:</strong> Fetch any card from Discard.</td></tr>
+                        <tr><td><strong>K</strong></td><td><strong>Purge:</strong> Destroy ALL Ghosts (Self).</td></tr>
+                        <tr><td><strong>JK</strong></td><td><strong>Haunted:</strong> All Foes get 1 Ghost.</td></tr>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <button class="print-btn" onclick="window.print()">Print Cheat Sheet / Manual</button>
+        
+        <footer style="text-align: center; margin-top: 50px; color: #555; font-size: 0.8em; border-top: 1px solid #333; padding-top: 20px;">
+            <p><strong>THE FINAL FLICKER</strong> &copy; 2026 Liam Double. All Rights Reserved.</p>
+            <p>This manual and its contents are the intellectual property of the creator. <br>Unauthorized reproduction, commercial use, or modification is prohibited.</p>
         </footer>
     </div>
 
-    <div id="game" class="content-section">
-        <h2 style="text-align:center;">YOU vs THE SHADOW</h2>
-        
-        <div id="game-ui">
-            <div class="zone">
-                <h3>THE SHADOW (CPU)</h3>
-                <div style="display:flex; justify-content: space-around; align-items:center;">
-                    <div>
-                        <span style="color:#888;">CANDLE:</span>
-                        <div class="candle-count" id="cpu-candle-count">26</div>
-                    </div>
-                    <div>
-                        <span style="color:#888;">HAND:</span>
-                        <div id="cpu-hand-count" style="font-size:1.5em">5 Cards</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="zone">
-                <h3>THE SHADOW'S PRESENCE (Cpu Ghosts)</h3>
-                <div id="cpu-shadow-zone" class="hand-container"></div>
-            </div>
-
-            <div class="log-box" id="game-log">
-                <div>> Welcome to The Final Flicker.</div>
-                <div>> The game has begun.</div>
-            </div>
-
-            <div class="zone" style="border-color: var(--accent-color);">
-                <h3 style="color: var(--accent-color);">YOUR SHADOW (Danger!)</h3>
-                <div id="player-shadow-zone" class="hand-container"></div>
-            </div>
-
-            <div class="zone">
-                <h3>YOUR HAND & CANDLE</h3>
-                <div style="display:flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                    <div>
-                        <span style="color:#888;">YOUR CANDLE:</span>
-                        <span class="candle-count" id="player-candle-count">26</span>
-                    </div>
-                    <div id="action-buttons">
-                        <button class="btn" id="btn-haunt" onclick="playerAction('haunt')">HAUNT (Attack)</button>
-                        <button class="btn" id="btn-banish" onclick="playerAction('banish')">BANISH (Defend)</button>
-                        <button class="btn" id="btn-pass" onclick="endPlayerTurn()">PASS</button>
-                    </div>
-                </div>
-                <div id="player-hand-zone" class="hand-container"></div>
-            </div>
-        </div>
-    </div>
-
-    <div id="modal">
-        <div class="modal-content">
-            <h2 id="modal-title">GAME OVER</h2>
-            <p id="modal-msg">...</p>
-            <button class="btn" onclick="location.reload()">RESTART RITUAL</button>
-        </div>
-    </div>
-
-    <script>
-        // === GAME STATE ===
-        const SUITS = ['♠', '♥', '♣', '♦'];
-        const RANKS = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
-        let deck = [];
-        let playerCandle = [];
-        let cpuCandle = [];
-        let playerHand = [];
-        let cpuHand = [];
-        let playerShadow = [];
-        let cpuShadow = [];
-        let discardPile = [];
-        let selectedCardIndex = -1;
-
-        // === SETUP ===
-        function switchTab(tabId) {
-            document.querySelectorAll('.content-section').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-            event.target.classList.add('active');
-            if(tabId === 'game' && deck.length === 0) initGame();
-        }
-
-        function createDeck() {
-            let d = [];
-            // Create 2 decks
-            for(let i=0; i<2; i++) {
-                for (let s of SUITS) {
-                    for (let r of RANKS) {
-                        let val = parseInt(r);
-                        if (r === 'A') val = 1; // Ace low for value, but high for priority? Rules say Ace is 1
-                        if (['J','Q','K'].includes(r)) val = 11; 
-                        d.push({ rank: r, suit: s, value: val, isRed: (s==='♥'||s==='♦') });
-                    }
-                }
-                d.push({ rank: 'JOK', suit: '★', value: 15, isRed: true }); // Joker
-                d.push({ rank: 'JOK', suit: '★', value: 15, isRed: false }); // Joker
-            }
-            return d.sort(() => Math.random() - 0.5);
-        }
-
-        function initGame() {
-            log("Shuffling the massive deck...");
-            let fullDeck = createDeck();
-            
-            // Deal candles
-            let midpoint = Math.floor(fullDeck.length / 2);
-            playerCandle = fullDeck.slice(0, midpoint);
-            cpuCandle = fullDeck.slice(midpoint);
-
-            // Draw opening hands
-            for(let i=0; i<5; i++) {
-                drawCard(playerHand, playerCandle);
-                drawCard(cpuHand, cpuCandle);
-            }
-
-            render();
-            log("Game Started. Your turn begins.");
-            startPlayerTurn();
-        }
-
-        // === LOGIC ===
-        function log(msg) {
-            let logBox = document.getElementById('game-log');
-            let div = document.createElement('div');
-            div.innerText = "> " + msg;
-            logBox.prepend(div);
-        }
-
-        function drawCard(hand, candle) {
-            if (candle.length === 0) return false;
-            hand.push(candle.shift());
-            return true;
-        }
-
-        function burnCards(candle, amount) {
-            for(let i=0; i<amount; i++) {
-                if(candle.length > 0) discardPile.push(candle.shift());
-                else return false; // Dead
-            }
-            return true;
-        }
-
-        // === RENDER ===
-        function renderCardHTML(card, index, isPlayer) {
-            let onclick = isPlayer ? `onclick="selectCard(${index})"` : "";
-            let selectedClass = (isPlayer && index === selectedCardIndex) ? "selected" : "";
-            let colorClass = card.isRed ? "red" : "";
-            
-            // Map suit to entity for face cards if needed, simple for now
-            let centerDisplay = card.suit;
-            if(card.rank === 'K') centerDisplay = '♚';
-            if(card.rank === 'Q') centerDisplay = '♛';
-            if(card.rank === 'J') centerDisplay = 'J';
-            if(card.rank === 'JOK') centerDisplay = '★';
-
-            return `
-                <div class="card-visual ${colorClass} selectable-card ${selectedClass}" ${onclick}>
-                    <div class="rank">${card.rank}</div>
-                    <div class="suit-small">${card.suit}</div>
-                    <div class="suit-center">${centerDisplay}</div>
-                </div>
-            `;
-        }
-
-        function render() {
-            document.getElementById('player-candle-count').innerText = playerCandle.length;
-            document.getElementById('cpu-candle-count').innerText = cpuCandle.length;
-            document.getElementById('cpu-hand-count').innerText = cpuHand.length + " Cards";
-
-            // Hands & Shadows
-            document.getElementById('player-hand-zone').innerHTML = playerHand.map((c, i) => renderCardHTML(c, i, true)).join('');
-            document.getElementById('player-shadow-zone').innerHTML = playerShadow.map((c, i) => renderCardHTML(c, i, false)).join('');
-            document.getElementById('cpu-shadow-zone').innerHTML = cpuShadow.map((c, i) => renderCardHTML(c, i, false)).join('');
-
-            // Buttons
-            document.getElementById('btn-haunt').disabled = selectedCardIndex === -1;
-            document.getElementById('btn-banish').disabled = selectedCardIndex === -1;
-
-            checkWinCondition();
-        }
-
-        function selectCard(index) {
-            selectedCardIndex = index;
-            render();
-        }
-
-        // === PLAYER TURN ===
-        function startPlayerTurn() {
-            // Phase A: Haunting
-            let ghosts = playerShadow.length;
-            if (ghosts > 0) {
-                log(`Phase A: You have ${ghosts} ghosts. Burning ${ghosts} cards...`);
-                let survived = burnCards(playerCandle, ghosts);
-                if (!survived) return gameOver("Consumed by Darkness (Burned out during Haunting)");
-            }
-
-            // Phase B: The Burn (Draw)
-            log("Phase B: The Burn. Drawing 1 card...");
-            let drawn = drawCard(playerHand, playerCandle);
-            if (!drawn) return gameOver("Consumed by Darkness (Empty Candle)");
-
-            render();
-            log("Phase C: The Ritual. Select a card to Act.");
-        }
-
-        function playerAction(type) {
-            if (selectedCardIndex === -1) return;
-            let card = playerHand[selectedCardIndex];
-
-            if (type === 'haunt') {
-                // Must be number card (simplified A-10)
-                if (card.value > 10 && card.rank !== 'A') {
-                    alert("Only Number cards (A-10) can Haunt!");
-                    return;
-                }
-                log(`You HAUNTED the CPU with ${card.rank}${card.suit}`);
-                cpuShadow.push(card);
-                playerHand.splice(selectedCardIndex, 1);
-                
-                // Trigger effects for A, 2, 7 (Simplified)
-                if(card.rank === 'A') { log("Draft Effect: CPU burns 2 cards!"); burnCards(cpuCandle, 2); }
-                if(card.rank === '2') { log("Scare Effect: CPU discards 2 cards!"); cpuHand.pop(); cpuHand.pop(); } // Simplified discard
-                
-            } else if (type === 'banish') {
-                if (playerShadow.length === 0) {
-                    alert("No ghosts to banish!");
-                    return;
-                }
-                // Simple Banish logic: Remove the oldest ghost (index 0) if value is higher
-                let ghost = playerShadow[0];
-                let cardVal = card.value; 
-                if(card.rank === 'A') cardVal = 1; // Ace weak in banish? Rules don't specify Ace high/low for banish value, assuming Low based on Haunt. Let's assume numerical.
-                
-                // Logic: Higher or Equal. 
-                // Special: King (Purge) wipes all. 6 (Cleanse) kills one regardless.
-                if (card.rank === 'K') {
-                    log("KING PLAYED! PURGE! All ghosts destroyed.");
-                    playerShadow = [];
-                } else if (card.rank === '6') {
-                    log("CLEANSE! Ghost destroyed.");
-                    playerShadow.shift();
-                } else if (card.value >= ghost.value) {
-                    log(`BANISHED ghost ${ghost.rank}${ghost.suit} with ${card.rank}${card.suit}`);
-                    playerShadow.shift();
-                } else {
-                    alert(`Card value too low! Ghost is ${ghost.rank}, you played ${card.rank}`);
-                    return;
-                }
-                playerHand.splice(selectedCardIndex, 1);
-            }
-
-            selectedCardIndex = -1;
-            endPlayerTurn();
-        }
-
-        function endPlayerTurn() {
-            // Phase D: Burden
-            if (playerHand.length > 7) {
-                log("Burden: Discarding down to 7...");
-                while(playerHand.length > 7) {
-                    discardPile.push(playerHand.pop()); // Auto discard for prototype
-                }
-            }
-            if (playerCandle.length === 0) return gameOver("Consumed by Darkness");
-
-            render();
-            setTimeout(cpuTurn, 1000);
-        }
-
-        // === CPU TURN ===
-        function cpuTurn() {
-            log("--- CPU TURN ---");
-            
-            // Phase A
-            let ghosts = cpuShadow.length;
-            if (ghosts > 0) {
-                log(`CPU burns ${ghosts} cards due to ghosts.`);
-                let survived = burnCards(cpuCandle, ghosts);
-                if (!survived) return gameOver("YOU WON! The Shadow burned out.");
-            }
-
-            // Phase B
-            let drawn = drawCard(cpuHand, cpuCandle);
-            if (!drawn) return gameOver("YOU WON! The Shadow ran out of candle.");
-
-            // Phase C: Simple AI
-            // 1. If ghosts exist, try to Banish.
-            // 2. Else, Attack.
-            let acted = false;
-
-            if (cpuShadow.length > 0) {
-                // Try find a card to banish
-                let ghostVal = cpuShadow[0].value;
-                let saviorIndex = cpuHand.findIndex(c => c.value >= ghostVal || c.rank === 'K' || c.rank === '6');
-                if (saviorIndex !== -1) {
-                    let c = cpuHand[saviorIndex];
-                    log(`CPU BANISHES ghost with ${c.rank}${c.suit}`);
-                    cpuShadow.shift(); // Remove ghost
-                    if(c.rank === 'K') cpuShadow = []; // King logic
-                    cpuHand.splice(saviorIndex, 1);
-                    acted = true;
-                }
-            }
-
-            if (!acted) {
-                // Attack
-                let attackIndex = cpuHand.findIndex(c => c.value <= 10); // Number cards
-                if (attackIndex !== -1) {
-                    let c = cpuHand[attackIndex];
-                    log(`CPU HAUNTS you with ${c.rank}${c.suit}`);
-                    playerShadow.push(c);
-                    cpuHand.splice(attackIndex, 1);
-                    
-                    // CPU Effects
-                    if(c.rank === 'A') { log("CPU uses Draft! You burn 2 cards."); burnCards(playerCandle, 2); }
-                } else {
-                    log("CPU Passes (No valid move).");
-                }
-            }
-
-            // Phase D
-            while(cpuHand.length > 7) { cpuHand.pop(); }
-
-            render();
-            log("--- YOUR TURN ---");
-            startPlayerTurn();
-        }
-
-        function checkWinCondition() {
-            if(playerCandle.length <= 0) gameOver("Consumed by Darkness");
-            if(cpuCandle.length <= 0) gameOver("YOU WON! The Final Flicker is yours.");
-        }
-
-        function gameOver(msg) {
-            document.getElementById('modal').style.display = "flex";
-            document.getElementById('modal-msg').innerText = msg;
-            if(msg.includes("WON")) document.getElementById('modal-title').style.color = "#0f0";
-            else document.getElementById('modal-title').style.color = "#d00";
-        }
-
-    </script>
 </body>
 </html>
