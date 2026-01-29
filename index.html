@@ -301,7 +301,7 @@
     <div class="container">
         <header>
             <h1>The Final Flicker</h1>
-            <p class="subtitle">Official Manual: Version 4.0 (Balanced & Clarified)</p>
+            <p class="subtitle">Official Manual: Version 6.0 (Possession Update)</p>
             
             <div class="flavor-text">
                 <p>This candle is your heartbeat. As long as it flickers, you are safe. But every card you burn brings you one step closer to being Consumed by the Darkness.</p>
@@ -357,8 +357,9 @@
                 <li><strong>The Chilling Touch:</strong>
                     <br>All players must touch the hand of the person to their left. The player at the table with the <strong>Coldest Hands</strong> goes first, for the spirits are already drawn to them.
                 </li>
-                <li><strong>The Twin Flame (For 6+ Players):</strong> 
-                    <br>If the group is large (6 or more), the player sitting directly opposite the starting player <strong>also</strong> begins a turn. Play proceeds clockwise from both points simultaneously.
+                <li style="border: 1px solid var(--accent-color); padding: 10px; border-radius: 4px; background: #2a1a1a;">
+                    <strong>THE TWIN FLAME (For 6+ Players):</strong> 
+                    <br>If the group is large (6 or more), the player sitting directly opposite the starting player <strong>also</strong> begins a turn. Play proceeds clockwise from both points simultaneously. This ensures the game remains fast-paced.
                 </li>
                 <li><strong>The Hand:</strong> Draw <strong>3 cards</strong> from your Candle.</li>
                 <li><strong>The Shadow:</strong> The empty space on the table directly in front of you. This is where ghosts manifest.</li>
@@ -371,6 +372,7 @@
                 <li><strong>Line of Sight:</strong> You can only interact with your Immediate Neighbours (Left/Right).</li>
                 <li><strong>The Accumulation:</strong> Ghosts played against you gather in your personal <strong>Shadow</strong>.</li>
                 <li><strong>Forbidden Knowledge:</strong> Cards are discarded <strong>Face Up</strong>, but you may never look through the history of <strong>The Dark</strong> (Discard Pile) unless a card tells you to.</li>
+                <li><strong>The Twin Fires:</strong> In a 6+ player game, two turns happen at once (opposite sides). These turns are <strong>independent</strong>. You do not wait for the other side of the table to finish.</li>
                 <li><strong>The Closing Gap:</strong> When a player dies, they are removed. The circle shrinks.
                     <ul>
                         <li><em>Standard:</em> Ghosts are banished to The Dark.</li>
@@ -549,19 +551,25 @@
                     <br><em>Success (Higher/Equal):</em> The Ghost and the Panic Card are sent to The Dark.
                     <br><em>Failure (Lower):</em> The Panic Card stays and joins the Ghost in your Shadow (You now have 2 Ghosts).
                     <br><strong style="color:var(--panic-color);">CRITICAL SUCCESS:</strong> If you Panic and flip a <strong>Face Card</strong> (J,Q,K), it is an <strong>Instant Success</strong>. The Ghost is Banished AND you trigger the Face Card's power immediately!
+                    <br><em>(Note: A Panic action NEVER triggers a Siphon).</em>
+                    <br><strong style="color:#d84315;">WARNING:</strong> If a failed Panic adds a 3rd Ghost of the same suit to your Shadow, you will be Possessed at the end of this turn.
                 </li>
                 <li style="border-left: 3px solid var(--life-color); padding-left: 10px;">
                     <strong>SÉANCE (Heal):</strong> Discard a <strong>MATCHING PAIR</strong> from your hand (e.g., two 5s) into The Dark. 
-                    <br>Then, take the <strong>BOTTOM 3 CARDS</strong> of The Dark (Discard Pile) and place them at the bottom of your Candle.
+                    <br>Then, physically lift the discard pile and take the <strong>BOTTOM 3 CARDS</strong>. Place them at the bottom of your Candle.
                     <br><em>(You must take from the bottom to prevent immediately picking up the pair you just discarded).</em>
                 </li>
                 <li><strong>CAST (Effect):</strong> Discard a Number Card to use its Ability.</li>
                 <li><strong>SUMMON (Power):</strong> Discard a Face Card to use its Power.</li>
             </ul>
 
-            <h3>Phase D: THE BURDEN</h3>
+            <h3>Phase D: THE BURDEN & CHECK</h3>
             <p>If you have <strong>6+ cards</strong> in hand, discard down to <strong>5</strong>.</p>
-            <p><em>Check for Possession: If you have 3 Ghosts of the SAME SUIT, you lose immediately.</em></p>
+            <p style="border: 1px solid var(--accent-color); padding: 10px; background: #1a0505;">
+                <strong>THE FINAL CHECK (POSSESSION):</strong><br>
+                Look at your Shadow. If you have <strong>3 Ghosts of the SAME SUIT</strong>, you are Possessed and lose immediately.
+                <br><em>(The Mercy Rule: You have until the end of your own turn to fix this. If someone Haunts you with a 3rd Spade, you do not die until you finish your next turn without clearing it).</em>
+            </p>
         </section>
 
         <section id="grimoire">
@@ -614,9 +622,9 @@
             <h2>6. The Cursed (Classes)</h2>
             <div class="classes-grid">
                 <div class="class-card"><span class="class-name">THE SKEPTIC</span>Immune to Aces (Drain).</div>
-                <div class="class-card"><span class="class-name">THE PRIEST</span>When you Banish a Ghost, Draw 1 Card.</div>
+                <div class="class-card"><span class="class-name">THE PRIEST</span>When you Banish a Ghost, Draw 1 Card (Does NOT trigger on Siphon).</div>
                 <div class="class-card"><span class="class-name">THE SHADOW</span>Can Burn 1 card from Candle to cancel a Haunt targeting you.</div>
-                <div class="class-card"><span class="class-name">THE EXORCIST</span>Your 6 (Cleanse) destroys 2 Ghosts. If Suits match, you Siphon them.</div>
+                <div class="class-card"><span class="class-name">THE EXORCIST</span>Your 6 (Cleanse) targets 2 Ghosts. You may Siphon ONLY ONE (if Suit matches).</div>
                 <div class="class-card"><span class="class-name">THE SURVIVOR</span>If you have 2 or fewer cards in Hand, take no damage during The Haunting.</div>
                 <div class="class-card"><span class="class-name">THE PYROMANIAC</span>Discard a Red Card to force a Neighbour to Burn 2 cards.</div>
                 <div class="class-card"><span class="class-name">THE SADIST</span>When you play a 2 (Scare), you choose the cards they discard.</div>
@@ -673,11 +681,12 @@
                             </ul>
                         </li>
                         <li><strong>THE BURDEN:</strong> Discard down to 5 cards.</li>
+                        <li><strong>THE CHECK:</strong> Possession (3 same suit ghosts) = Loss.</li>
                     </ol>
                     <h3>Endings</h3>
                     <ul>
                         <li><strong>Consumed:</strong> 0 Cards in Candle.</li>
-                        <li><strong>Possession:</strong> End turn with 3 Ghosts of SAME SUIT in Shadow.</li>
+                        <li><strong>Possession:</strong> End YOUR turn with 3 Ghosts of SAME SUIT in Shadow.</li>
                     </ul>
                 </div>
 
@@ -703,6 +712,7 @@
                     <div style="font-size:0.8em; color: var(--accent-color); margin-top:10px; text-align:center;">
                         <strong>RULE: CORRUPTED SPADES ♠</strong><br>
                         Ghost Spades cannot be Siphoned (Healed). They must be destroyed.
+                        <br><strong>TWIN FLAME (6+ Players):</strong><br>Opposite players take turns simultaneously.
                     </div>
                 </div>
             </div>
@@ -720,9 +730,9 @@
         // CLASS DATA
         const allClasses = [
             { name: "THE SKEPTIC", desc: "Immune to Aces (Drain)." },
-            { name: "THE PRIEST", desc: "When you Banish a Ghost, Draw 1 Card." },
+            { name: "THE PRIEST", desc: "When you Banish a Ghost, Draw 1 Card (Does NOT trigger on Siphon)." },
             { name: "THE SHADOW", desc: "Can Burn 1 card from Candle to cancel a Haunt targeting you." },
-            { name: "THE EXORCIST", desc: "Your 6 (Cleanse) destroys 2 Ghosts. If Suits match, you Siphon them." },
+            { name: "THE EXORCIST", desc: "Your 6 (Cleanse) targets 2 Ghosts. You may Siphon ONLY ONE (if Suit matches)." },
             { name: "THE SURVIVOR", desc: "If you have 2 or fewer cards in Hand, take no damage during The Haunting." },
             { name: "THE PYROMANIAC", desc: "Discard a Red Card to force a Neighbour to Burn 2 cards." },
             { name: "THE SADIST", desc: "When you play a 2 (Scare), you choose the cards they discard." },
