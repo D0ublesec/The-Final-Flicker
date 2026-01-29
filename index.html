@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE FINAL FLICKER: Official Manual</title>
+    <style>
+        :root {
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --accent-color: #d84315; /* Burning Orange/Red */
+            --card-bg: #1e1e1e;
+            --border-color: #333;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1, h2, h3 {
+            color: var(--accent-color);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 3em;
+            text-transform: uppercase;
+            border-bottom: none;
+            margin-bottom: 0;
+            font-weight: 900;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #888;
+            font-style: italic;
+            margin-top: 0;
+            margin-bottom: 40px;
+        }
+
+        .flavor-text {
+            background-color: #000;
+            border-left: 4px solid var(--accent-color);
+            padding: 15px;
+            font-style: italic;
+            color: #aaa;
+            margin-bottom: 30px;
+        }
+
+        /* Navigation */
+        nav {
+            background-color: var(--card-bg);
+            padding: 10px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--accent-color);
+        }
+
+        nav a {
+            color: var(--text-color);
+            text-decoration: none;
+            margin: 0 15px;
+            font-family: sans-serif;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        nav a:hover {
+            color: var(--accent-color);
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: var(--card-bg);
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            color: var(--accent-color);
+            text-transform: uppercase;
+            font-size: 0.85em;
+        }
+
+        /* Sections */
+        section {
+            margin-bottom: 50px;
+        }
+
+        .rules-list, .setup-list {
+            padding-left: 20px;
+        }
+        
+        .rules-list li {
+            margin-bottom: 10px;
+        }
+
+        /* Cheat Sheet Special Styling */
+        #cheatsheet {
+            border: 2px dashed var(--accent-color);
+            padding: 20px;
+            background-color: #1a1a1a;
+        }
+
+        .cheat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 700px) {
+            .cheat-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Classes Grid */
+        .classes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .class-card {
+            background-color: var(--card-bg);
+            padding: 15px;
+            border: 1px solid var(--border-color);
+        }
+
+        .class-name {
+            color: var(--accent-color);
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        /* Print Button */
+        .print-btn {
+            display: block;
+            margin: 20px auto;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-family: sans-serif;
+        }
+
+        .print-btn:hover {
+            background-color: #bf360c;
+        }
+
+        /* PRINT STYLES */
+        @media print {
+            body {
+                background-color: white;
+                color: black;
+            }
+            .container {
+                width: 100%;
+                max-width: 100%;
+            }
+            nav, .print-btn {
+                display: none;
+            }
+            h1, h2, h3, th, .class-name {
+                color: black;
+                border-color: black;
+            }
+            .flavor-text {
+                background-color: #f0f0f0;
+                color: #333;
+                border-left-color: black;
+            }
+            table, .class-card, #cheatsheet {
+                background-color: white;
+                border: 1px solid #ccc;
+            }
+            a {
+                text-decoration: none;
+                color: black;
+            }
+            /* Force page break before Cheat Sheet for easy printing */
+            #cheatsheet {
+                page-break-before: always;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#setup">SETUP</a>
+        <a href="#rules">RULES</a>
+        <a href="#grimoire">CARDS</a>
+        <a href="#classes">CLASSES</a>
+        <a href="#cheatsheet" style="color: var(--accent-color);">CHEAT SHEET</a>
+    </nav>
+
+    <div class="container">
+        <header>
+            <h1>The Final Flicker</h1>
+            <p class="subtitle">Official Manual: Version 1.0</p>
+            
+            <div class="flavor-text">
+                <p>"Don't look at the corners of the room. Keep your eyes on the candle.</p>
+                <p>We barred the doors and covered the windows, but we made a mistake. We thought we were locking them out. We were locking ourselves in with them. They are standing just behind your chair, breathing against the back of your neck, waiting for the light to fail.</p>
+                <p>This candle is your time. It is your heartbeat. As long as it burns, they can’t touch you. But the wax is melting, and the shadows are getting bolder. I don't want to hurt you, truly. But there isn't enough oxygen left for both of us.</p>
+                <p>I don't have to be the brightest light in the room. I just have to be the last one burning."</p>
+            </div>
+        </header>
+
+        <section id="setup">
+            <h2>1. The Setup</h2>
+            <h3>The Supplies</h3>
+            <p><strong>Ratio:</strong> Roughly 1 Standard Deck for every 2 players.</p>
+            <ul class="setup-list">
+                <li><strong>IMPORTANT:</strong> Use strictly <strong>2 Jokers per Deck</strong>. If your decks have extra promotional jokers (3-4), remove them.</li>
+                <li>2-4 Players: 2 Decks</li>
+                <li>5-6 Players: 3 Decks</li>
+                <li>7-8 Players: 4 Decks</li>
+                <li>9-20 Players: Scale accordingly (1 deck per 2 players)</li>
+            </ul>
+            <p><strong>The Shuffle:</strong> Shuffle all decks together to create one massive pool.</p>
+
+            <h3>The Circle</h3>
+            <ol class="setup-list">
+                <li>Sit in a circle.</li>
+                <li>Deal the <strong>ENTIRE</strong> pool of cards evenly until they run out.</li>
+                <li><strong>The Candle:</strong> This stack is your life. <strong>Do not look at it.</strong> If it runs out, you are Consumed by the Darkness.</li>
+                <li><strong>The Hand:</strong> Draw <strong>5 cards</strong> from your Candle.</li>
+                <li><strong>The Shadow:</strong> The empty space on the table directly in front of you. This is where ghosts manifest.</li>
+            </ol>
+        </section>
+
+        <section id="rules">
+            <h2>2. The Laws of the Circle</h2>
+            <ul class="rules-list">
+                <li><strong>Line of Sight:</strong> You can only interact with your Immediate Neighbors (Left/Right).</li>
+                <li><strong>The Accumulation:</strong> Ghosts played against you gather in your personal <strong>Shadow</strong>.</li>
+                <li><strong>Forbidden Knowledge:</strong> Never look through <strong>The Dark</strong> (Discard Pile) unless a card tells you to.</li>
+                <li><strong>The Closing Gap:</strong> When a player dies, they are removed. The circle shrinks.
+                    <ul>
+                        <li><em>Standard:</em> Ghosts are banished to The Dark.</li>
+                        <li><em>Dark Mode:</em> Ghosts split between neighbors.</li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+
+        <section id="turn">
+            <h2>3. The Passage of Time (Turn Structure)</h2>
+            
+            <h3>Phase A: THE HAUNTING</h3>
+            <p>Look into your <strong>Shadow</strong>. Count the Ghosts. For <strong>every Ghost</strong> currently haunting you, <strong>BURN (Discard) 1 card</strong> from your Candle into The Dark.</p>
+            
+            <h3>Phase B: THE BURN</h3>
+            <p>Draw <strong>1 card</strong> from the top of your Candle.</p>
+            <p><em>If your Candle is empty when you try to Draw, you are Consumed by the Darkness.</em></p>
+
+            <h3>Phase C: THE RITUAL</h3>
+            <p>Perform <strong>EXACTLY ONE</strong> of the following:</p>
+            <ul>
+                <li><strong>HAUNT (Attack):</strong> Play a Number Card (A-10) into a Neighbor's Shadow.</li>
+                <li><strong>BANISH (Defend):</strong> Play a card from hand onto a Ghost in <em>your</em> Shadow.
+                    <br><em>Requirement:</em> Must be <strong>Higher</strong> or <strong>Equal</strong> value.
+                    <br><em>Suits:</em> ♠ Spades > ♥ Hearts > ♣ Clubs > ♦ Diamonds.
+                </li>
+                <li><strong>INVOKE (Effect):</strong> Discard a Number Card to use its Ability.</li>
+                <li><strong>SUMMON (Power):</strong> Discard a Face Card to use its Power.</li>
+            </ul>
+
+            <h3>Phase D: THE BURDEN</h3>
+            <p>If you have <strong>8+ cards</strong> in hand, discard down to <strong>7</strong>.</p>
+        </section>
+
+        <section id="grimoire">
+            <h2>4. The Grimoire (Card Effects)</h2>
+            
+            <h3>The Whispers (Number Cards)</h3>
+            <p><em>Action: Play into Neighbor's Shadow to HAUNT, or Discard to INVOKE.</em></p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Name</th>
+                        <th>Invoke Effect (Discard to Use)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>A</td><td>DRAFT</td><td>Force a Neighbor to <strong>Burn 2 cards</strong> from their Candle.</td></tr>
+                    <tr><td>2</td><td>SCARE</td><td>Force a Neighbor to discard <strong>2 random cards</strong> from Hand.</td></tr>
+                    <tr><td>3</td><td>OMEN</td><td>Reveal top 3 of your Candle. <strong>Play 1 immediately</strong>. Rest to bottom.</td></tr>
+                    <tr><td>4</td><td>SALT</td><td><strong>Interrupt:</strong> Cancel an action targeting you. (Salt can be Salted).</td></tr>
+                    <tr><td>5</td><td>GREED</td><td>Draw 2 cards.</td></tr>
+                    <tr><td>6</td><td>CLEANSE</td><td>Destroy 1 Ghost in your <em>own</em> Shadow (no value check).</td></tr>
+                    <tr><td>7</td><td>SIGHT</td><td>Look at Neighbor's Hand and <strong>Steal 1 Card</strong>.</td></tr>
+                    <tr><td>8</td><td>VANISH</td><td>Return a Ghost from <strong>Any Board</strong> to your Hand.</td></tr>
+                    <tr><td>9</td><td>POSSESS</td><td>Move a Ghost from your Shadow to a Neighbor's Shadow.</td></tr>
+                    <tr><td>10</td><td>REKINDLE</td><td>Take top 3 cards from Discard; put at bottom of your Candle.</td></tr>
+                </tbody>
+            </table>
+
+            <h3>The Arcana (Face Cards)</h3>
+            <p><em>Action: Cannot be Ghosts. Must Discard to SUMMON.</em></p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Name</th>
+                        <th>Summon Power</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>JACK</td><td>THE MIRROR</td><td><strong>Swap</strong> all ghosts in your Shadow with a Neighbor's ghosts.</td></tr>
+                    <tr><td>QUEEN</td><td>THE MEDIUM</td><td>Pick any card from <strong>The Dark</strong> and put it in your Hand.</td></tr>
+                    <tr><td>KING</td><td>THE PURGE</td><td>Banish <strong>ALL</strong> Ghosts in your Shadow instantly.</td></tr>
+                    <tr><td>JOKER</td><td>THE HAUNTED</td><td><strong>Cataclysm.</strong> Reveal from Discard until you find 1 Ghost per opponent. Place 1 in every opponent's Shadow.</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="classes">
+            <h2>5. The Cursed (Classes)</h2>
+            <div class="classes-grid">
+                <div class="class-card">
+                    <span class="class-name">THE SKEPTIC</span>
+                    Immune to Aces (Drafts).
+                </div>
+                <div class="class-card">
+                    <span class="class-name">THE PRIEST</span>
+                    When you Banish a Ghost, Draw 1 Card.
+                </div>
+                <div class="class-card">
+                    <span class="class-name">THE SHADOW</span>
+                    Can Burn 1 card from Candle to cancel a Haunt targeting you.
+                </div>
+                <div class="class-card">
+                    <span class="class-name">THE EXORCIST</span>
+                    Your 6 (Cleanse) destroys 2 Ghosts instead of 1.
+                </div>
+                <div class="class-card">
+                    <span class="class-name">THE SURVIVOR</span>
+                    If you have 2 or fewer cards in Hand, take no damage during The Haunting.
+                </div>
+                <div class="class-card">
+                    <span class="class-name">THE PYROMANIAC</span>
+                    Discard a Red Card to force a Neighbor to Burn 2 cards.
+                </div>
+                <div class="class-card">
+                    <span class="class-name">THE SADIST</span>
+                    When you play a 2 (Scare), you choose the cards they discard.
+                </div>
+                <div class="class-card">
+                    <span class="class-name">THE BINDER</span>
+                    Ghosts you Haunt cannot be moved (Possess) or returned (Vanish).
+                </div>
+                <div class="class-card">
+                    <span class="class-name">THE WARLOCK</span>
+                    You can use Face Cards to Haunt (Strength 10) instead of Summon.
+                </div>
+                <div class="class-card">
+                    <span class="class-name">THE VULTURE</span>
+                    When a Neighbor dies, shuffle 5 cards from The Dark into your Candle.
+                </div>
+                <div class="class-card">
+                    <span class="class-name">THE OCCULTIST</span>
+                    Your 9 (Possess) can target any player, not just Neighbors.
+                </div>
+                <div class="class-card">
+                    <span class="class-name">THE TRADER</span>
+                    Discard 1 to see Neighbor's hand. You may Swap 1 card with theirs.
+                </div>
+                <div class="class-card">
+                    <span class="class-name">THE SEER</span>
+                    Once per turn, you may look at the Top Card of any player's Candle.
+                </div>
+                <div class="class-card">
+                    <span class="class-name">THE HOARDER</span>
+                    Hand Limit is 10 (instead of 7).
+                </div>
+                <div class="class-card">
+                    <span class="class-name">THE MIMIC</span>
+                    Once per game, swap Candles (Decks) with a Neighbor.
+                </div>
+                <div class="class-card">
+                    <span class="class-name">THE GRAVEDIGGER</span>
+                    When a Neighbor dies, add their remaining Candle to yours.
+                </div>
+                <div class="class-card">
+                    <span class="class-name">THE FATALIST</span>
+                    Discard 1 Card to change the Suit of any Ghost on the board.
+                </div>
+                <div class="class-card">
+                    <span class="class-name">THE LEECH</span>
+                    When you Banish a Ghost, put it on the bottom of your Candle.
+                </div>
+                <div class="class-card">
+                    <span class="class-name">THE MARTYR</span>
+                    When taking Damage during The Haunting, you may Draw 1 Card.
+                </div>
+                <div class="class-card">
+                    <span class="class-name">THE LICH</span>
+                    The first time you die, steal top 2 Cards from everyone alive to revive.
+                </div>
+                <div class="class-card">
+                    <span class="class-name">THE JUDGE</span>
+                    When you play a 7 (Sight), force that player to Burn 3 cards.
+                </div>
+                <div class="class-card">
+                    <span class="class-name">THE JESTER</span>
+                    When Haunted, discard 1 to redirect it to the other Neighbor.
+                </div>
+                <div class="class-card">
+                    <span class="class-name">THE ARCHITECT</span>
+                    Play cards Face Down in your Shadow as "Walls" (Str 0). Ghosts hit walls first.
+                </div>
+                <div class="class-card">
+                    <span class="class-name">THE CLOWN</span>
+                    Ghosts you Haunt cannot be Banished by Numbers, only Face or Cleanse (6).
+                </div>
+                <div class="class-card">
+                    <span class="class-name">THE PHANTOM</span>
+                    If you have 0 Cards in Hand, you cannot be targeted by Haunts.
+                </div>
+            </div>
+        </section>
+
+        <section id="cheatsheet">
+            <h2 style="text-align: center; border: none; margin-bottom: 0;">THE FINAL FLICKER CHEAT SHEET</h2>
+            <div style="text-align: center; margin-bottom: 20px;"><em>Quick Reference Guide</em></div>
+            
+            <div class="cheat-grid">
+                <div>
+                    <h3>Turn Structure</h3>
+                    <ol>
+                        <li><strong>THE HAUNTING:</strong> Count ghosts in your Shadow. Burn that many cards from Candle.</li>
+                        <li><strong>THE BURN:</strong> Draw 1 Card.</li>
+                        <li><strong>THE RITUAL:</strong> Perform <strong>ONE</strong> action:
+                            <ul>
+                                <li><strong>Haunt:</strong> Play Number into Neighbor's Shadow.</li>
+                                <li><strong>Banish:</strong> Destroy ghost in own Shadow (Higher/Equal Value). ♠ > ♥ > ♣ > ♦.</li>
+                                <li><strong>Invoke:</strong> Discard Number for effect.</li>
+                                <li><strong>Summon:</strong> Discard Face Card for power.</li>
+                            </ul>
+                        </li>
+                        <li><strong>THE BURDEN:</strong> Discard down to 7 cards.</li>
+                    </ol>
+                    <h3>Endings</h3>
+                    <ul>
+                        <li><strong>Consumed:</strong> 0 Cards in Candle.</li>
+                        <li><strong>Possession:</strong> End turn with 3 Ghosts of SAME SUIT in Shadow.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3>Card Effects</h3>
+                    <table style="font-size: 0.9em;">
+                        <tr><td><strong>A</strong></td><td><strong>Draft:</strong> Foe Burns 2 cards.</td></tr>
+                        <tr><td><strong>2</strong></td><td><strong>Scare:</strong> Foe Discards 2 random cards.</td></tr>
+                        <tr><td><strong>3</strong></td><td><strong>Omen:</strong> Reveal 3 from Candle, Play 1.</td></tr>
+                        <tr><td><strong>4</strong></td><td><strong>Salt:</strong> Cancel an Action.</td></tr>
+                        <tr><td><strong>5</strong></td><td><strong>Greed:</strong> Draw 2.</td></tr>
+                        <tr><td><strong>6</strong></td><td><strong>Cleanse:</strong> Destroy 1 Ghost (Self).</td></tr>
+                        <tr><td><strong>7</strong></td><td><strong>Sight:</strong> Steal 1 card from Foe.</td></tr>
+                        <tr><td><strong>8</strong></td><td><strong>Vanish:</strong> Return Ghost to Hand.</td></tr>
+                        <tr><td><strong>9</strong></td><td><strong>Possess:</strong> Move Ghost to Foe.</td></tr>
+                        <tr><td><strong>10</strong></td><td><strong>Rekindle:</strong> Get 3 from Discard to Candle.</td></tr>
+                        <tr><td colspan="2" style="border-top: 2px solid #555;"></td></tr>
+                        <tr><td><strong>J</strong></td><td><strong>Mirror:</strong> Swap Ghosts with Foe.</td></tr>
+                        <tr><td><strong>Q</strong></td><td><strong>Medium:</strong> Fetch any card from Discard.</td></tr>
+                        <tr><td><strong>K</strong></td><td><strong>Purge:</strong> Destroy ALL Ghosts (Self).</td></tr>
+                        <tr><td><strong>JK</strong></td><td><strong>Haunted:</strong> All Foes get 1 Ghost.</td></tr>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <button class="print-btn" onclick="window.print()">Print Cheat Sheet / Manual</button>
+        
+        <footer style="text-align: center; margin-top: 50px; color: #555; font-size: 0.8em; border-top: 1px solid #333; padding-top: 20px;">
+            <p><strong>THE FINAL FLICKER</strong> &copy; 2026 Liam Double. All Rights Reserved.</p>
+            <p>This manual and its contents are the intellectual property of the creator. <br>Unauthorized reproduction, commercial use, or modification is prohibited.</p>
+        </footer>
+    </div>
+
+</body>
+</html>
