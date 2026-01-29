@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +11,7 @@
             --accent-color: #d84315; /* Burning Orange */
             --card-bg: #1e1e1e;
             --border-color: #333;
+            --highlight: #ff5722;
         }
 
         body {
@@ -121,24 +122,75 @@
         .rules-list, .setup-list { padding-left: 20px; }
         .rules-list li { margin-bottom: 10px; }
 
-        /* CHEAT SHEET */
-        #cheatsheet {
-            border: 2px dashed var(--accent-color);
+        /* INTERACTIVE CLASS SELECTOR */
+        #class-tool {
+            background: #111;
+            border: 2px solid var(--accent-color);
             padding: 20px;
-            background-color: #1a1a1a;
+            margin-bottom: 30px;
+            text-align: center;
+            border-radius: 8px;
         }
 
-        .cheat-grid {
-            display: grid;
+        .tool-btn {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 1.1em;
+            cursor: pointer;
+            font-family: 'Georgia', serif;
+            margin: 10px;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+        .tool-btn:hover { background: var(--highlight); }
+        .tool-btn.secondary { background: #444; }
+        .tool-btn.secondary:hover { background: #666; }
+
+        #selection-area {
+            display: none;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
+            margin-top: 20px;
         }
 
-        @media (max-width: 700px) {
-            .cheat-grid { grid-template-columns: 1fr; }
+        @media (max-width: 600px) {
+            #selection-area { grid-template-columns: 1fr; }
         }
 
-        /* CLASSES */
+        .choice-card {
+            background: var(--card-bg);
+            border: 1px solid #555;
+            padding: 20px;
+            cursor: pointer;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .choice-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-color);
+            background: #252525;
+        }
+
+        .choice-name {
+            display: block;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-bottom: 10px;
+        }
+
+        #result-area {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            background: #000;
+            border: 1px solid #333;
+            color: #8f8;
+        }
+
+        /* CLASSES GRID (STATIC) */
         .classes-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -162,6 +214,23 @@
             font-weight: bold;
             display: block;
             margin-bottom: 5px;
+        }
+
+        /* CHEAT SHEET */
+        #cheatsheet {
+            border: 2px dashed var(--accent-color);
+            padding: 20px;
+            background-color: #1a1a1a;
+        }
+
+        .cheat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 700px) {
+            .cheat-grid { grid-template-columns: 1fr; }
         }
 
         /* FOOTER */
@@ -190,7 +259,7 @@
         /* PRINT STYLES */
         @media print {
             body { background-color: white; color: black; }
-            nav, .print-btn { display: none; }
+            nav, .print-btn, #class-tool { display: none; }
             h1, h2, h3, th, .class-name { color: black; border-color: black; }
             .flavor-text { background-color: #f0f0f0; color: #333; border-left-color: black; }
             table, .class-card, #cheatsheet { background-color: white; border: 1px solid #ccc; }
@@ -211,12 +280,12 @@
     <div class="container">
         <header>
             <h1>The Final Flicker</h1>
-            <p class="subtitle">Official Manual: Version 1.0</p>
+            <p class="subtitle">Official Manual: Version 1.9</p>
             
             <div class="flavor-text">
                 <p>This candle is your heartbeat. As long as it flickers, you are safe. But every card you burn brings you one step closer to being Consumed by the Darkness.</p>
                 <p>However, the dark isn't the only danger. If you let too many ghosts gather, you won't just die—you will lose your mind to the Possession. You must balance your fading light against your crumbling sanity.</p>
-                <p>Do not trust your neighbors. They are not your friends. They will shove the spirits into your shadow to save their own skin.</p>
+                <p>Do not trust your neighbours. They are not your friends. They will shove the spirits into your shadow to save their own skin.</p>
                 <span class="tagline">"You don't have to be the brightest light in the room. You just have to be the last one burning."</span>
             </div>
         </header>
@@ -234,10 +303,34 @@
             </ul>
             <p><strong>The Shuffle:</strong> Shuffle all decks together to create one massive pool.</p>
 
-            <h3>The Circle & The Weighing</h3>
+            <h3>The Calling (Class Selection)</h3>
+            <p>Before the game begins, every player must accept a curse.</p>
+            
+            <div id="class-tool">
+                <h3 style="border:none; margin:0;">The Random Selector</h3>
+                <p id="pool-status" style="color:#888; font-size:0.9em; margin-bottom:15px;">25 Classes Available in the Darkness.</p>
+                
+                <button class="tool-btn" onclick="drawClasses()">Draw 2 Classes</button>
+                <button class="tool-btn secondary" onclick="resetPool()">Reset Ritual</button>
+
+                <div id="selection-area">
+                    <div class="choice-card" onclick="pickClass(0)">
+                        <span class="choice-name" id="name-0">Class A</span>
+                        <div id="desc-0">Description...</div>
+                    </div>
+                    <div class="choice-card" onclick="pickClass(1)">
+                        <span class="choice-name" id="name-1">Class B</span>
+                        <div id="desc-1">Description...</div>
+                    </div>
+                </div>
+
+                <div id="result-area"></div>
+            </div>
+
+            <h3>The Circle & The Start</h3>
             <ol class="setup-list">
                 <li>Sit in a circle.</li>
-                <li>Deal exactly <strong>27 cards</strong> (Half a Deck) to each player.</li>
+                <li>Deal exactly <strong>27 cards</strong> (half a deck) to each player.</li>
                 <li><strong>The Candle:</strong> This stack is your life. <strong>Do not look at it.</strong> If it runs out, you are Consumed by the Darkness.</li>
                 <li><strong>The Surplus:</strong> Place any remaining undealt cards <strong>Face Up</strong> into <strong>THE DARK</strong> (Discard Pile) to start the game.</li>
                 <li><strong>The Chilling Touch:</strong>
@@ -251,13 +344,13 @@
         <section id="rules">
             <h2>2. The Laws of the Circle</h2>
             <ul class="rules-list">
-                <li><strong>Line of Sight:</strong> You can only interact with your Immediate Neighbors (Left/Right).</li>
+                <li><strong>Line of Sight:</strong> You can only interact with your Immediate Neighbours (Left/Right).</li>
                 <li><strong>The Accumulation:</strong> Ghosts played against you gather in your personal <strong>Shadow</strong>.</li>
                 <li><strong>Forbidden Knowledge:</strong> Cards are discarded <strong>Face Up</strong>, but you may never look through the history of <strong>The Dark</strong> (Discard Pile) unless a card tells you to.</li>
                 <li><strong>The Closing Gap:</strong> When a player dies, they are removed. The circle shrinks.
                     <ul>
                         <li><em>Standard:</em> Ghosts are banished to The Dark.</li>
-                        <li><em>Dark Mode:</em> Ghosts split between neighbors.</li>
+                        <li><em>Dark Mode:</em> Ghosts split between neighbours.</li>
                     </ul>
                 </li>
             </ul>
@@ -276,12 +369,12 @@
             <h3>Phase C: THE RITUAL</h3>
             <p>Perform <strong>EXACTLY ONE</strong> of the following:</p>
             <ul>
-                <li><strong>HAUNT (Attack):</strong> Play a Number Card (A-10) into a Neighbor's Shadow.</li>
+                <li><strong>HAUNT (Attack):</strong> Play a Number Card (A-10) into a Neighbour's Shadow.</li>
                 <li><strong>BANISH (Defend):</strong> Play a card from hand onto a Ghost in <em>your</em> Shadow.
                     <br><em>Requirement:</em> Must be <strong>Higher</strong> or <strong>Equal</strong> value.
                     <br><em>Hierarchy of Suits:</em> Spades (Highest) > Hearts > Clubs > Diamonds (Lowest).
                 </li>
-                <li><strong>INVOKE (Effect):</strong> Discard a Number Card to use its Ability.</li>
+                <li><strong>CAST (Effect):</strong> Discard a Number Card to use its Ability.</li>
                 <li><strong>SUMMON (Power):</strong> Discard a Face Card to use its Power.</li>
             </ul>
 
@@ -292,26 +385,26 @@
         <section id="grimoire">
             <h2>4. The Grimoire (Card Effects)</h2>
             
-            <h3>The Whispers (Number Cards)</h3>
-            <p><em>Action: Play into Neighbor's Shadow to HAUNT, or Discard to INVOKE.</em></p>
+            <h3>The Incantations (Number Cards)</h3>
+            <p><em>Action: Play into Neighbour's Shadow to HAUNT, or Discard to CAST.</em></p>
             <table>
                 <thead>
                     <tr>
                         <th>Rank</th>
                         <th>Name</th>
-                        <th>Invoke Effect (Discard to Use)</th>
+                        <th>Cast Effect (Discard to Use)</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr><td>A</td><td>DRAFT</td><td>Force a Neighbor to <strong>Burn 2 cards</strong> from their Candle.</td></tr>
-                    <tr><td>2</td><td>SCARE</td><td>Force a Neighbor to discard <strong>2 random cards</strong> from Hand.</td></tr>
+                    <tr><td>A</td><td>DRAFT</td><td>Force a Neighbour to <strong>Burn 2 cards</strong> from their Candle.</td></tr>
+                    <tr><td>2</td><td>SCARE</td><td>Force a Neighbour to discard <strong>2 random cards</strong> from Hand.</td></tr>
                     <tr><td>3</td><td>OMEN</td><td>Reveal top 3 of your Candle. <strong>Play 1 immediately</strong>. Rest to bottom.</td></tr>
                     <tr><td>4</td><td>SALT</td><td><strong>Interrupt:</strong> Cancel an action targeting you. (Salt can be Salted).</td></tr>
                     <tr><td>5</td><td>GREED</td><td>Draw 2 cards.</td></tr>
                     <tr><td>6</td><td>CLEANSE</td><td>Destroy 1 Ghost in your <em>own</em> Shadow (no value check needed).</td></tr>
-                    <tr><td>7</td><td>SIGHT</td><td>Look at Neighbor's Hand and <strong>Steal 1 Card</strong>.</td></tr>
+                    <tr><td>7</td><td>SIGHT</td><td>Look at Neighbour's Hand and <strong>Steal 1 Card</strong>.</td></tr>
                     <tr><td>8</td><td>VANISH</td><td>Return a Ghost from <strong>Any Board</strong> to your Hand.</td></tr>
-                    <tr><td>9</td><td>POSSESS</td><td>Move a Ghost from your Shadow to a Neighbor's Shadow.</td></tr>
+                    <tr><td>9</td><td>POSSESS</td><td>Move a Ghost from your Shadow to a Neighbour's Shadow.</td></tr>
                     <tr><td>10</td><td>REKINDLE</td><td>Take top 3 cards from Discard; put at bottom of your Candle.</td></tr>
                 </tbody>
             </table>
@@ -327,10 +420,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr><td>JACK</td><td>THE MIRROR</td><td><strong>Swap</strong> all ghosts in your Shadow with a Neighbor's ghosts.</td></tr>
+                    <tr><td>JACK</td><td>THE MIRROR</td><td><strong>Swap</strong> all ghosts in your Shadow with a Neighbour's ghosts.</td></tr>
                     <tr><td>QUEEN</td><td>THE MEDIUM</td><td>Pick any card from <strong>The Dark</strong> and put it in your Hand.</td></tr>
                     <tr><td>KING</td><td>THE PURGE</td><td>Banish <strong>ALL</strong> Ghosts in your Shadow instantly.</td></tr>
-                    <tr><td>JOKER</td><td>THE HAUNTED</td><td>Force every Opponent to reveal cards from the top of their <strong>Candle</strong> until they find a Number Card. That card becomes a Ghost in their Shadow. (Burn any Face Cards revealed this way).</td></tr>
+                    <tr><td>JOKER</td><td>THE HAUNTED</td><td><strong>Cataclysm.</strong> Force every Opponent to reveal cards from the top of their <strong>Candle</strong> until they find a Number Card. That card becomes a Ghost in their Shadow. (Burn any Face Cards revealed this way).</td></tr>
                 </tbody>
             </table>
         </section>
@@ -343,24 +436,24 @@
                 <div class="class-card"><span class="class-name">THE SHADOW</span>Can Burn 1 card from Candle to cancel a Haunt targeting you.</div>
                 <div class="class-card"><span class="class-name">THE EXORCIST</span>Your 6 (Cleanse) destroys 2 Ghosts instead of 1.</div>
                 <div class="class-card"><span class="class-name">THE SURVIVOR</span>If you have 2 or fewer cards in Hand, take no damage during The Haunting.</div>
-                <div class="class-card"><span class="class-name">THE PYROMANIAC</span>Discard a Red Card to force a Neighbor to Burn 2 cards.</div>
+                <div class="class-card"><span class="class-name">THE PYROMANIAC</span>Discard a Red Card to force a Neighbour to Burn 2 cards.</div>
                 <div class="class-card"><span class="class-name">THE SADIST</span>When you play a 2 (Scare), you choose the cards they discard.</div>
                 <div class="class-card"><span class="class-name">THE BINDER</span>Ghosts you Haunt cannot be moved (Possess) or returned (Vanish).</div>
                 <div class="class-card"><span class="class-name">THE WARLOCK</span>You can use Face Cards to Haunt (Strength 10) instead of Summon.</div>
-                <div class="class-card"><span class="class-name">THE VULTURE</span>When a Neighbor dies, shuffle 5 cards from The Dark into your Candle.</div>
-                <div class="class-card"><span class="class-name">THE OCCULTIST</span>Your 9 (Possess) can target any player, not just Neighbors.</div>
-                <div class="class-card"><span class="class-name">THE TRADER</span>Discard 1 to see Neighbor's hand. You may Swap 1 card with theirs.</div>
+                <div class="class-card"><span class="class-name">THE VULTURE</span>When a Neighbour dies, shuffle 5 cards from The Dark into your Candle.</div>
+                <div class="class-card"><span class="class-name">THE OCCULTIST</span>Your 9 (Possess) can target any player, not just Neighbours.</div>
+                <div class="class-card"><span class="class-name">THE TRADER</span>Discard 1 to see Neighbour's hand. You may Swap 1 card with theirs.</div>
                 <div class="class-card"><span class="class-name">THE SEER</span>Once per turn, you may look at the Top Card of any player's Candle.</div>
                 <div class="class-card"><span class="class-name">THE HOARDER</span>Hand Limit is 10 (instead of 7).</div>
-                <div class="class-card"><span class="class-name">THE MIMIC</span>Once per game, swap Candles (Decks) with a Neighbor.</div>
-                <div class="class-card"><span class="class-name">THE GRAVEDIGGER</span>When a Neighbor dies, add their remaining Candle to yours.</div>
+                <div class="class-card"><span class="class-name">THE MIMIC</span>Once per game, swap Candles (Decks) with a Neighbour.</div>
+                <div class="class-card"><span class="class-name">THE GRAVEDIGGER</span>When a Neighbour dies, add their remaining Candle to yours.</div>
                 <div class="class-card"><span class="class-name">THE FATALIST</span>Discard 1 Card to change the Suit of any Ghost on the board.</div>
                 <div class="class-card"><span class="class-name">THE LEECH</span>When you Banish a Ghost, put it on the bottom of your Candle.</div>
                 <div class="class-card"><span class="class-name">THE MARTYR</span>When taking Damage during The Haunting, you may Draw 1 Card.</div>
                 <div class="class-card"><span class="class-name">THE LICH</span>The first time you die, steal top 2 Cards from everyone alive to revive.</div>
                 <div class="class-card"><span class="class-name">THE JUDGE</span>When you play a 7 (Sight), force that player to Burn 3 cards.</div>
-                <div class="class-card"><span class="class-name">THE JESTER</span>When Haunted, discard 1 to redirect it to the other Neighbor.</div>
-                <div class="class-card"><span class="class-name">THE ARCHITECT</span>Play cards Face Down in your Shadow as "Walls" (Str 0). Ghosts hit walls first.</div>
+                <div class="class-card"><span class="class-name">THE JESTER</span>When Haunted, discard 1 to redirect it to the other Neighbour.</div>
+                <div class="class-card"><span class="class-name">THE ARCHITECT</span>Play cards Face Down in your Shadow as 'Walls' (Str 0). Ghosts hit walls first.</div>
                 <div class="class-card"><span class="class-name">THE CLOWN</span>Ghosts you Haunt cannot be Banished by Numbers, only Face or Cleanse (6).</div>
                 <div class="class-card"><span class="class-name">THE PHANTOM</span>If you have 0 Cards in Hand, you cannot be targeted by Haunts.</div>
             </div>
@@ -378,11 +471,11 @@
                         <li><strong>THE BURN:</strong> Draw 1 Card.</li>
                         <li><strong>THE RITUAL:</strong> Perform <strong>ONE</strong> action:
                             <ul>
-                                <li><strong>Haunt:</strong> Play Number into Neighbor's Shadow.</li>
+                                <li><strong>Haunt:</strong> Play Number into Neighbour's Shadow.</li>
                                 <li><strong>Banish:</strong> Destroy ghost in own Shadow (Higher/Equal Value). 
                                     <br>♠ Spades > ♥ Hearts > ♣ Clubs > ♦ Diamonds
                                 </li>
-                                <li><strong>Invoke:</strong> Discard Number for effect.</li>
+                                <li><strong>Cast:</strong> Discard Number for effect.</li>
                                 <li><strong>Summon:</strong> Discard Face Card for power.</li>
                             </ul>
                         </li>
@@ -425,6 +518,98 @@
             <p>This manual and its contents are the intellectual property of the creator. <br>Unauthorized reproduction, commercial use, or modification is prohibited.</p>
         </footer>
     </div>
+
+    <script>
+        // CLASS DATA
+        const allClasses = [
+            { name: "THE SKEPTIC", desc: "Immune to Aces (Drafts)." },
+            { name: "THE PRIEST", desc: "When you Banish a Ghost, Draw 1 Card." },
+            { name: "THE SHADOW", desc: "Can Burn 1 card from Candle to cancel a Haunt targeting you." },
+            { name: "THE EXORCIST", desc: "Your 6 (Cleanse) destroys 2 Ghosts instead of 1." },
+            { name: "THE SURVIVOR", desc: "If you have 2 or fewer cards in Hand, take no damage during The Haunting." },
+            { name: "THE PYROMANIAC", desc: "Discard a Red Card to force a Neighbour to Burn 2 cards." },
+            { name: "THE SADIST", desc: "When you play a 2 (Scare), you choose the cards they discard." },
+            { name: "THE BINDER", desc: "Ghosts you Haunt cannot be moved (Possess) or returned (Vanish)." },
+            { name: "THE WARLOCK", desc: "You can use Face Cards to Haunt (Strength 10) instead of Summon." },
+            { name: "THE VULTURE", desc: "When a Neighbour dies, shuffle 5 cards from The Dark into your Candle." },
+            { name: "THE OCCULTIST", desc: "Your 9 (Possess) can target any player, not just Neighbours." },
+            { name: "THE TRADER", desc: "Discard 1 to see Neighbour's hand. You may Swap 1 card with theirs." },
+            { name: "THE SEER", desc: "Once per turn, you may look at the Top Card of any player's Candle." },
+            { name: "THE HOARDER", desc: "Hand Limit is 10 (instead of 7)." },
+            { name: "THE MIMIC", desc: "Once per game, swap Candles (Decks) with a Neighbour." },
+            { name: "THE GRAVEDIGGER", desc: "When a Neighbour dies, add their remaining Candle to yours." },
+            { name: "THE FATALIST", desc: "Discard 1 Card to change the Suit of any Ghost on the board." },
+            { name: "THE LEECH", desc: "When you Banish a Ghost, put it on the bottom of your Candle." },
+            { name: "THE MARTYR", desc: "When taking Damage during The Haunting, you may Draw 1 Card." },
+            { name: "THE LICH", desc: "The first time you die, steal top 2 Cards from everyone alive to revive." },
+            { name: "THE JUDGE", desc: "When you play a 7 (Sight), force that player to Burn 3 cards." },
+            { name: "THE JESTER", desc: "When Haunted, discard 1 to redirect it to the other Neighbour." },
+            { name: "THE ARCHITECT", desc: "Play cards Face Down in your Shadow as 'Walls' (Str 0). Ghosts hit walls first." },
+            { name: "THE CLOWN", desc: "Ghosts you Haunt cannot be Banished by Numbers, only Face or Cleanse (6)." },
+            { name: "THE PHANTOM", desc: "If you have 0 Cards in Hand, you cannot be targeted by Haunts." }
+        ];
+
+        let classPool = [...allClasses];
+        let currentPair = [];
+
+        function updatePoolStatus() {
+            document.getElementById('pool-status').innerText = `${classPool.length} Classes Available in the Darkness.`;
+        }
+
+        function drawClasses() {
+            if (classPool.length < 2) {
+                alert("Not enough classes left in the pool! Reset the ritual.");
+                return;
+            }
+
+            // Pick 2 random indices
+            let idx1 = Math.floor(Math.random() * classPool.length);
+            let idx2 = idx1;
+            while(idx2 === idx1) {
+                idx2 = Math.floor(Math.random() * classPool.length);
+            }
+
+            // Store current selection objects
+            currentPair = [classPool[idx1], classPool[idx2]];
+
+            // Update UI
+            document.getElementById('name-0').innerText = currentPair[0].name;
+            document.getElementById('desc-0').innerText = currentPair[0].desc;
+            document.getElementById('name-1').innerText = currentPair[1].name;
+            document.getElementById('desc-1').innerText = currentPair[1].desc;
+
+            document.getElementById('selection-area').style.display = 'grid';
+            document.getElementById('result-area').style.display = 'none';
+        }
+
+        function pickClass(choiceIndex) {
+            let selected = currentPair[choiceIndex];
+            
+            // Remove the selected class from the main pool
+            // The unselected class remains in the pool effectively (we only remove the chosen one)
+            classPool = classPool.filter(c => c.name !== selected.name);
+            
+            // Show result
+            let resultDiv = document.getElementById('result-area');
+            resultDiv.innerHTML = `<strong>ACCEPTED:</strong> You are now <em>${selected.name}</em>.<br><span style="color:#888; font-size:0.8em;">The other class has returned to the darkness.</span>`;
+            resultDiv.style.display = 'block';
+            document.getElementById('selection-area').style.display = 'none';
+            
+            updatePoolStatus();
+        }
+
+        function resetPool() {
+            if(confirm("Are you sure you want to reset all classes?")) {
+                classPool = [...allClasses];
+                updatePoolStatus();
+                document.getElementById('selection-area').style.display = 'none';
+                document.getElementById('result-area').style.display = 'none';
+            }
+        }
+
+        // Init
+        updatePoolStatus();
+    </script>
 
 </body>
 </html>
