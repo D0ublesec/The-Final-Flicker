@@ -301,7 +301,7 @@
     <div class="container">
         <header>
             <h1>The Final Flicker</h1>
-            <p class="subtitle">Official Manual: Version 3.4 (The Panic Update)</p>
+            <p class="subtitle">Official Manual: Version 4.0 (Balanced & Clarified)</p>
             
             <div class="flavor-text">
                 <p>This candle is your heartbeat. As long as it flickers, you are safe. But every card you burn brings you one step closer to being Consumed by the Darkness.</p>
@@ -527,13 +527,8 @@
             <h3>Phase A: THE HAUNTING</h3>
             <p>Look into your <strong>Shadow</strong>. Count the Ghosts. For <strong>every Ghost</strong> currently haunting you, <strong>BURN (Discard Face Up) 1 card</strong> from your Candle into The Dark.</p>
             
-            <h3>Phase B: THE BURN (Choose One)</h3>
-            <ul>
-                <li><strong>OPTION 1 (STANDARD):</strong> Draw <strong>1 card</strong> from your Candle.</li>
-                <li><strong>OPTION 2 (FLICKER):</strong> Choose any number of cards from your Hand. Place them at the <strong>bottom of your Candle</strong>. Then, Draw that same number of cards.
-                    <br><em>(You do not gain a +1 card advantage this turn, but you fix your hand).</em>
-                </li>
-            </ul>
+            <h3>Phase B: THE BURN</h3>
+            <p>Draw <strong>1 card</strong> from the top of your Candle.</p>
             <p><em>If your Candle is empty when you try to Draw, you are Consumed by the Darkness.</em></p>
 
             <h3>Phase C: THE RITUAL</h3>
@@ -545,17 +540,20 @@
                 <li><strong>BANISH (Defend):</strong> Play a card from hand onto a Ghost in <em>your</em> Shadow.
                     <br><em>Requirement:</em> Must be <strong>Higher</strong> or <strong>Equal</strong> value.
                     <br><em>The Tie-Breaker:</em> If the numbers are Equal, your Suit must be Higher.
-                    <br><strong style="color:var(--life-color);">THE SIPHON:</strong> If you Banish with the <strong>EXACT SAME NUMBER</strong> (Rank), you Heal the Ghost. 
+                    <br><em>Result:</em> Both the Ghost and the card you played are sent to The Dark.
+                    <br><strong style="color:var(--life-color);">THE SIPHON:</strong> If you Banish with the <strong>EXACT SAME NUMBER</strong> (Rank), you Heal the Ghost by placing it at the bottom of your Candle. <br><em>Note:</em> The card you played from your hand is still sent to The Dark.
                     <br><em style="color:#d84315;">EXCEPTION:</em> You cannot Siphon <strong>Spades (♠)</strong>. Spades are too corrupted and must always be destroyed.
                 </li>
                 <li style="border-left: 3px solid var(--panic-color); padding-left: 10px;">
-                    <strong>PANIC (Desperation):</strong> If you cannot (or will not) Banish a ghost from your hand, you may play the <strong>Top Card of your Candle BLINDLY</strong>.
-                    <br><em>Number Card:</em> If the blind card is Higher/Equal, you survive. If Lower, you now have 2 Ghosts.
+                    <strong>PANIC (Desperation):</strong> Play the <strong>Top Card of your Candle BLINDLY</strong> against a Ghost.
+                    <br><em>Success (Higher/Equal):</em> The Ghost and the Panic Card are sent to The Dark.
+                    <br><em>Failure (Lower):</em> The Panic Card stays and joins the Ghost in your Shadow (You now have 2 Ghosts).
                     <br><strong style="color:var(--panic-color);">CRITICAL SUCCESS:</strong> If you Panic and flip a <strong>Face Card</strong> (J,Q,K), it is an <strong>Instant Success</strong>. The Ghost is Banished AND you trigger the Face Card's power immediately!
                 </li>
                 <li style="border-left: 3px solid var(--life-color); padding-left: 10px;">
-                    <strong>SÉANCE (Heal):</strong> Discard a <strong>MATCHING PAIR</strong> of cards from your hand (e.g., two 5s). Do not resolve their effects. 
-                    <br>Instead, take the top <strong>3 cards</strong> from The Dark (Discard Pile) and place them at the bottom of your Candle.
+                    <strong>SÉANCE (Heal):</strong> Discard a <strong>MATCHING PAIR</strong> from your hand (e.g., two 5s) into The Dark. 
+                    <br>Then, take the <strong>BOTTOM 3 CARDS</strong> of The Dark (Discard Pile) and place them at the bottom of your Candle.
+                    <br><em>(You must take from the bottom to prevent immediately picking up the pair you just discarded).</em>
                 </li>
                 <li><strong>CAST (Effect):</strong> Discard a Number Card to use its Ability.</li>
                 <li><strong>SUMMON (Power):</strong> Discard a Face Card to use its Power.</li>
@@ -563,6 +561,7 @@
 
             <h3>Phase D: THE BURDEN</h3>
             <p>If you have <strong>6+ cards</strong> in hand, discard down to <strong>5</strong>.</p>
+            <p><em>Check for Possession: If you have 3 Ghosts of the SAME SUIT, you lose immediately.</em></p>
         </section>
 
         <section id="grimoire">
@@ -660,10 +659,7 @@
                     <h3>Turn Structure</h3>
                     <ol>
                         <li><strong>THE HAUNTING:</strong> Count ghosts. Burn cards from Candle.</li>
-                        <li><strong>THE BURN:</strong> 
-                            <br>- Draw 1 Card 
-                            <br>- <strong>OR Flicker:</strong> Cycle Hand to bottom of Candle, then Draw same amount.
-                        </li>
+                        <li><strong>THE BURN:</strong> Draw 1 Card.</li>
                         <li><strong>THE RITUAL:</strong> Perform <strong>ONE</strong> action:
                             <ul>
                                 <li><strong>Haunt:</strong> Play Number into Neighbour's Shadow.</li>
@@ -672,7 +668,7 @@
                                     <br><em>(Cannot Siphon Spades).</em>
                                 </li>
                                 <li style="color:var(--panic-color);"><strong>Panic:</strong> Play Blind from Candle. Face Card = Crit Success.</li>
-                                <li><strong>Séance:</strong> Discard 2 of same Rank to Heal 3 from Dark.</li>
+                                <li><strong>Séance:</strong> Discard 2 of same Rank to Heal 3 from Dark (Bottom).</li>
                                 <li><strong>Cast/Summon:</strong> Discard for Effect/Power.</li>
                             </ul>
                         </li>
