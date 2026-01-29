@@ -12,6 +12,7 @@
             --ice-color: #00bcd4; /* Coldest Hands */
             --ghost-color: #9e9e9e; /* Ghost Grey */
             --life-color: #4caf50; /* Healing Green */
+            --panic-color: #ff1744; /* Panic Red */
             --card-bg: #1e1e1e;
             --border-color: #333;
             --highlight: #ff5722;
@@ -300,7 +301,7 @@
     <div class="container">
         <header>
             <h1>The Final Flicker</h1>
-            <p class="subtitle">Official Manual: Version 3.0 (Ritual Update)</p>
+            <p class="subtitle">Official Manual: Version 3.3 (The Panic Update)</p>
             
             <div class="flavor-text">
                 <p>This candle is your heartbeat. As long as it flickers, you are safe. But every card you burn brings you one step closer to being Consumed by the Darkness.</p>
@@ -526,8 +527,13 @@
             <h3>Phase A: THE HAUNTING</h3>
             <p>Look into your <strong>Shadow</strong>. Count the Ghosts. For <strong>every Ghost</strong> currently haunting you, <strong>BURN (Discard Face Up) 1 card</strong> from your Candle into The Dark.</p>
             
-            <h3>Phase B: THE BURN</h3>
-            <p>Draw <strong>1 card</strong> from the top of your Candle.</p>
+            <h3>Phase B: THE BURN (Choose One)</h3>
+            <ul>
+                <li><strong>OPTION 1 (STANDARD):</strong> Draw <strong>1 card</strong> from your Candle.</li>
+                <li><strong>OPTION 2 (FLICKER):</strong> Choose any number of cards from your Hand. Place them at the <strong>bottom of your Candle</strong>. Then, Draw that same number of cards.
+                    <br><em>(You do not gain a +1 card advantage this turn, but you fix your hand).</em>
+                </li>
+            </ul>
             <p><em>If your Candle is empty when you try to Draw, you are Consumed by the Darkness.</em></p>
 
             <h3>Phase C: THE RITUAL</h3>
@@ -539,11 +545,16 @@
                 <li><strong>BANISH (Defend):</strong> Play a card from hand onto a Ghost in <em>your</em> Shadow.
                     <br><em>Requirement:</em> Must be <strong>Higher</strong> or <strong>Equal</strong> value.
                     <br><em>The Tie-Breaker:</em> If the numbers are Equal, your Suit must be Higher.
-                    <br><em>Result:</em> Both the Ghost and the Banishing card are sent to The Dark.
-                    <br><strong style="color:var(--life-color);">THE SIPHON:</strong> If you Banish with the <strong>EXACT SAME NUMBER</strong> (Rank), the Ghost is not destroyed. Instead, place the Ghost at the <strong>bottom of your Candle</strong> (You heal 1 Life).
+                    <br><strong style="color:var(--life-color);">THE SIPHON:</strong> If you Banish with the <strong>EXACT SAME NUMBER</strong> (Rank), you Heal the Ghost. 
+                    <br><em style="color:#d84315;">EXCEPTION:</em> You cannot Siphon <strong>Spades (♠)</strong>. Spades are too corrupted and must always be destroyed.
+                </li>
+                <li style="border-left: 3px solid var(--panic-color); padding-left: 10px;">
+                    <strong>PANIC (Desperation):</strong> If you cannot (or will not) Banish a ghost from your hand, you may play the <strong>Top Card of your Candle BLINDLY</strong>.
+                    <br><em>Number Card:</em> If the blind card is Higher/Equal, you survive. If Lower, you now have 2 Ghosts.
+                    <br><strong style="color:var(--panic-color);">CRITICAL SUCCESS:</strong> If you Panic and flip a <strong>Face Card</strong> (J,Q,K), it is an <strong>Instant Success</strong>. The Ghost is Banished AND you trigger the Face Card's power immediately!
                 </li>
                 <li style="border-left: 3px solid var(--life-color); padding-left: 10px;">
-                    <strong>SÉANCE (Heal):</strong> Discard a <strong>MATCHING PAIR</strong> of cards from your hand (e.g., two 5s, two Queens). Do not resolve their effects. 
+                    <strong>SÉANCE (Heal):</strong> Discard a <strong>MATCHING PAIR</strong> of cards from your hand (e.g., two 5s). Do not resolve their effects. 
                     <br>Instead, take the top <strong>3 cards</strong> from The Dark (Discard Pile) and place them at the bottom of your Candle.
                 </li>
                 <li><strong>CAST (Effect):</strong> Discard a Number Card to use its Ability.</li>
@@ -573,7 +584,7 @@
                     <tr><td>3</td><td>OMEN</td><td>Reveal top 3 of your Candle. <strong>Play 1 immediately</strong>. Rest to bottom.</td></tr>
                     <tr><td>4</td><td>SALT</td><td><strong>Interrupt:</strong> Cancel an action targeting you. The attacker wastes their card and their turn.</td></tr>
                     <tr><td>5</td><td>GREED</td><td>Draw 2 cards.</td></tr>
-                    <tr><td>6</td><td>CLEANSE</td><td>Destroy 1 Ghost in your <em>own</em> Shadow (no number check needed).<br><strong style="color:var(--life-color)">SIPHON:</strong> If the 6 is the <strong>Same Suit</strong> as the Ghost, move Ghost to bottom of your Candle (Heal).</td></tr>
+                    <tr><td>6</td><td>CLEANSE</td><td>Destroy 1 Ghost in your <em>own</em> Shadow (no number check needed).<br><strong style="color:var(--life-color)">SIPHON:</strong> If the 6 is the <strong>Same Suit</strong> as the Ghost, move Ghost to bottom of your Candle. (Cannot Siphon Spades).</td></tr>
                     <tr><td>7</td><td>SIGHT</td><td>Look at Neighbour's Hand and <strong>Steal 1 Card</strong>.</td></tr>
                     <tr><td>8</td><td>VANISH</td><td>Return a Ghost from <strong>Any Shadow</strong> to your Hand.</td></tr>
                     <tr><td>9</td><td>POSSESS</td><td>Move a Ghost from your Shadow to a Neighbour's Shadow.</td></tr>
@@ -648,17 +659,21 @@
                 <div>
                     <h3>Turn Structure</h3>
                     <ol>
-                        <li><strong>THE HAUNTING:</strong> Count ghosts in your Shadow. Burn that many cards from Candle.</li>
-                        <li><strong>THE BURN:</strong> Draw 1 Card.</li>
+                        <li><strong>THE HAUNTING:</strong> Count ghosts. Burn cards from Candle.</li>
+                        <li><strong>THE BURN:</strong> 
+                            <br>- Draw 1 Card 
+                            <br>- <strong>OR Flicker:</strong> Cycle Hand to bottom of Candle, then Draw same amount.
+                        </li>
                         <li><strong>THE RITUAL:</strong> Perform <strong>ONE</strong> action:
                             <ul>
                                 <li><strong>Haunt:</strong> Play Number into Neighbour's Shadow.</li>
                                 <li><strong>Banish:</strong> Destroy ghost in own Shadow (Higher/Equal Value). 
-                                    <br><strong>Siphon:</strong> If Rank is Equal, Heal Ghost to Candle.
+                                    <br><strong>Siphon:</strong> If Rank is Equal, Heal Ghost to Candle. 
+                                    <br><em>(Cannot Siphon Spades).</em>
                                 </li>
+                                <li style="color:var(--panic-color);"><strong>Panic:</strong> Play Blind from Candle. Face Card = Crit Success.</li>
                                 <li><strong>Séance:</strong> Discard 2 of same Rank to Heal 3 from Dark.</li>
-                                <li><strong>Cast:</strong> Discard Number for effect.</li>
-                                <li><strong>Summon:</strong> Discard Face Card for power.</li>
+                                <li><strong>Cast/Summon:</strong> Discard for Effect/Power.</li>
                             </ul>
                         </li>
                         <li><strong>THE BURDEN:</strong> Discard down to 5 cards.</li>
@@ -675,139 +690,4 @@
                     <table style="font-size: 0.9em;">
                         <tr><td><strong>A</strong></td><td><strong>Drain:</strong> Steal 1 Card from Foe's Candle.</td></tr>
                         <tr><td><strong>2</strong></td><td><strong>Scare:</strong> Foe Discards 1 RANDOM card.</td></tr>
-                        <tr><td><strong>3</strong></td><td><strong>Omen:</strong> Reveal 3 from Candle, Play 1.</td></tr>
-                        <tr><td><strong>4</strong></td><td><strong>Salt:</strong> Cancel an Action (Wastes Foe's Turn).</td></tr>
-                        <tr><td><strong>5</strong></td><td><strong>Greed:</strong> Draw 2.</td></tr>
-                        <tr><td><strong>6</strong></td><td><strong>Cleanse:</strong> Destroy Ghost. <strong>Siphon</strong> if Suits match.</td></tr>
-                        <tr><td><strong>7</strong></td><td><strong>Sight:</strong> Steal 1 card from Foe.</td></tr>
-                        <tr><td><strong>8</strong></td><td><strong>Vanish:</strong> Return Ghost to Hand.</td></tr>
-                        <tr><td><strong>9</strong></td><td><strong>Possess:</strong> Move Ghost to Foe.</td></tr>
-                        <tr><td><strong>10</strong></td><td><strong>Rekindle:</strong> Get 3 from Discard to Candle.</td></tr>
-                        <tr><td colspan="2" style="border-top: 1px solid #555;"></td></tr>
-                        <tr><td><strong>J</strong></td><td><strong>Mirror:</strong> Swap Ghosts with Foe.</td></tr>
-                        <tr><td><strong>Q</strong></td><td><strong>Medium:</strong> Fetch 1 from Dark OR Heal 2.</td></tr>
-                        <tr><td><strong>K</strong></td><td><strong>Purge:</strong> Destroy ALL Ghosts (Self).</td></tr>
-                        <tr><td><strong>Joker</strong></td><td><strong>Haunted:</strong> All Foes reveal Candle until they get 1 Ghost.</td></tr>
-                    </table>
-                </div>
-            </div>
-        </section>
-
-        <button class="print-btn" onclick="window.print()">Print Cheat Sheet / Manual</button>
-        
-        <footer>
-            <p><strong>THE FINAL FLICKER</strong> &copy; 2026 Liam Double. All Rights Reserved.</p>
-            <p>This manual and its contents are the intellectual property of the creator. <br>Unauthorized reproduction, commercial use, or modification is prohibited.</p>
-        </footer>
-    </div>
-
-    <script>
-        // CLASS DATA
-        const allClasses = [
-            { name: "THE SKEPTIC", desc: "Immune to Aces (Drain)." },
-            { name: "THE PRIEST", desc: "When you Banish a Ghost, Draw 1 Card." },
-            { name: "THE SHADOW", desc: "Can Burn 1 card from Candle to cancel a Haunt targeting you." },
-            { name: "THE EXORCIST", desc: "Your 6 (Cleanse) destroys 2 Ghosts. If Suits match, you Siphon them." },
-            { name: "THE SURVIVOR", desc: "If you have 2 or fewer cards in Hand, take no damage during The Haunting." },
-            { name: "THE PYROMANIAC", desc: "Discard a Red Card to force a Neighbour to Burn 2 cards." },
-            { name: "THE SADIST", desc: "When you play a 2 (Scare), you choose the cards they discard." },
-            { name: "THE BINDER", desc: "Ghosts you Haunt cannot be moved (Possess) or returned (Vanish).." },
-            { name: "THE WARLOCK", desc: "You can use Face Cards to Haunt (Strength 10) instead of Summon." },
-            { name: "THE VULTURE", desc: "When a Neighbour dies, shuffle 5 cards from The Dark into your Candle." },
-            { name: "THE OCCULTIST", desc: "Your 9 (Possess) can target any player, not just Neighbours." },
-            { name: "THE TRADER", desc: "Discard 1 to see Neighbour's hand. You may Swap 1 card with theirs." },
-            { name: "THE SEER", desc: "Once per turn, you may look at the Top Card of any player's Candle." },
-            { name: "THE HOARDER", desc: "Hand Limit is 8 (instead of 5)." },
-            { name: "THE MIMIC", desc: "Once per game, swap Candles (Decks) with a Neighbour." },
-            { name: "THE GRAVEDIGGER", desc: "When a Neighbour dies, add their remaining Candle to yours." },
-            { name: "THE FATALIST", desc: "Discard 1 Card to change the Suit of any Ghost in any Shadow." },
-            { name: "THE LEECH", desc: "When you Banish a Ghost, you always Siphon it (even if numbers don't match)." },
-            { name: "THE MARTYR", desc: "When taking Damage during The Haunting, you may Draw 1 Card." },
-            { name: "THE LICH", desc: "The first time you die, steal top 2 Cards from everyone alive to revive." },
-            { name: "THE JUDGE", desc: "When you play a 7 (Sight), force that player to Burn 2 cards." },
-            { name: "THE JESTER", desc: "When Haunted, discard 1 to redirect it to the other Neighbour." },
-            { name: "THE ARCHITECT", desc: "Play cards Face Down in your Shadow as 'Walls' (Str 0). Ghosts hit walls first." },
-            { name: "THE CLOWN", desc: "Ghosts you Haunt cannot be Banished by Numbers, only Face or Cleanse (6)." },
-            { name: "THE PHANTOM", desc: "If you have 0 Cards in Hand, you cannot be targeted by Haunts." },
-            // NEW SPOOKY CLASSES
-            { name: "THE DOLL", desc: "When you are forced to Burn cards by a Haunt, the attacker must Burn the same amount." },
-            { name: "THE CROW", desc: "If a Neighbour Burns a Face Card, you may add it to your Hand." },
-            { name: "THE VESSEL", desc: "The first Ghost in your Shadow does not cause you to Burn cards." },
-            { name: "THE WARDEN", desc: "You are immune to Ghosts being moved into your Shadow (Mirror/Possess)." },
-            { name: "THE SILENCE", desc: "Your actions cannot be interrupted by Salt (4)." },
-            { name: "THE ORACLE", desc: "You play with your Hand revealed. You draw 2 cards every turn (instead of 1)." },
-            { name: "THE PLAGUE", desc: "If a Ghost you Haunted is Banished, it moves to the other Neighbour instead of The Dark." },
-            { name: "THE SIREN", desc: "When you play a 5 (Greed), you may Steal 1 card from a Neighbour instead of Drawing." }
-        ];
-
-        let classPool = [...allClasses];
-        let currentPair = [];
-
-        function updatePoolStatus() {
-            document.getElementById('pool-status').innerText = `${classPool.length} Classes Available in the Darkness.`;
-        }
-
-        function drawClasses() {
-            if (classPool.length < 2) {
-                alert("Not enough classes left in the pool! Reset the ritual.");
-                return;
-            }
-
-            // Pick 2 random indices
-            let idx1 = Math.floor(Math.random() * classPool.length);
-            let idx2 = idx1;
-            while(idx2 === idx1) {
-                idx2 = Math.floor(Math.random() * classPool.length);
-            }
-
-            // Store current selection objects
-            currentPair = [classPool[idx1], classPool[idx2]];
-
-            // Update UI
-            document.getElementById('name-0').innerText = currentPair[0].name;
-            document.getElementById('desc-0').innerText = currentPair[0].desc;
-            document.getElementById('name-1').innerText = currentPair[1].name;
-            document.getElementById('desc-1').innerText = currentPair[1].desc;
-
-            document.getElementById('selection-area').style.display = 'grid';
-            document.getElementById('result-area').style.display = 'none';
-        }
-
-        function pickClass(choiceIndex) {
-            let selected = currentPair[choiceIndex];
-            
-            // Remove the selected class from the main pool
-            // The unselected class remains in the pool effectively (we only remove the chosen one)
-            classPool = classPool.filter(c => c.name !== selected.name);
-            
-            // Show result
-            let resultDiv = document.getElementById('result-area');
-            resultDiv.innerHTML = `<strong>ACCEPTED:</strong> You are now <em>${selected.name}</em>.<br><span style="color:#888; font-size:0.8em;">The other class has returned to the darkness.</span>`;
-            resultDiv.style.display = 'block';
-            document.getElementById('selection-area').style.display = 'none';
-            
-            updatePoolStatus();
-        }
-
-        function resetPool() {
-            if(confirm("Are you sure you want to reset all classes?")) {
-                classPool = [...allClasses];
-                updatePoolStatus();
-                document.getElementById('selection-area').style.display = 'none';
-                document.getElementById('result-area').style.display = 'none';
-            }
-        }
-
-        function showDiagram(count) {
-            // Hide all
-            document.querySelectorAll('.diagram-display').forEach(el => el.classList.remove('active'));
-            // Show selected
-            document.getElementById('diag-' + count).classList.add('active');
-        }
-
-        // Init
-        updatePoolStatus();
-    </script>
-
-</body>
-</html>
+                        <tr><td><strong>3</strong>
