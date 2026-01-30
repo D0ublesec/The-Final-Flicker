@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE FINAL FLICKER: Strict Edition</title>
+    <title>THE FINAL FLICKER: Version 31.2</title>
     <style>
         :root {
             --bg-color: #121212;
@@ -170,7 +170,7 @@
     <div id="manual-view" class="container">
         <header>
             <h1>The Final Flicker</h1>
-            <p class="subtitle">Official Manual: Version 27.0 (Strict Edition)</p>
+            <p class="subtitle">Official Manual: Version 31.2</p>
             <div class="flavor-text">
                 <p>This candle is your heartbeat. As long as it flickers, you are safe. But every card you burn brings you one step closer to being Consumed by the Darkness.</p>
                 <p>However, the dark isn't the only danger. If you let too many ghosts gather, you won't just die—you will lose your mind to the Possession.</p>
@@ -305,7 +305,7 @@
                     <tr><td>3</td><td>SIGHT</td><td>Reveal a Neighbour's Hand.</td></tr>
                     <tr><td>4</td><td>SALT</td><td><strong>Interrupt:</strong> Keep in hand. Reveal to cancel an action targeting you.</td></tr>
                     <tr><td>5</td><td>GREED</td><td>Draw 2 cards.</td></tr>
-                    <tr><td>6</td><td>CLEANSE</td><td>Destroy 1 Ghost (no number check).</td></tr>
+                    <tr><td>6</td><td>CLEANSE</td><td>Destroy 1 Ghost (no number check). Siphon if Suits match.</td></tr>
                     <tr><td>7</td><td>CLAIM</td><td>Steal 1 Random Card from Neighbour's Hand.</td></tr>
                     <tr><td>8</td><td>VANISH</td><td>Return a Ghost from Any Shadow to your Hand.</td></tr>
                     <tr><td>9</td><td>POSSESS</td><td>Move a Ghost from your Shadow to a Neighbour.</td></tr>
@@ -313,7 +313,7 @@
                     <tr><td>J</td><td>MIRROR</td><td>Swap all ghosts in your Shadow with a Neighbour's ghosts.</td></tr>
                     <tr><td>Q</td><td>MEDIUM</td><td>Choose: Pick 1 from Dark to Hand OR Shuffle 2 from Dark to Candle.</td></tr>
                     <tr><td>K</td><td>PURGE</td><td>Banish ALL Ghosts in your Shadow instantly.</td></tr>
-                    <tr><td>JOKER</td><td>THE HAUNTING</td><td>Force Foes to burn Candle until they hit a Ghost. (Face->Dark, Num->Shadow).</td></tr>
+                    <tr><td>JOKER</td><td>BOO!</td><td>Force Foes to burn Candle until they hit a Ghost. (Face->Dark, Num->Shadow).</td></tr>
                 </tbody>
             </table>
         </section>
@@ -441,7 +441,7 @@
         {name:"FATALIST", desc:"Discard 1 Card to change the Suit of a Ghost in YOUR Shadow."},
         {name:"SADIST", desc:"When you play a 2 (Scare), you choose the cards they discard."},
         {name:"BINDER", desc:"Ghosts you Haunt cannot be moved (Possess) or returned (Vanish)."},
-        {name:"WARLOCK", desc:"You can use Face Cards to Haunt (Strength 10) instead of Summon."},
+        {name:"WARLOCK", desc:"You can use Face Cards to Haunt (Strength 10) instead of Summon. *Note: 10♠ can banish a J♠, Q♠ and K♠ haunted by you.*"},
         {name:"VULTURE", desc:"When a Neighbour dies, shuffle 5 cards from The Dark into your Candle."},
         {name:"OCCULTIST", desc:"Your 9 (Possess) can target any player, not just Neighbours."},
         {name:"SEER", desc:"Once per turn, you may look at the Top Card of any player's Candle."},
@@ -460,7 +460,7 @@
         {name:"VESSEL", desc:"The first Ghost in your Shadow does not cause you to Burn cards."},
         {name:"WARDEN", desc:"You are immune to Ghosts being moved into your Shadow (Mirror/Possess)."},
         {name:"SILENCE", desc:"Your actions cannot be interrupted by Salt (4)."},
-        {name:"ORACLE", desc:"You play with your Hand revealed. You draw 2 cards every turn (instead of 1)."},
+        {name:"ORACLE", desc:"Precognition: You take 1 less damage from burning ghosts at the start of your turn."},
         {name:"PLAGUE", desc:"If a Ghost you Haunted is Banished, it moves to the other Neighbour instead of The Dark."},
         {name:"SIREN", desc:"When you play a 5 (Greed), you may Steal 1 card from a Neighbour instead of Drawing."}
     ];
@@ -599,6 +599,8 @@
         
         let burn = p.shadow.length;
         if(p.class.name==='SURVIVOR' && p.hand.length<=2) burn=0;
+        if(p.class.name==='ORACLE') burn = Math.max(0, burn - 1); // Oracle Buff
+        
         for(let i=0; i<burn; i++) {
             if(p.candle.length) {
                 gameState.discard.push(p.candle.shift());
@@ -667,7 +669,7 @@
         document.getElementById('right-name').innerText = targets.right.name;
         document.getElementById('right-hp').innerText = targets.right.candle.length;
 
-        // Button Logic: Disable actions if phase is END
+        // Strict Phase Control
         let isActionPhase = gameState.turnPhase === 'ACTION';
         let hasSel = gameState.selectedIdxs.length > 0;
         let isSingle = gameState.selectedIdxs.length === 1;
@@ -923,14 +925,14 @@
             let top = target.candle.shift();
             if(!top.isFace && top.r !== 'JOKER') {
                 target.shadow.push(top);
-                log(`HAUNTING: ${target.name} hit by ${top.r}${top.s}. Burned ${burned}.`);
+                log(`BOO!: ${target.name} hit by ${top.r}${top.s}. Burned ${burned}.`);
                 return;
             } else {
                 gameState.discard.push(top);
                 burned++;
             }
         }
-        gameOver(target.name + " Consumed by Haunting!");
+        gameOver(target.name + " Consumed by BOO!");
     }
 
     function queenExhume() {
