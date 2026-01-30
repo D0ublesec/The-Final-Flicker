@@ -195,7 +195,7 @@
             justify-content: center;
             font-size: 0.8em;
             flex-direction: column;
-            z-index: 2;
+            z-index: 2; /* Players sit below ghosts */
         }
 
         .d-node.starter { border-color: var(--ice-color); box-shadow: 0 0 10px var(--ice-color); color: var(--ice-color); }
@@ -247,13 +247,15 @@
             position: absolute;
             display: flex; align-items: center; justify-content: center;
             text-align: center;
-            z-index: 1;
+            z-index: 5; /* GHOSTS NOW SIT ON TOP OF EVERYTHING */
+            box-shadow: 0 0 5px #000;
         }
         .ghost-label {
             position: absolute;
             font-size: 0.6em; color: #888;
             width: 80px; text-align: center;
             bottom: -15px; left: 50%; transform: translateX(-50%);
+            z-index: 5;
         }
 
         /* CLASSES GRID */
@@ -301,7 +303,7 @@
     <div class="container">
         <header>
             <h1>The Final Flicker</h1>
-            <p class="subtitle">Official Manual: Version 6.0 (Possession Update)</p>
+            <p class="subtitle">Official Manual: Version 6.1 (Visibility Update)</p>
             
             <div class="flavor-text">
                 <p>This candle is your heartbeat. As long as it flickers, you are safe. But every card you burn brings you one step closer to being Consumed by the Darkness.</p>
@@ -372,7 +374,7 @@
                 <li><strong>Line of Sight:</strong> You can only interact with your Immediate Neighbours (Left/Right).</li>
                 <li><strong>The Accumulation:</strong> Ghosts played against you gather in your personal <strong>Shadow</strong>.</li>
                 <li><strong>Forbidden Knowledge:</strong> Cards are discarded <strong>Face Up</strong>, but you may never look through the history of <strong>The Dark</strong> (Discard Pile) unless a card tells you to.</li>
-                <li><strong>The Twin Fires:</strong> In a 6+ player game, two turns happen at once (opposite sides). These turns are <strong>independent</strong>. You do not wait for the other side of the table to finish.</li>
+                <li><strong>The Twin Flame:</strong> In a 6+ player game, two turns happen at once (opposite sides). These turns are <strong>independent</strong>. You do not wait for the other side of the table to finish.</li>
                 <li><strong>The Closing Gap:</strong> When a player dies, they are removed. The circle shrinks.
                     <ul>
                         <li><em>Standard:</em> Ghosts are banished to The Dark.</li>
@@ -405,8 +407,8 @@
                     </div>
                     <div class="d-node" style="top: 20px; left: 50%; transform: translateX(-50%);">P2<div class="candle-mini"></div></div>
                     
-                    <div class="ghost-mini" style="bottom: 80px; left: 50%; transform: translateX(-50%);">👻</div>
-                    <div class="ghost-label" style="bottom: 95px;">Ghost from P2<br>(Front)</div>
+                    <div class="ghost-mini" style="bottom: 95px; left: 50%; transform: translateX(-50%);">👻</div>
+                    <div class="ghost-label" style="bottom: 110px;">Ghost from P2<br>(Front)</div>
                 </div>
 
                 <div id="diag-3" class="diagram-display">
@@ -439,11 +441,11 @@
                     <div class="d-node" style="top: 20px; left: 50%; transform: translateX(-50%);">P3<div class="candle-mini"></div></div>
                     <div class="d-node" style="top: 50%; right: 10px; transform: translateY(-50%);">P4 (Right)<div class="candle-mini"></div></div>
 
-                    <div class="ghost-mini" style="bottom: 50px; left: 38%;">👻</div>
-                    <div class="ghost-label" style="bottom: 30px; left: 38%;">Ghost (L)</div>
+                    <div class="ghost-mini" style="bottom: 60px; left: 35%;">👻</div>
+                    <div class="ghost-label" style="bottom: 40px; left: 35%;">Ghost (L)</div>
 
-                    <div class="ghost-mini" style="bottom: 50px; right: 38%;">👻</div>
-                    <div class="ghost-label" style="bottom: 30px; right: 38%;">Ghost (R)</div>
+                    <div class="ghost-mini" style="bottom: 60px; right: 35%;">👻</div>
+                    <div class="ghost-label" style="bottom: 40px; right: 35%;">Ghost (R)</div>
                 </div>
 
                 <div id="diag-5" class="diagram-display">
@@ -686,7 +688,7 @@
                     <h3>Endings</h3>
                     <ul>
                         <li><strong>Consumed:</strong> 0 Cards in Candle.</li>
-                        <li><strong>Possession:</strong> End YOUR turn with 3 Ghosts of SAME SUIT in Shadow.</li>
+                        <li><strong>Possession:</strong> End turn with 3 Ghosts of SAME SUIT in Shadow.</li>
                     </ul>
                 </div>
 
