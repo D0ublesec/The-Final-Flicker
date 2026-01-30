@@ -195,7 +195,7 @@
             justify-content: center;
             font-size: 0.8em;
             flex-direction: column;
-            z-index: 2; /* Players sit below ghosts */
+            z-index: 2; /* Below Ghosts */
         }
 
         .d-node.starter { border-color: var(--ice-color); box-shadow: 0 0 10px var(--ice-color); color: var(--ice-color); }
@@ -247,14 +247,16 @@
             position: absolute;
             display: flex; align-items: center; justify-content: center;
             text-align: center;
-            z-index: 5; /* GHOSTS NOW SIT ON TOP OF EVERYTHING */
+            z-index: 5; /* On Top */
             box-shadow: 0 0 5px #000;
         }
         .ghost-label {
             position: absolute;
             font-size: 0.6em; color: #888;
             width: 80px; text-align: center;
-            bottom: -15px; left: 50%; transform: translateX(-50%);
+            bottom: -15px; 
+            /* Default alignment for center/bottom ghosts */
+            left: 50%; transform: translateX(-50%);
             z-index: 5;
         }
 
@@ -303,7 +305,7 @@
     <div class="container">
         <header>
             <h1>The Final Flicker</h1>
-            <p class="subtitle">Official Manual: Version 7.1 (Visual Fixes)</p>
+            <p class="subtitle">Official Manual: Version 7.1 (Balanced & Aligned)</p>
             
             <div class="flavor-text">
                 <p>This candle is your heartbeat. As long as it flickers, you are safe. But every card you burn brings you one step closer to being Consumed by the Darkness.</p>
@@ -422,11 +424,11 @@
                     <div class="d-node" style="top: 20%; left: 20%;">P2 (Left)<div class="candle-mini"></div></div>
                     <div class="d-node" style="top: 20%; right: 20%;">P3 (Right)<div class="candle-mini"></div></div>
 
-                    <div class="ghost-mini" style="bottom: 50px; left: 40%;">👻</div>
-                    <div class="ghost-label" style="bottom: 30px; left: 40%;">Ghost (L)</div>
+                    <div class="ghost-mini" style="bottom: 50px; left: 35%;">👻</div>
+                    <div class="ghost-label" style="bottom: 30px; left: 35%; transform: translateX(-50%);">Ghost (L)</div>
 
-                    <div class="ghost-mini" style="bottom: 50px; right: 40%;">👻</div>
-                    <div class="ghost-label" style="bottom: 30px; right: 40%;">Ghost (R)</div>
+                    <div class="ghost-mini" style="bottom: 50px; right: 35%;">👻</div>
+                    <div class="ghost-label" style="bottom: 30px; right: 35%; left: auto; transform: translateX(50%);">Ghost (R)</div>
                 </div>
 
                 <div id="diag-4" class="diagram-display active">
@@ -441,11 +443,11 @@
                     <div class="d-node" style="top: 20px; left: 50%; transform: translateX(-50%);">P3<div class="candle-mini"></div></div>
                     <div class="d-node" style="top: 50%; right: 10px; transform: translateY(-50%);">P4 (Right)<div class="candle-mini"></div></div>
 
-                    <div class="ghost-mini" style="bottom: 60px; left: 40%;">👻</div>
-                    <div class="ghost-label" style="bottom: 40px; left: 40%;">Ghost (L)</div>
+                    <div class="ghost-mini" style="bottom: 60px; left: 38%;">👻</div>
+                    <div class="ghost-label" style="bottom: 40px; left: 38%; transform: translateX(-50%);">Ghost (L)</div>
 
-                    <div class="ghost-mini" style="bottom: 60px; right: 40%;">👻</div>
-                    <div class="ghost-label" style="bottom: 40px; right: 40%;">Ghost (R)</div>
+                    <div class="ghost-mini" style="bottom: 60px; right: 38%;">👻</div>
+                    <div class="ghost-label" style="bottom: 40px; right: 38%; left: auto; transform: translateX(50%);">Ghost (R)</div>
                 </div>
 
                 <div id="diag-5" class="diagram-display">
@@ -461,11 +463,11 @@
                     <div class="d-node" style="top: 15%; right: 20%;">P4<div class="candle-mini"></div></div>
                     <div class="d-node" style="bottom: 25%; right: 10%;">P5 (Right)<div class="candle-mini"></div></div>
 
-                    <div class="ghost-mini" style="bottom: 50px; left: 40%;">👻</div>
-                    <div class="ghost-label" style="bottom: 30px; left: 40%;">Ghost (L)</div>
+                    <div class="ghost-mini" style="bottom: 50px; left: 38%;">👻</div>
+                    <div class="ghost-label" style="bottom: 30px; left: 38%; transform: translateX(-50%);">Ghost (L)</div>
 
-                    <div class="ghost-mini" style="bottom: 50px; right: 40%;">👻</div>
-                    <div class="ghost-label" style="bottom: 30px; right: 40%;">Ghost (R)</div>
+                    <div class="ghost-mini" style="bottom: 50px; right: 38%;">👻</div>
+                    <div class="ghost-label" style="bottom: 30px; right: 38%; left: auto; transform: translateX(50%);">Ghost (R)</div>
                 </div>
 
                 <div id="diag-6" class="diagram-display">
@@ -487,11 +489,11 @@
                     <div class="d-node" style="top: 20%; right: 10%;">P5</div>
                     <div class="d-node" style="bottom: 20%; right: 10%;">P6 (R)</div>
 
-                    <div class="ghost-mini" style="bottom: 50px; left: 40%;">👻</div>
-                    <div class="ghost-label" style="bottom: 30px; left: 40%;">Ghost (L)</div>
+                    <div class="ghost-mini" style="bottom: 50px; left: 38%;">👻</div>
+                    <div class="ghost-label" style="bottom: 30px; left: 38%; transform: translateX(-50%);">Ghost (L)</div>
 
-                    <div class="ghost-mini" style="bottom: 50px; right: 40%;">👻</div>
-                    <div class="ghost-label" style="bottom: 30px; right: 40%;">Ghost (R)</div>
+                    <div class="ghost-mini" style="bottom: 50px; right: 38%;">👻</div>
+                    <div class="ghost-label" style="bottom: 30px; right: 38%; left: auto; transform: translateX(50%);">Ghost (R)</div>
                 </div>
 
                 <div id="diag-8" class="diagram-display">
@@ -516,11 +518,11 @@
                     <div class="d-node" style="top: 50%; right: 5%; transform: translateY(-50%);">P7</div>
                     <div class="d-node" style="bottom: 15%; right: 15%;">P8 (R)</div>
 
-                    <div class="ghost-mini" style="bottom: 50px; left: 40%;">👻</div>
-                    <div class="ghost-label" style="bottom: 30px; left: 40%;">Ghost (L)</div>
+                    <div class="ghost-mini" style="bottom: 50px; left: 38%;">👻</div>
+                    <div class="ghost-label" style="bottom: 30px; left: 38%; transform: translateX(-50%);">Ghost (L)</div>
 
-                    <div class="ghost-mini" style="bottom: 50px; right: 40%;">👻</div>
-                    <div class="ghost-label" style="bottom: 30px; right: 40%;">Ghost (R)</div>
+                    <div class="ghost-mini" style="bottom: 50px; right: 38%;">👻</div>
+                    <div class="ghost-label" style="bottom: 30px; right: 38%; left: auto; transform: translateX(50%);">Ghost (R)</div>
                 </div>
             </div>
         </section>
@@ -639,8 +641,8 @@
                 <div class="class-card"><span class="class-name">THE HOARDER</span>Hand Limit is 8 (instead of 5).</div>
                 <div class="class-card"><span class="class-name">THE MIMIC</span>Once per game, swap Candles (Decks) with a Neighbour.</div>
                 <div class="class-card"><span class="class-name">THE GRAVEDIGGER</span>When a Neighbour dies, add their remaining Candle to yours.</div>
-                <div class="class-card"><span class="class-name">THE FATALIST</span>Discard 1 Card to change the Suit of any Ghost in any Shadow.</div>
-                <div class="class-card"><span class="class-name">THE LEECH</span>When you Banish a Ghost, you always Siphon it (even if numbers don't match).</div>
+                <div class="class-card"><span class="class-name">THE FATALIST</span>Discard 1 Card to change the Suit of a Ghost in YOUR Shadow.</div>
+                <div class="class-card"><span class="class-name">THE LEECH</span>When you Banish a Ghost, you always Siphon it (even if numbers don't match). (Spades are still destroyed).</div>
                 <div class="class-card"><span class="class-name">THE MARTYR</span>When taking Damage during The Haunting, you may Draw 1 Card.</div>
                 <div class="class-card"><span class="class-name">THE LICH</span>The first time you die, steal top 2 Cards from everyone alive to revive.</div>
                 <div class="class-card"><span class="class-name">THE JUDGE</span>When you play a 7 (Sight), force that player to Burn 2 cards.</div>
