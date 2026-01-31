@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE FINAL FLICKER: Version 31.2</title>
+    <title>THE FINAL FLICKER: Immortal Edition</title>
     <style>
         :root {
             --bg-color: #121212;
@@ -72,7 +72,7 @@
         table { width: 100%; border-collapse: collapse; margin: 20px 0; background: var(--card-bg); }
         th, td { padding: 10px; border-bottom: 1px solid #333; text-align: left; vertical-align: top; }
         th { color: var(--accent-color); }
-        .classes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 10px; }
+        .classes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
         .class-card { background: var(--card-bg); padding: 10px; border: 1px solid #333; }
         .class-name { color: var(--accent-color); font-weight: bold; display: block; margin-bottom: 5px; text-transform: uppercase; }
         .rules-list, .setup-list { padding-left: 20px; }
@@ -106,8 +106,11 @@
         .player-zone.salted { border: 2px solid var(--salt-color); box-shadow: 0 0 10px var(--salt-color) inset; }
         #ai-area { background: #0a0a0a; }
         #player-area { background: #151515; }
-        #neighbours-area { display: flex; width: 100%; justify-content: space-between; padding: 0 10px; box-sizing: border-box; position: absolute; top: 5px; left: 0; }
-        .neighbour-box { font-size: 0.7em; color: #666; text-align: center; }
+        #neighbours-area { display: flex; width: 100%; justify-content: space-between; padding: 0 10px; box-sizing: border-box; position: absolute; top: 5px; left: 0; height: 100%; align-items: flex-start; }
+        .neighbour-box { font-size: 0.7em; color: #666; text-align: center; width: 48%; border: 1px solid #333; padding: 5px; background: #111; height: 90%; display:flex; flex-direction:column; }
+        .nb-shadow-zone { flex-grow: 1; border-top: 1px dashed #444; display:flex; justify-content:center; align-items:center; flex-wrap:wrap; gap:2px; }
+        .nb-hand-zone { height: 40px; display:flex; justify-content:center; align-items:center; gap:-15px; margin-bottom: 5px; }
+        
         #center-area { display: flex; align-items: center; justify-content: center; gap: 30px; }
         
         .shadow-zone { height: 90px; width: 95%; border: 1px solid #333; background: #000; display: flex; justify-content: center; align-items: center; gap: 5px; margin-top: 5px; }
@@ -115,6 +118,8 @@
         .hand-zone { display: flex; gap: 5px; justify-content: center; align-items: center; flex-grow: 1; width: 100%; }
         
         .g-card { width: 60px; height: 84px; background: #222; border: 1px solid #555; border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: monospace; font-size: 1.1em; position: relative; cursor: pointer; user-select: none; transition: transform 0.1s; }
+        .g-card.small { width: 40px; height: 56px; font-size: 0.8em; } 
+        
         .g-card:hover { transform: translateY(-5px); border-color: var(--accent-color); z-index: 10; }
         .g-card.selected { border: 2px solid var(--ice-color); transform: translateY(-20px); z-index: 20; box-shadow: 0 0 10px var(--ice-color); }
         .g-card.targetable { border: 2px dashed var(--magic-color); cursor: crosshair; animation: pulse 1s infinite; }
@@ -131,6 +136,7 @@
         .game-btn.panic { background: var(--panic-color); }
         .game-btn.magic { background: var(--magic-color); color: #000; }
         .game-btn.seance { background: var(--life-color); color: #000; }
+        .game-btn.flicker { background: var(--ice-color); color: #000; }
         .game-btn.class-ability { background: var(--class-color); color: #000; }
         .game-btn.end { background: #444; }
 
@@ -170,7 +176,7 @@
     <div id="manual-view" class="container">
         <header>
             <h1>The Final Flicker</h1>
-            <p class="subtitle">Official Manual: Version 31.2</p>
+            <p class="subtitle">Official Manual: Version 37.0 (Immortal Edition)</p>
             <div class="flavor-text">
                 <p>This candle is your heartbeat. As long as it flickers, you are safe. But every card you burn brings you one step closer to being Consumed by the Darkness.</p>
                 <p>However, the dark isn't the only danger. If you let too many ghosts gather, you won't just die—you will lose your mind to the Possession.</p>
@@ -286,6 +292,7 @@
                 </li>
                 <li><strong>SÉANCE (Heal):</strong> Discard a <strong>MATCHING PAIR</strong>. Take <strong>BOTTOM 3 CARDS</strong> of The Dark to your Candle.</li>
                 <li><strong>CAST (Effect) / SUMMON (Power):</strong> Discard for Ability (See Grimoire).</li>
+                <li><strong>FLICKER (Reset):</strong> Shuffle your Hand into your Candle. Draw 3 new cards.</li>
             </ul>
             <h3>Phase D: THE BURDEN & CHECK</h3>
             <p>Discard down to <strong>5 cards</strong>.</p>
@@ -305,7 +312,7 @@
                     <tr><td>3</td><td>SIGHT</td><td>Reveal a Neighbour's Hand.</td></tr>
                     <tr><td>4</td><td>SALT</td><td><strong>Interrupt:</strong> Keep in hand. Reveal to cancel an action targeting you.</td></tr>
                     <tr><td>5</td><td>GREED</td><td>Draw 2 cards.</td></tr>
-                    <tr><td>6</td><td>CLEANSE</td><td>Destroy 1 Ghost (no number check). Siphon if Suits match.</td></tr>
+                    <tr><td>6</td><td>CLEANSE</td><td>Destroy 1 Ghost (no number check). <strong>Siphon</strong> if Suits match (No Spades).</td></tr>
                     <tr><td>7</td><td>CLAIM</td><td>Steal 1 Random Card from Neighbour's Hand.</td></tr>
                     <tr><td>8</td><td>VANISH</td><td>Return a Ghost from Any Shadow to your Hand.</td></tr>
                     <tr><td>9</td><td>POSSESS</td><td>Move a Ghost from your Shadow to a Neighbour.</td></tr>
@@ -387,12 +394,18 @@
         <div id="game-board">
             <div class="player-zone" id="ai-area">
                 <div id="neighbours-area">
-                    <div class="neighbour-box"><span id="left-name">L</span> <span id="left-hp" style="color:var(--life-color)">0</span></div>
-                    <div class="neighbour-box"><span id="right-name">R</span> <span id="right-hp" style="color:var(--life-color)">0</span></div>
+                    <div class="neighbour-box">
+                        <div style="margin-bottom:5px;"><span id="left-name">L</span> <span id="left-hp" style="color:var(--life-color)">0</span></div>
+                        <div class="nb-hand-zone" id="left-hand"></div>
+                        <div class="nb-shadow-zone" id="left-shadow"></div>
+                    </div>
+                    <div class="neighbour-box">
+                        <div style="margin-bottom:5px;"><span id="right-name">R</span> <span id="right-hp" style="color:var(--life-color)">0</span></div>
+                        <div class="nb-hand-zone" id="right-hand"></div>
+                        <div class="nb-shadow-zone" id="right-shadow"></div>
+                    </div>
                 </div>
-                <div style="font-size:0.8em; color:#888;">THE ENEMY (<span id="ai-hp">27</span>)<span id="ai-status"></span></div>
-                <div class="hand-zone" id="ai-hand"></div>
-                <div class="shadow-zone" id="ai-shadow"></div>
+                <div style="font-size:0.8em; color:#888;">(<span id="ai-hp">27</span>)<span id="ai-status"></span></div>
             </div>
 
             <div id="center-area">
@@ -420,6 +433,7 @@
                 <button class="game-btn seance" id="btn-seance" onclick="actionSeance()">SÉANCE</button>
                 <button class="game-btn magic" id="btn-cast" onclick="actionCast()">CAST</button>
                 <button class="game-btn class-ability" id="btn-class" onclick="actionClass()">ABILITY</button>
+                <button class="game-btn flicker" id="btn-flicker" onclick="actionFlicker()">FLICKER</button>
                 <button class="game-btn panic" id="btn-panic" onclick="actionPanic()">PANIC</button>
                 <button class="game-btn end" id="btn-pass" onclick="endTurn()">END</button>
             </div>
@@ -532,7 +546,7 @@
         gameState.players = [];
         for(let i=0; i<rows.length; i++) {
             let type = rows[i].querySelector('button').innerHTML.toLowerCase();
-            gameState.players.push({ id:i, name:`P${i+1}`, type:type, hand:[], candle:[], shadow:[], class:null, isSalted:false });
+            gameState.players.push({ id:i, name:`P${i+1}`, type:type, hand:[], candle:[], shadow:[], class:null, isSalted:false, isDead:false });
         }
         document.getElementById('setup-modal').style.display='none';
         
@@ -581,9 +595,14 @@
 
     function startTurn() {
         if(gameState.isGameOver) return;
+        
         let p = gameState.players[gameState.turnOrder[gameState.turnIdx]];
+        if(p.isDead) { endTurn(); return; }
+
         gameState.activeIdx = p.id;
         gameState.turnPhase = 'ACTION';
+        gameState.selectedIdxs = [];
+        gameState.selectionMode = null;
         
         if(p.type === 'human') {
             document.getElementById('intermission-msg').innerText = `Pass to ${p.name}`;
@@ -593,25 +612,34 @@
         }
     }
 
+    function handleDeath(p) {
+        p.isDead = true;
+        log(`${p.name} ELIMINATED!`);
+        
+        let alive = gameState.players.filter(pl => !pl.isDead);
+        if(alive.length === 1) {
+            gameOver(`${alive[0].name} WINS!`);
+            return true;
+        }
+        return false;
+    }
+
     function endIntermission() {
         document.getElementById('intermission-modal').style.display='none';
         let p = gameState.players[gameState.activeIdx];
         
         let burn = p.shadow.length;
         if(p.class.name==='SURVIVOR' && p.hand.length<=2) burn=0;
-        if(p.class.name==='ORACLE') burn = Math.max(0, burn - 1); // Oracle Buff
+        if(p.class.name==='ORACLE') burn = Math.max(0, burn - 1); 
         
         for(let i=0; i<burn; i++) {
-            if(p.candle.length) {
-                gameState.discard.push(p.candle.shift());
-            } else {
-                gameOver(p.name + " Consumed"); return;
-            }
+            if(p.candle.length) gameState.discard.push(p.candle.shift());
+            else { if(handleDeath(p)) return; endTurn(); return; }
         }
         if(burn > 0) log(`Burned ${burn} cards. Candle: ${p.candle.length}`);
         
         if(p.candle.length) p.hand.push(p.candle.shift());
-        else { gameOver(p.name + " Consumed"); return; }
+        else { if(handleDeath(p)) return; endTurn(); return; }
         
         updateUI();
     }
@@ -628,48 +656,97 @@
 
         document.getElementById('player-status').innerHTML = p.isSalted ? '<span class="status-badge status-salt">SALTED</span>' : '';
 
-        // Render Hand
-        let hDiv = document.getElementById('player-hand'); hDiv.innerHTML='';
-        p.hand.forEach((c,i) => {
-            let el = mkCard(c);
-            if(gameState.selectedIdxs.includes(i)) el.classList.add('selected');
-            el.onclick = () => { selectCard(i); updateUI(); };
-            hDiv.appendChild(el);
-        });
+        // Render Hand - Safe Check
+        let hDiv = document.getElementById('player-hand'); 
+        if(hDiv) {
+            hDiv.innerHTML='';
+            p.hand.forEach((c,i) => {
+                let el = mkCard(c);
+                if(gameState.selectedIdxs.includes(i)) el.classList.add('selected');
+                el.onclick = () => { selectCard(i); updateUI(); };
+                hDiv.appendChild(el);
+            });
+        }
 
-        // Render Shadows
-        let sDiv = document.getElementById('player-shadow'); sDiv.innerHTML='';
-        p.shadow.forEach((c, i) => {
-            let el = mkCard(c, true);
-            if(gameState.selectionMode === 'SELECT_GHOST' && gameState.selectionTarget === p.id) {
-                el.classList.add('targetable');
-                el.onclick = () => ghostSelected(p.id, i);
-            }
-            sDiv.appendChild(el);
-        });
+        // Render Shadows - Safe Check
+        let sDiv = document.getElementById('player-shadow'); 
+        if(sDiv) {
+            sDiv.innerHTML='';
+            p.shadow.forEach((c, i) => {
+                let el = mkCard(c, true);
+                if(gameState.selectionMode === 'SELECT_GHOST') {
+                    el.classList.add('targetable');
+                    el.onclick = () => ghostSelected(p.id, i);
+                }
+                sDiv.appendChild(el);
+            });
+        }
 
-        // Render Target
+        // Render Targets (Left & Right)
+        let tLeft = targets.left;
+        let tRight = targets.right;
+        
+        // Left - Safe Check
+        let lhDiv = document.getElementById('left-hand'); 
+        if(lhDiv && tLeft) {
+            lhDiv.innerHTML='';
+            tLeft.hand.forEach(() => lhDiv.innerHTML+=`<div class="g-card back small"></div>`);
+        }
+        let lsDiv = document.getElementById('left-shadow'); 
+        if(lsDiv && tLeft) {
+            lsDiv.innerHTML='';
+            tLeft.shadow.forEach((c, i) => {
+                let el = mkCard(c, true); el.classList.add('small');
+                if(gameState.selectionMode === 'SELECT_GHOST') {
+                    el.classList.add('targetable'); el.onclick = () => ghostSelected(tLeft.id, i);
+                }
+                lsDiv.appendChild(el);
+            });
+        }
+
+        // Right - Safe Check
+        let rhDiv = document.getElementById('right-hand'); 
+        if(rhDiv && tRight) {
+            rhDiv.innerHTML='';
+            tRight.hand.forEach(() => rhDiv.innerHTML+=`<div class="g-card back small"></div>`);
+        }
+        let rsDiv = document.getElementById('right-shadow'); 
+        if(rsDiv && tRight) {
+            rsDiv.innerHTML='';
+            tRight.shadow.forEach((c, i) => {
+                let el = mkCard(c, true); el.classList.add('small');
+                if(gameState.selectionMode === 'SELECT_GHOST') {
+                    el.classList.add('targetable'); el.onclick = () => ghostSelected(tRight.id, i);
+                }
+                rsDiv.appendChild(el);
+            });
+        }
+
+        // Reusing AI area for simple display of active target for HAUNT logic
         let t = (gameState.currentTarget === 'left') ? targets.left : targets.right;
-        
-        let aiDiv = document.getElementById('ai-hand'); aiDiv.innerHTML='';
-        t.hand.forEach(() => aiDiv.innerHTML+=`<div class="g-card back"></div>`);
-        
-        let aisDiv = document.getElementById('ai-shadow'); aisDiv.innerHTML='';
-        t.shadow.forEach((c, i) => {
-            let el = mkCard(c, true);
-            if(gameState.selectionMode === 'SELECT_GHOST' && gameState.selectionTarget === t.id) {
-                el.classList.add('targetable');
-                el.onclick = () => ghostSelected(t.id, i);
-            }
-            aisDiv.appendChild(el);
-        });
+        let aiDiv = document.getElementById('ai-hand');
+        if(aiDiv) {
+            aiDiv.innerHTML='';
+            t.hand.forEach(() => aiDiv.innerHTML+=`<div class="g-card back"></div>`);
+        }
+        let aisDiv = document.getElementById('ai-shadow');
+        if(aisDiv) {
+            aisDiv.innerHTML='';
+            t.shadow.forEach((c, i) => {
+                let el = mkCard(c, true);
+                if(gameState.selectionMode === 'SELECT_GHOST') {
+                    el.classList.add('targetable');
+                    el.onclick = () => ghostSelected(t.id, i);
+                }
+                aisDiv.appendChild(el);
+            });
+        }
 
-        document.getElementById('left-name').innerText = targets.left.name;
-        document.getElementById('left-hp').innerText = targets.left.candle.length;
-        document.getElementById('right-name').innerText = targets.right.name;
-        document.getElementById('right-hp').innerText = targets.right.candle.length;
+        document.getElementById('left-name').innerText = tLeft ? tLeft.name : "Dead";
+        document.getElementById('left-hp').innerText = tLeft ? tLeft.candle.length : 0;
+        document.getElementById('right-name').innerText = tRight ? tRight.name : "Dead";
+        document.getElementById('right-hp').innerText = tRight ? tRight.candle.length : 0;
 
-        // Strict Phase Control
         let isActionPhase = gameState.turnPhase === 'ACTION';
         let hasSel = gameState.selectedIdxs.length > 0;
         let isSingle = gameState.selectedIdxs.length === 1;
@@ -678,15 +755,16 @@
         let isFace = selCard && (selCard.isFace || selCard.r === 'JOKER');
 
         let castBtn = document.getElementById('btn-cast');
-        castBtn.innerText = isFace ? "SUMMON" : "CAST";
+        if(castBtn) castBtn.innerText = isFace ? "SUMMON" : "CAST";
 
         document.getElementById('btn-haunt').disabled = !isSingle || !isActionPhase;
         document.getElementById('btn-banish').disabled = !isSingle || !isActionPhase;
         document.getElementById('btn-cast').disabled = !isSingle || !isActionPhase;
         document.getElementById('btn-class').disabled = !isSingle || !isActionPhase;
         document.getElementById('btn-seance').disabled = !isDouble || !isActionPhase;
+        document.getElementById('btn-flicker').disabled = !isActionPhase; 
         document.getElementById('btn-panic').disabled = (p.shadow.length === 0) || !isActionPhase;
-        document.getElementById('btn-pass').disabled = (gameState.turnPhase === 'ACTION'); // Enabled only at END
+        document.getElementById('btn-pass').disabled = (gameState.turnPhase === 'ACTION');
         
         document.getElementById('btn-target').innerText = "TGT: " + gameState.currentTarget.toUpperCase();
         document.getElementById('possession-warning').style.display = checkPossession(p.shadow) ? 'block' : 'none';
@@ -707,10 +785,9 @@
     }
 
     function getNeighbours(p) {
-        if(!p) return {left:null, right:null};
         let activePlayers = gameState.players.filter(pl => !pl.isDead);
         let idx = activePlayers.findIndex(pl => pl.id === p.id);
-        if(idx === -1) return {left:p, right:p};
+        if(idx === -1) return {left:null, right:null}; // Should not happen if p is alive
         let l = (idx - 1 + activePlayers.length) % activePlayers.length;
         let r = (idx + 1) % activePlayers.length;
         return { left: activePlayers[l], right: activePlayers[r] };
@@ -766,7 +843,7 @@
         let p = gameState.players[gameState.activeIdx];
         let idx = gameState.selectedIdxs[0];
         let c = p.hand[idx];
-        if(c.isFace) { alert("Face cards must be Summoned!"); return; }
+        if(c.isFace || c.r === 'JOKER') { alert("Face cards/Jokers must be Summoned!"); return; }
         let t = getTarget(p, gameState.currentTarget);
 
         checkSaltInterrupt(p, t, c, function() {
@@ -796,6 +873,18 @@
         alert("Select ghost to Banish.");
         updateUI();
     }
+    
+    function actionFlicker() {
+        let p = gameState.players[gameState.activeIdx];
+        p.candle.push(...p.hand);
+        p.hand = [];
+        p.candle.sort(() => Math.random() - 0.5);
+        for(let i=0; i<3; i++) {
+            if(p.candle.length) p.hand.push(p.candle.shift());
+        }
+        log("Flicker: Hand reset.");
+        finishAction();
+    }
 
     function actionCast() {
         if(gameState.selectedIdxs.length !== 1) { alert("Select exactly 1 card to cast."); return; }
@@ -806,7 +895,7 @@
 
         if(c.r === 'Q') { document.getElementById('queen-modal').style.display='flex'; return; }
         if(c.r === '6' || c.r === '9') { gameState.selectionMode = 'SELECT_GHOST'; gameState.selectionTarget = p.id; alert("Select Own Ghost"); updateUI(); return; }
-        if(c.r === '8') { gameState.selectionMode = 'SELECT_GHOST'; gameState.selectionTarget = t.id; alert("Select Enemy Ghost"); updateUI(); return; }
+        if(c.r === '8' || c.r === 'J') { gameState.selectionMode = 'SELECT_GHOST'; alert("Select Any Ghost"); updateUI(); return; }
         if(c.r === '3') { viewHand(t); return; }
 
         executeCast(p, c, t, null);
@@ -869,7 +958,9 @@
                 }
                 break;
             case '8': 
-                if(target.shadow.length > ghostIdx) p.hand.push(target.shadow.splice(ghostIdx, 1)[0]);
+                // Return ghost to hand (from anyone's shadow to caster's hand)
+                // This required selectionMode, handled in ghostSelected
+                if(target && target.shadow.length > ghostIdx) p.hand.push(target.shadow.splice(ghostIdx, 1)[0]);
                 log("Vanish used."); break;
             case '9':
                 if(p.shadow.length > ghostIdx) getTarget(p, gameState.currentTarget).shadow.push(p.shadow.splice(ghostIdx, 1)[0]);
@@ -886,36 +977,42 @@
     function ghostSelected(ownerId, idx) {
         if(gameState.selectionMode !== 'SELECT_GHOST') return;
         let p = gameState.players[gameState.activeIdx];
-        let c = p.hand[gameState.selectedIdxs[0]];
-        let t = gameState.players.find(x=>x.id===ownerId);
         
-        let ghost = t.shadow[idx];
-        
-        if(['6','8','9'].includes(c.r)) {
-            executeCast(p, c, t, idx);
-        } else {
-            // Attempt Banish
-            if(canBanish(c, ghost)) {
-                p.hand.splice(gameState.selectedIdxs[0], 1);
-                gameState.discard.push(c);
-                t.shadow.splice(idx, 1);
-                
-                let isSiphon = (c.r === ghost.r && ghost.s !== '♠');
-                if(p.class.name === "THE LEECH" && ghost.s !== '♠') isSiphon = true;
-
-                if(isSiphon) {
-                    p.candle.push(ghost);
-                    log(`SIPHON! Healed +1. Candle: ${p.candle.length}`);
-                } else {
-                    gameState.discard.push(ghost);
-                    log(`Banished ${ghost.r}${ghost.s}`);
-                    if(p.class.name === "THE PRIEST") drawCards(p, 1);
-                }
-                gameState.selectionMode = null;
-                finishAction();
+        if(gameState.selectedIdxs.length === 1) {
+            let c = p.hand[gameState.selectedIdxs[0]];
+            let t = gameState.players.find(x=>x.id===ownerId);
+            let ghost = t.shadow[idx];
+            
+            if(['6','8','9'].includes(c.r)) {
+                executeCast(p, c, t, idx);
             } else {
-                alert("Card too weak to banish that ghost!");
+                // Attempt Banish
+                if(canBanish(c, ghost)) {
+                    p.hand.splice(gameState.selectedIdxs[0], 1);
+                    gameState.discard.push(c);
+                    t.shadow.splice(idx, 1);
+                    
+                    let isSiphon = (c.r === ghost.r && ghost.s !== '♠');
+                    if(p.class.name === "THE LEECH" && ghost.s !== '♠') isSiphon = true;
+
+                    if(isSiphon) {
+                        p.candle.push(ghost);
+                        log(`SIPHON! Healed +1. Candle: ${p.candle.length}`);
+                    } else {
+                        gameState.discard.push(ghost);
+                        log(`Banished ${ghost.r}${ghost.s}`);
+                        if(p.class.name === "THE PRIEST") drawCards(p, 1);
+                    }
+                    gameState.selectionMode = null;
+                    finishAction();
+                } else {
+                    alert("Card too weak to banish that ghost!");
+                }
             }
+        } 
+        else if(gameState.selectedIdxs.length === 0 && ownerId === p.id) {
+             resolvePanic(p, idx);
+             gameState.selectionMode = null;
         }
     }
 
@@ -932,7 +1029,7 @@
                 burned++;
             }
         }
-        gameOver(target.name + " Consumed by BOO!");
+        if(handleDeath(target)) return;
     }
 
     function queenExhume() {
@@ -1048,10 +1145,7 @@
         while(p.hand.length > 5) gameState.discard.push(p.hand.pop());
         
         if (checkPossession(p.shadow)) {
-            let survivors = gameState.players.filter(pl => pl.id !== p.id);
-            let winner = survivors.length > 0 ? survivors[0].name : "Nobody";
-            gameOver(`${p.name} Lost to Possession! ${winner} Wins!`);
-            return;
+            if(handleDeath(p)) return;
         }
 
         gameState.turnIdx = (gameState.turnIdx + 1) % gameState.players.length;
@@ -1074,7 +1168,7 @@
             let burn = ai.shadow.length;
             for(let i=0; i<burn; i++) {
                 if(ai.candle.length) gameState.discard.push(ai.candle.shift());
-                else { gameOver(ai.name + " Consumed"); return; }
+                else { if(handleDeath(ai)) return; endTurn(); return; }
             }
             if(burn>0) log(`AI Burned ${burn}. Candle: ${ai.candle.length}`);
             if(ai.candle.length) ai.hand.push(ai.candle.shift());
