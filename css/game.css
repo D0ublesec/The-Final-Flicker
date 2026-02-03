@@ -173,6 +173,26 @@ body.game-page {
     position: relative;
 }
 
+/* 2–12 players: padding so all player cards stay on screen and don't overlap viewport edges */
+#game-board:has(.ritual-table[data-player-count="2"]) {
+    padding: clamp(24px, 4%, 40px);
+}
+#game-board:has(.ritual-table[data-player-count="3"]),
+#game-board:has(.ritual-table[data-player-count="4"]),
+#game-board:has(.ritual-table[data-player-count="5"]) {
+    padding: clamp(32px, 5%, 48px);
+}
+#game-board:has(.ritual-table[data-player-count="6"]),
+#game-board:has(.ritual-table[data-player-count="7"]),
+#game-board:has(.ritual-table[data-player-count="8"]),
+#game-board:has(.ritual-table[data-player-count="9"]),
+#game-board:has(.ritual-table[data-player-count="10"]),
+#game-board:has(.ritual-table[data-player-count="11"]),
+#game-board:has(.ritual-table[data-player-count="12"]) {
+    padding: clamp(40px, 6%, 56px);
+    box-sizing: border-box;
+}
+
 #game-board #ritual-table { flex: 1; min-height: 0; position: relative; }
 #game-board #controls-bar { flex-shrink: 0; }
 
@@ -1645,9 +1665,27 @@ body.game-page.ritual-theme-blood #theme-btn-blood {
     .game-nav { padding: 8px 10px; gap: 8px; }
     .top-right-btn { padding: 6px 10px; font-size: 0.7rem; }
     #game-board { padding: 4px; gap: 4px; }
+    /* 3–4 player: seats spread higher/further; add top padding so opposite seat stays on screen */
+    #game-board:has(.ritual-table[data-player-count="3"]),
+    #game-board:has(.ritual-table[data-player-count="4"]) {
+        padding-top: 5%;
+    }
     .selection-hint { font-size: 0.7rem; padding: 2px 6px; }
     #game-board .game-log { max-height: 90px; font-size: 0.65rem; }
     .log-panel { max-width: min(200px, 45vw); }
+}
+
+/* Desktop 6+ players: top padding so opposite player card (candle upwards) is fully visible */
+@media (min-width: 641px) {
+    #game-board:has(.ritual-table[data-player-count="6"]),
+    #game-board:has(.ritual-table[data-player-count="7"]),
+    #game-board:has(.ritual-table[data-player-count="8"]),
+    #game-board:has(.ritual-table[data-player-count="9"]),
+    #game-board:has(.ritual-table[data-player-count="10"]),
+    #game-board:has(.ritual-table[data-player-count="11"]),
+    #game-board:has(.ritual-table[data-player-count="12"]) {
+        padding-top: clamp(48px, 8%, 72px);
+    }
 }
 
 @media (min-width: 641px) and (max-width: 900px) {

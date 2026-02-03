@@ -1085,10 +1085,20 @@
             var concurrentIds = getConcurrentTurnPlayerIds();
             var isNarrow = typeof window !== 'undefined' && window.innerWidth <= 640;
             var minRadius = 30;
-            /* Full circle for 3+; smaller radius for 8+ so seats don't overlap; extra radius for 5–6 others to avoid overlap */
+            /* Full circle for 3+; radius chosen so adjacent seats don't overlap (chord >= ~18% of table) */
             var baseRadius = displayCount === 1 ? 28 : (displayCount <= 2 ? 26 : (displayCount <= 3 ? 38 : (displayCount === 8 ? 42 : (displayCount === 5 ? 45 : (displayCount === 6 ? 48 : 32 + displayCount * 2)))));
-            var radius = isNarrow ? (displayCount >= 4 ? baseRadius * 1.02 : baseRadius * 0.9) : Math.max(minRadius, baseRadius);
-            radius = displayCount >= 8 ? Math.min(radius, 28) : Math.min(radius, 38);
+            var radius = isNarrow
+                ? (displayCount >= 4 ? baseRadius * 1.02 : (displayCount === 2 || displayCount === 3 ? baseRadius * 1.08 : baseRadius * 0.9))
+                : Math.max(minRadius, baseRadius);
+            /* Minimum radius so chord between adjacent seats is >= 18% (no overlap); full circle: chord = 2*r*sin(π/(N+1)) */
+            if (displayCount >= 3) {
+                var n = displayCount + 1;
+                var minChord = 18;
+                var sinHalf = Math.sin(Math.PI / n);
+                var radiusForNoOverlap = sinHalf > 0.001 ? minChord / (2 * sinHalf) : radius;
+                radius = Math.max(radius, Math.min(radiusForNoOverlap, 42));
+            }
+            radius = displayCount >= 8 ? Math.min(radius, 32) : Math.min(radius, 42);
             var useFullCircle = displayCount >= 3 || displayCount === 8;
             for (var o = 0; o < displayCount; o++) {
                 var other = otherPlayers[o];
