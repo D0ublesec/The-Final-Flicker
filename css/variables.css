@@ -98,7 +98,7 @@ body.game-page.ritual-theme-fire {
     --ritual-ring-color: rgba(201, 77, 40, 0.3);
 }
 
-/* Dark ritual — stricter ruling (A) + darker theme */
+/* Dark ritual — stricter ruling + darker theme */
 body.game-page.dark-mode {
     --bg-color: #030305;
     --bg-elevated: #08060a;
