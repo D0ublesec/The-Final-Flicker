@@ -173,14 +173,16 @@ body.game-page {
     position: relative;
 }
 
-/* 2–12 players: padding so all player cards stay on screen and don't overlap viewport edges */
+/* 2–12 players: padding so no player card leaves the screen (top, bottom, left, right) */
 #game-board:has(.ritual-table[data-player-count="2"]) {
-    padding: clamp(24px, 4%, 40px);
+    padding: clamp(32px, 10%, 56px);
+    box-sizing: border-box;
 }
 #game-board:has(.ritual-table[data-player-count="3"]),
 #game-board:has(.ritual-table[data-player-count="4"]),
 #game-board:has(.ritual-table[data-player-count="5"]) {
-    padding: clamp(32px, 5%, 48px);
+    padding: clamp(40px, 12%, 64px);
+    box-sizing: border-box;
 }
 #game-board:has(.ritual-table[data-player-count="6"]),
 #game-board:has(.ritual-table[data-player-count="7"]),
@@ -189,7 +191,7 @@ body.game-page {
 #game-board:has(.ritual-table[data-player-count="10"]),
 #game-board:has(.ritual-table[data-player-count="11"]),
 #game-board:has(.ritual-table[data-player-count="12"]) {
-    padding: clamp(40px, 6%, 56px);
+    padding: clamp(48px, 14%, 72px);
     box-sizing: border-box;
 }
 
@@ -606,6 +608,7 @@ body.game-page {
         0 0 12px rgba(201, 77, 40, 0.04);
     max-width: min(220px, 28vw);
     overflow: visible;
+    margin: 4px;
 }
 
 .ritual-seat-other {
@@ -1549,11 +1552,12 @@ body.game-page.ritual-theme-blood #theme-btn-blood {
     .candle-visual { width: 18px; height: 48px; }
     .candle-flame { width: 10px; height: 12px; }
     .candle-wax { max-height: 32px; }
-    /* Other player seats: smaller on phone so they fit */
+    /* Other player seats: smaller on phone so they fit; margin so cards don't overlap */
     .ritual-seat-other {
         min-width: 64px;
         max-width: 110px;
         padding: 4px;
+        margin: 4px;
     }
     .ritual-seat-other .seat-header { font-size: 0.6rem; }
     .ritual-seat-other .seat-hand-label,
@@ -1665,27 +1669,15 @@ body.game-page.ritual-theme-blood #theme-btn-blood {
     .game-nav { padding: 8px 10px; gap: 8px; }
     .top-right-btn { padding: 6px 10px; font-size: 0.7rem; }
     #game-board { padding: 4px; gap: 4px; }
-    /* 3–4 player: seats spread higher/further; add top padding so opposite seat stays on screen */
+    /* 3–4 player mobile: keep same padding all sides so no card leaves screen */
     #game-board:has(.ritual-table[data-player-count="3"]),
     #game-board:has(.ritual-table[data-player-count="4"]) {
-        padding-top: 5%;
+        padding: clamp(36px, 12%, 56px);
+        box-sizing: border-box;
     }
     .selection-hint { font-size: 0.7rem; padding: 2px 6px; }
     #game-board .game-log { max-height: 90px; font-size: 0.65rem; }
     .log-panel { max-width: min(200px, 45vw); }
-}
-
-/* Desktop 6+ players: top padding so opposite player card (candle upwards) is fully visible */
-@media (min-width: 641px) {
-    #game-board:has(.ritual-table[data-player-count="6"]),
-    #game-board:has(.ritual-table[data-player-count="7"]),
-    #game-board:has(.ritual-table[data-player-count="8"]),
-    #game-board:has(.ritual-table[data-player-count="9"]),
-    #game-board:has(.ritual-table[data-player-count="10"]),
-    #game-board:has(.ritual-table[data-player-count="11"]),
-    #game-board:has(.ritual-table[data-player-count="12"]) {
-        padding-top: clamp(48px, 8%, 72px);
-    }
 }
 
 @media (min-width: 641px) and (max-width: 900px) {

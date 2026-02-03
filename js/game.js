@@ -1085,21 +1085,25 @@
             var concurrentIds = getConcurrentTurnPlayerIds();
             var isNarrow = typeof window !== 'undefined' && window.innerWidth <= 640;
             var minRadius = 30;
-            /* Full circle for 3+; radius chosen so adjacent seats don't overlap (chord >= ~18% of table) */
-            var baseRadius = displayCount === 1 ? 28 : (displayCount <= 2 ? 26 : (displayCount <= 3 ? 38 : (displayCount === 8 ? 42 : (displayCount === 5 ? 45 : (displayCount === 6 ? 48 : 32 + displayCount * 2)))));
+            /* Full circle for 3+; radius large enough so adjacent seats never touch (chord >= seat width + gap) */
+            var baseRadius = displayCount === 1 ? 30 : (displayCount <= 2 ? 32 : (displayCount <= 3 ? 42 : (displayCount === 8 ? 46 : (displayCount === 5 ? 50 : (displayCount === 6 ? 54 : 36 + displayCount * 2.5)))));
             var radius = isNarrow
-                ? (displayCount >= 4 ? baseRadius * 1.02 : (displayCount === 2 || displayCount === 3 ? baseRadius * 1.08 : baseRadius * 0.9))
+                ? (displayCount >= 4 ? baseRadius * 1.05 : (displayCount === 3 ? baseRadius * 1.1 : (displayCount === 2 ? 42 : baseRadius * 0.95)))
                 : Math.max(minRadius, baseRadius);
-            /* Minimum radius so chord between adjacent seats is >= 18% (no overlap); full circle: chord = 2*r*sin(π/(N+1)) */
+            /* Minimum radius so chord between adjacent seats is >= 36% (no overlap/touch); chord = 2*r*sin(π/(N+1)) */
             if (displayCount >= 3) {
                 var n = displayCount + 1;
-                var minChord = 18;
+                var minChord = 36;
                 var sinHalf = Math.sin(Math.PI / n);
                 var radiusForNoOverlap = sinHalf > 0.001 ? minChord / (2 * sinHalf) : radius;
-                radius = Math.max(radius, Math.min(radiusForNoOverlap, 42));
+                radius = Math.max(radius, radiusForNoOverlap);
             }
-            radius = displayCount >= 8 ? Math.min(radius, 32) : Math.min(radius, 42);
+            /* Cap radius so no seat extends off-screen (with game-board padding, 44% keeps seats in bounds) */
+            var maxRadiusInBounds = 44;
+            radius = displayCount >= 8 ? Math.min(radius, 40) : Math.min(radius, maxRadiusInBounds);
             var useFullCircle = displayCount >= 3 || displayCount === 8;
+            /* Slight vertical nudge so top seat is not cut off (6+ players) */
+            var topNudge = (displayCount >= 5 && useFullCircle) ? 3 : 0;
             for (var o = 0; o < displayCount; o++) {
                 var other = otherPlayers[o];
                 if (other.isDead) continue;
@@ -1119,7 +1123,14 @@
                     angle = (o / Math.max(1, displayCount - 1)) * Math.PI;
                 }
                 var leftPct = 50 + radius * Math.cos(angle);
-                var topPct = 50 - radius * Math.sin(angle);
+                var topPct = 50 - radius * Math.sin(angle) + topNudge;
+                /* 6 players: P2/P3 and P5/P6 stacked vertically; add gap between top of lower (P2,P6) and bottom of upper (P3,P5) */
+                if (displayCount === 5) {
+                    if (o === 0) topPct += 5;  /* P2 lower right: move down */
+                    else if (o === 1) topPct -= 5;  /* P3 upper right: move up */
+                    else if (o === 3) topPct -= 5;  /* P5 upper left: move up */
+                    else if (o === 4) topPct += 5;  /* P6 lower left: move down */
+                }
                 var seat = document.createElement('div');
                 seat.className = 'ritual-seat ritual-seat-other';
                 if (displayCount >= 3) seat.classList.add('seat-many');
