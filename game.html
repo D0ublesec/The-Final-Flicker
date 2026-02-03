@@ -20,10 +20,14 @@
             <button type="button" class="view-switcher-btn active" id="view-btn-neighbours" onclick="setViewAllPlayers(false)">Neighbours</button>
             <button type="button" class="view-switcher-btn" id="view-btn-all" onclick="setViewAllPlayers(true)">All</button>
         </div>
-        <button type="button" class="top-right-btn" id="btn-mute" aria-label="Mute">&#128266;</button>
-        <button type="button" class="top-right-btn" id="btn-settings" onclick="openSettingsModal()" aria-label="Settings">⚙</button>
-        <button type="button" class="top-right-btn" id="btn-cheatsheet" onclick="openCheatsheet()">RULES</button>
-        <button type="button" class="top-right-btn" onclick="resetGameSetup()">QUIT / RESET</button>
+        <div class="nav-left-buttons">
+            <button type="button" class="top-right-btn" id="btn-mute" aria-label="Mute">&#128266;</button>
+            <button type="button" class="top-right-btn" id="btn-settings" onclick="openSettingsModal()" aria-label="Settings">⚙</button>
+        </div>
+        <div class="nav-right-buttons">
+            <button type="button" class="top-right-btn" id="btn-cheatsheet" onclick="openCheatsheet()">RULES</button>
+            <button type="button" class="top-right-btn" onclick="resetGameSetup()">QUIT / RESET</button>
+        </div>
     </nav>
 
     <div id="setup-modal" class="modal" style="display:flex;">

@@ -83,6 +83,7 @@
         <section id="board">
             <h2>3. The Ritual Circle</h2>
             <p><strong>Who plays when:</strong> In a 2–5 player game, one person takes a turn at a time (clockwise). In a 6–8 player game, two people play at once (see Twin Flame above). In a 9–12 player game, three people play at once (see Three Flames above). The diagrams below show where each player sits and which seats start the round (❄️ starter, 🔥 concurrent starters).</p>
+            <p><strong>Shadow layout (3+ players):</strong> In games with three or more players, each player’s <strong>Shadow</strong> is shown split: <strong>ghosts on the left</strong> are from your <strong>left neighbour</strong> (who Haunted you from that side), and <strong>ghosts on the right</strong> are from your <strong>right neighbour</strong>. This lets you see at a glance who Haunted which ghost—especially useful for classes like <strong>Binder</strong> (whose Haunted ghosts cannot be moved or Vanished) or <strong>Clown</strong> (whose Haunted ghosts can only be Banished by Face or Cleanse). In a 2‑player game there is only one opponent, so the Shadow is a single zone.</p>
             <div id="layout-tool">
                 <button type="button" class="tool-btn" onclick="showDiagram(2)">2 Players</button>
                 <button type="button" class="tool-btn" onclick="showDiagram(3)">3 Players</button>
@@ -108,15 +109,15 @@
                     <div class="center-deck"><div class="card-shape dark-pile">THE<br>DARK</div></div>
                     <div class="d-node starter" style="bottom: 40px; left: 50%; transform: translateX(-50%);">
                         <span class="d-node-name">YOU<br>❄️</span><div class="candle-mini"></div>
-                        <div class="d-shadow-box"><span class="ghost-mini">👻</span></div>
+                        <div class="d-shadow-box d-shadow-split"><div class="d-shadow-left"><span class="ghost-mini">👻</span></div><div class="d-shadow-right"><span class="ghost-mini">👻</span></div></div>
                     </div>
                     <div class="d-node" style="top: 20%; left: 20%;">
                         <span class="d-node-name">P2 (L)</span><div class="candle-mini"></div>
-                        <div class="d-shadow-box"><span class="ghost-mini">👻</span></div>
+                        <div class="d-shadow-box d-shadow-split"><div class="d-shadow-left"><span class="ghost-mini">👻</span></div><div class="d-shadow-right"><span class="ghost-mini">👻</span></div></div>
                     </div>
                     <div class="d-node" style="top: 20%; right: 20%;">
                         <span class="d-node-name">P3 (R)</span><div class="candle-mini"></div>
-                        <div class="d-shadow-box"><span class="ghost-mini">👻</span></div>
+                        <div class="d-shadow-box d-shadow-split"><div class="d-shadow-left"><span class="ghost-mini">👻</span></div><div class="d-shadow-right"><span class="ghost-mini">👻</span></div></div>
                     </div>
                 </div>
 
@@ -124,19 +125,19 @@
                     <div class="center-deck"><div class="card-shape dark-pile">THE<br>DARK</div></div>
                     <div class="d-node starter" style="bottom: 40px; left: 50%; transform: translateX(-50%);">
                         <span class="d-node-name">YOU<br>❄️</span><div class="candle-mini"></div>
-                        <div class="d-shadow-box"><span class="ghost-mini">👻</span></div>
+                        <div class="d-shadow-box d-shadow-split"><div class="d-shadow-left"><span class="ghost-mini">👻</span></div><div class="d-shadow-right"><span class="ghost-mini">👻</span></div></div>
                     </div>
                     <div class="d-node" style="top: 50%; left: 10px;">
-                        <span class="d-node-name">P2</span><div class="candle-mini"></div>
-                        <div class="d-shadow-box"><span class="ghost-mini">👻</span></div>
+                        <span class="d-node-name">P2 (L)</span><div class="candle-mini"></div>
+                        <div class="d-shadow-box d-shadow-split"><div class="d-shadow-left"><span class="ghost-mini">👻</span></div><div class="d-shadow-right"><span class="ghost-mini">👻</span></div></div>
                     </div>
                     <div class="d-node" style="top: 20px; left: 50%; transform: translateX(-50%);">
                         <span class="d-node-name">P3</span><div class="candle-mini"></div>
-                        <div class="d-shadow-box"><span class="ghost-mini">👻</span></div>
+                        <div class="d-shadow-box d-shadow-split"><div class="d-shadow-left"><span class="ghost-mini">👻</span></div><div class="d-shadow-right"><span class="ghost-mini">👻</span></div></div>
                     </div>
                     <div class="d-node" style="top: 50%; right: 10px;">
-                        <span class="d-node-name">P4</span><div class="candle-mini"></div>
-                        <div class="d-shadow-box"><span class="ghost-mini">👻</span></div>
+                        <span class="d-node-name">P4 (R)</span><div class="candle-mini"></div>
+                        <div class="d-shadow-box d-shadow-split"><div class="d-shadow-left"><span class="ghost-mini">👻</span></div><div class="d-shadow-right"><span class="ghost-mini">👻</span></div></div>
                     </div>
                 </div>
                 
@@ -144,23 +145,23 @@
                     <div class="center-deck"><div class="card-shape dark-pile">THE<br>DARK</div></div>
                     <div class="d-node starter" style="bottom: 40px; left: 50%; transform: translateX(-50%);">
                         <span class="d-node-name">YOU<br>❄️</span><div class="candle-mini"></div>
-                        <div class="d-shadow-box"><span class="ghost-mini">👻</span></div>
+                        <div class="d-shadow-box d-shadow-split"><div class="d-shadow-left"><span class="ghost-mini">👻</span></div><div class="d-shadow-right"><span class="ghost-mini">👻</span></div></div>
                     </div>
                     <div class="d-node" style="bottom: 25%; left: 10%;">
                         <span class="d-node-name">P2 (L)</span><div class="candle-mini"></div>
-                        <div class="d-shadow-box"><span class="ghost-mini">👻</span></div>
+                        <div class="d-shadow-box d-shadow-split"><div class="d-shadow-left"><span class="ghost-mini">👻</span></div><div class="d-shadow-right"><span class="ghost-mini">👻</span></div></div>
                     </div>
                     <div class="d-node" style="top: 15%; left: 20%;">
                         <span class="d-node-name">P3</span><div class="candle-mini"></div>
-                        <div class="d-shadow-box"><span class="ghost-mini">👻</span></div>
+                        <div class="d-shadow-box d-shadow-split"><div class="d-shadow-left"><span class="ghost-mini">👻</span></div><div class="d-shadow-right"><span class="ghost-mini">👻</span></div></div>
                     </div>
                     <div class="d-node" style="top: 15%; right: 20%;">
                         <span class="d-node-name">P4</span><div class="candle-mini"></div>
-                        <div class="d-shadow-box"><span class="ghost-mini">👻</span></div>
+                        <div class="d-shadow-box d-shadow-split"><div class="d-shadow-left"><span class="ghost-mini">👻</span></div><div class="d-shadow-right"><span class="ghost-mini">👻</span></div></div>
                     </div>
                     <div class="d-node" style="bottom: 25%; right: 10%;">
                         <span class="d-node-name">P5 (R)</span><div class="candle-mini"></div>
-                        <div class="d-shadow-box"><span class="ghost-mini">👻</span></div>
+                        <div class="d-shadow-box d-shadow-split"><div class="d-shadow-left"><span class="ghost-mini">👻</span></div><div class="d-shadow-right"><span class="ghost-mini">👻</span></div></div>
                     </div>
                 </div>
 
@@ -168,57 +169,57 @@
                     <div class="center-deck"><div class="card-shape dark-pile">THE<br>DARK</div><div class="twin-label">Concurrent Flames (P1, P4)</div></div>
                     <div class="d-node starter" style="bottom: 40px; left: 50%; transform: translateX(-50%);">
                         <span class="d-node-name">P1<br>❄️</span><div class="candle-mini"></div>
-                        <div class="d-shadow-box"><span class="ghost-mini">👻</span></div>
+                        <div class="d-shadow-box d-shadow-split"><div class="d-shadow-left"><span class="ghost-mini">👻</span></div><div class="d-shadow-right"><span class="ghost-mini">👻</span></div></div>
                     </div>
                     <div class="d-node twin" style="top: 20px; left: 50%; transform: translateX(-50%);">
                         <span class="d-node-name">P4<br>🔥</span><div class="candle-mini"></div>
-                        <div class="d-shadow-box"><span class="ghost-mini">👻</span></div>
+                        <div class="d-shadow-box d-shadow-split"><div class="d-shadow-left"><span class="ghost-mini">👻</span></div><div class="d-shadow-right"><span class="ghost-mini">👻</span></div></div>
                     </div>
                     <div class="d-node" style="bottom: 20%; left: 10%;">
-                        <span class="d-node-name">P2</span><div class="candle-mini"></div>
-                        <div class="d-shadow-box"><span class="ghost-mini">👻</span></div>
+                        <span class="d-node-name">P2 (L)</span><div class="candle-mini"></div>
+                        <div class="d-shadow-box d-shadow-split"><div class="d-shadow-left"><span class="ghost-mini">👻</span></div><div class="d-shadow-right"><span class="ghost-mini">👻</span></div></div>
                     </div>
                     <div class="d-node" style="top: 20%; left: 10%;">
                         <span class="d-node-name">P3</span><div class="candle-mini"></div>
-                        <div class="d-shadow-box"><span class="ghost-mini">👻</span></div>
+                        <div class="d-shadow-box d-shadow-split"><div class="d-shadow-left"><span class="ghost-mini">👻</span></div><div class="d-shadow-right"><span class="ghost-mini">👻</span></div></div>
                     </div>
                     <div class="d-node" style="top: 20%; right: 10%;">
                         <span class="d-node-name">P5</span><div class="candle-mini"></div>
-                        <div class="d-shadow-box"><span class="ghost-mini">👻</span></div>
+                        <div class="d-shadow-box d-shadow-split"><div class="d-shadow-left"><span class="ghost-mini">👻</span></div><div class="d-shadow-right"><span class="ghost-mini">👻</span></div></div>
                     </div>
                     <div class="d-node" style="bottom: 20%; right: 10%;">
-                        <span class="d-node-name">P6</span><div class="candle-mini"></div>
-                        <div class="d-shadow-box"><span class="ghost-mini">👻</span></div>
+                        <span class="d-node-name">P6 (R)</span><div class="candle-mini"></div>
+                        <div class="d-shadow-box d-shadow-split"><div class="d-shadow-left"><span class="ghost-mini">👻</span></div><div class="d-shadow-right"><span class="ghost-mini">👻</span></div></div>
                     </div>
                 </div>
                 <div id="diag-9" class="diagram-display diagram-9">
                     <div class="center-deck"><div class="card-shape dark-pile">THE<br>DARK</div><div class="twin-label">Concurrent Flames (P1, P4, P7)</div></div>
                     <!-- 9 players: symmetrical circle, 40° apart, P1 at bottom (270°) -->
-                    <div class="d-node starter" style="left: 50%; top: 88%; transform: translate(-50%, -50%);"><span class="d-node-name">P1<br>❄️</span><div class="candle-mini"></div><div class="d-shadow-box"><span class="ghost-mini">👻</span></div></div>
-                    <div class="d-node" style="left: 74.4%; top: 79.1%; transform: translate(-50%, -50%);"><span class="d-node-name">P2</span><div class="candle-mini"></div><div class="d-shadow-box"><span class="ghost-mini">👻</span></div></div>
-                    <div class="d-node" style="left: 87.3%; top: 56.6%; transform: translate(-50%, -50%);"><span class="d-node-name">P3</span><div class="candle-mini"></div><div class="d-shadow-box"><span class="ghost-mini">👻</span></div></div>
-                    <div class="d-node twin" style="left: 82.9%; top: 31%; transform: translate(-50%, -50%);"><span class="d-node-name">P4<br>🔥</span><div class="candle-mini"></div><div class="d-shadow-box"><span class="ghost-mini">👻</span></div></div>
-                    <div class="d-node" style="left: 63%; top: 14.3%; transform: translate(-50%, -50%);"><span class="d-node-name">P5</span><div class="candle-mini"></div><div class="d-shadow-box"><span class="ghost-mini">👻</span></div></div>
-                    <div class="d-node" style="left: 37%; top: 14.3%; transform: translate(-50%, -50%);"><span class="d-node-name">P6</span><div class="candle-mini"></div><div class="d-shadow-box"><span class="ghost-mini">👻</span></div></div>
-                    <div class="d-node twin" style="left: 17.1%; top: 31%; transform: translate(-50%, -50%);"><span class="d-node-name">P7<br>🔥</span><div class="candle-mini"></div><div class="d-shadow-box"><span class="ghost-mini">👻</span></div></div>
-                    <div class="d-node" style="left: 12.7%; top: 56.6%; transform: translate(-50%, -50%);"><span class="d-node-name">P8</span><div class="candle-mini"></div><div class="d-shadow-box"><span class="ghost-mini">👻</span></div></div>
-                    <div class="d-node" style="left: 25.6%; top: 79.1%; transform: translate(-50%, -50%);"><span class="d-node-name">P9</span><div class="candle-mini"></div><div class="d-shadow-box"><span class="ghost-mini">👻</span></div></div>
+                    <div class="d-node starter" style="left: 50%; top: 88%; transform: translate(-50%, -50%);"><span class="d-node-name">P1<br>❄️</span><div class="candle-mini"></div><div class="d-shadow-box d-shadow-split"><div class="d-shadow-left"><span class="ghost-mini">👻</span></div><div class="d-shadow-right"><span class="ghost-mini">👻</span></div></div></div>
+                    <div class="d-node" style="left: 74.4%; top: 79.1%; transform: translate(-50%, -50%);"><span class="d-node-name">P2 (L)</span><div class="candle-mini"></div><div class="d-shadow-box d-shadow-split"><div class="d-shadow-left"><span class="ghost-mini">👻</span></div><div class="d-shadow-right"><span class="ghost-mini">👻</span></div></div></div>
+                    <div class="d-node" style="left: 87.3%; top: 56.6%; transform: translate(-50%, -50%);"><span class="d-node-name">P3</span><div class="candle-mini"></div><div class="d-shadow-box d-shadow-split"><div class="d-shadow-left"><span class="ghost-mini">👻</span></div><div class="d-shadow-right"><span class="ghost-mini">👻</span></div></div></div>
+                    <div class="d-node twin" style="left: 82.9%; top: 31%; transform: translate(-50%, -50%);"><span class="d-node-name">P4<br>🔥</span><div class="candle-mini"></div><div class="d-shadow-box d-shadow-split"><div class="d-shadow-left"><span class="ghost-mini">👻</span></div><div class="d-shadow-right"><span class="ghost-mini">👻</span></div></div></div>
+                    <div class="d-node" style="left: 63%; top: 14.3%; transform: translate(-50%, -50%);"><span class="d-node-name">P5</span><div class="candle-mini"></div><div class="d-shadow-box d-shadow-split"><div class="d-shadow-left"><span class="ghost-mini">👻</span></div><div class="d-shadow-right"><span class="ghost-mini">👻</span></div></div></div>
+                    <div class="d-node" style="left: 37%; top: 14.3%; transform: translate(-50%, -50%);"><span class="d-node-name">P6</span><div class="candle-mini"></div><div class="d-shadow-box d-shadow-split"><div class="d-shadow-left"><span class="ghost-mini">👻</span></div><div class="d-shadow-right"><span class="ghost-mini">👻</span></div></div></div>
+                    <div class="d-node twin" style="left: 17.1%; top: 31%; transform: translate(-50%, -50%);"><span class="d-node-name">P7<br>🔥</span><div class="candle-mini"></div><div class="d-shadow-box d-shadow-split"><div class="d-shadow-left"><span class="ghost-mini">👻</span></div><div class="d-shadow-right"><span class="ghost-mini">👻</span></div></div></div>
+                    <div class="d-node" style="left: 12.7%; top: 56.6%; transform: translate(-50%, -50%);"><span class="d-node-name">P8</span><div class="candle-mini"></div><div class="d-shadow-box d-shadow-split"><div class="d-shadow-left"><span class="ghost-mini">👻</span></div><div class="d-shadow-right"><span class="ghost-mini">👻</span></div></div></div>
+                    <div class="d-node" style="left: 25.6%; top: 79.1%; transform: translate(-50%, -50%);"><span class="d-node-name">P9 (R)</span><div class="candle-mini"></div><div class="d-shadow-box d-shadow-split"><div class="d-shadow-left"><span class="ghost-mini">👻</span></div><div class="d-shadow-right"><span class="ghost-mini">👻</span></div></div></div>
                 </div>
 
                 <div id="diag-12" class="diagram-display diagram-12">
                     <div class="center-deck"><div class="card-shape dark-pile">THE<br>DARK</div><div class="twin-label">Concurrent Flames (P1, P4, P7, P10)</div></div>
-                    <div class="d-node starter" style="left: 50%; top: 88%; transform: translate(-50%, -50%);"><span class="d-node-name">P1<br>❄️</span><div class="candle-mini"></div><div class="d-shadow-box"><span class="ghost-mini">👻</span></div></div>
-                    <div class="d-node" style="left: 72.5%; top: 82%; transform: translate(-50%, -50%);"><span class="d-node-name">P2</span><div class="candle-mini"></div><div class="d-shadow-box"><span class="ghost-mini">👻</span></div></div>
-                    <div class="d-node" style="left: 88%; top: 65%; transform: translate(-50%, -50%);"><span class="d-node-name">P3</span><div class="candle-mini"></div><div class="d-shadow-box"><span class="ghost-mini">👻</span></div></div>
-                    <div class="d-node twin" style="left: 93%; top: 43%; transform: translate(-50%, -50%);"><span class="d-node-name">P4<br>🔥</span><div class="candle-mini"></div><div class="d-shadow-box"><span class="ghost-mini">👻</span></div></div>
-                    <div class="d-node" style="left: 85%; top: 22%; transform: translate(-50%, -50%);"><span class="d-node-name">P5</span><div class="candle-mini"></div><div class="d-shadow-box"><span class="ghost-mini">👻</span></div></div>
-                    <div class="d-node" style="left: 70%; top: 10%; transform: translate(-50%, -50%);"><span class="d-node-name">P6</span><div class="candle-mini"></div><div class="d-shadow-box"><span class="ghost-mini">👻</span></div></div>
-                    <div class="d-node twin" style="left: 50%; top: 8%; transform: translate(-50%, -50%);"><span class="d-node-name">P7<br>🔥</span><div class="candle-mini"></div><div class="d-shadow-box"><span class="ghost-mini">👻</span></div></div>
-                    <div class="d-node" style="left: 30%; top: 10%; transform: translate(-50%, -50%);"><span class="d-node-name">P8</span><div class="candle-mini"></div><div class="d-shadow-box"><span class="ghost-mini">👻</span></div></div>
-                    <div class="d-node" style="left: 15%; top: 22%; transform: translate(-50%, -50%);"><span class="d-node-name">P9</span><div class="candle-mini"></div><div class="d-shadow-box"><span class="ghost-mini">👻</span></div></div>
-                    <div class="d-node twin" style="left: 7%; top: 43%; transform: translate(-50%, -50%);"><span class="d-node-name">P10<br>🔥</span><div class="candle-mini"></div><div class="d-shadow-box"><span class="ghost-mini">👻</span></div></div>
-                    <div class="d-node" style="left: 12%; top: 65%; transform: translate(-50%, -50%);"><span class="d-node-name">P11</span><div class="candle-mini"></div><div class="d-shadow-box"><span class="ghost-mini">👻</span></div></div>
-                    <div class="d-node" style="left: 27.5%; top: 82%; transform: translate(-50%, -50%);"><span class="d-node-name">P12</span><div class="candle-mini"></div><div class="d-shadow-box"><span class="ghost-mini">👻</span></div></div>
+                    <div class="d-node starter" style="left: 50%; top: 88%; transform: translate(-50%, -50%);"><span class="d-node-name">P1<br>❄️</span><div class="candle-mini"></div><div class="d-shadow-box d-shadow-split"><div class="d-shadow-left"><span class="ghost-mini">👻</span></div><div class="d-shadow-right"><span class="ghost-mini">👻</span></div></div></div>
+                    <div class="d-node" style="left: 72.5%; top: 82%; transform: translate(-50%, -50%);"><span class="d-node-name">P2 (L)</span><div class="candle-mini"></div><div class="d-shadow-box d-shadow-split"><div class="d-shadow-left"><span class="ghost-mini">👻</span></div><div class="d-shadow-right"><span class="ghost-mini">👻</span></div></div></div>
+                    <div class="d-node" style="left: 88%; top: 65%; transform: translate(-50%, -50%);"><span class="d-node-name">P3</span><div class="candle-mini"></div><div class="d-shadow-box d-shadow-split"><div class="d-shadow-left"><span class="ghost-mini">👻</span></div><div class="d-shadow-right"><span class="ghost-mini">👻</span></div></div></div>
+                    <div class="d-node twin" style="left: 93%; top: 43%; transform: translate(-50%, -50%);"><span class="d-node-name">P4<br>🔥</span><div class="candle-mini"></div><div class="d-shadow-box d-shadow-split"><div class="d-shadow-left"><span class="ghost-mini">👻</span></div><div class="d-shadow-right"><span class="ghost-mini">👻</span></div></div></div>
+                    <div class="d-node" style="left: 85%; top: 22%; transform: translate(-50%, -50%);"><span class="d-node-name">P5</span><div class="candle-mini"></div><div class="d-shadow-box d-shadow-split"><div class="d-shadow-left"><span class="ghost-mini">👻</span></div><div class="d-shadow-right"><span class="ghost-mini">👻</span></div></div></div>
+                    <div class="d-node" style="left: 70%; top: 10%; transform: translate(-50%, -50%);"><span class="d-node-name">P6</span><div class="candle-mini"></div><div class="d-shadow-box d-shadow-split"><div class="d-shadow-left"><span class="ghost-mini">👻</span></div><div class="d-shadow-right"><span class="ghost-mini">👻</span></div></div></div>
+                    <div class="d-node twin" style="left: 50%; top: 8%; transform: translate(-50%, -50%);"><span class="d-node-name">P7<br>🔥</span><div class="candle-mini"></div><div class="d-shadow-box d-shadow-split"><div class="d-shadow-left"><span class="ghost-mini">👻</span></div><div class="d-shadow-right"><span class="ghost-mini">👻</span></div></div></div>
+                    <div class="d-node" style="left: 30%; top: 10%; transform: translate(-50%, -50%);"><span class="d-node-name">P8</span><div class="candle-mini"></div><div class="d-shadow-box d-shadow-split"><div class="d-shadow-left"><span class="ghost-mini">👻</span></div><div class="d-shadow-right"><span class="ghost-mini">👻</span></div></div></div>
+                    <div class="d-node" style="left: 15%; top: 22%; transform: translate(-50%, -50%);"><span class="d-node-name">P9</span><div class="candle-mini"></div><div class="d-shadow-box d-shadow-split"><div class="d-shadow-left"><span class="ghost-mini">👻</span></div><div class="d-shadow-right"><span class="ghost-mini">👻</span></div></div></div>
+                    <div class="d-node twin" style="left: 7%; top: 43%; transform: translate(-50%, -50%);"><span class="d-node-name">P10<br>🔥</span><div class="candle-mini"></div><div class="d-shadow-box d-shadow-split"><div class="d-shadow-left"><span class="ghost-mini">👻</span></div><div class="d-shadow-right"><span class="ghost-mini">👻</span></div></div></div>
+                    <div class="d-node" style="left: 12%; top: 65%; transform: translate(-50%, -50%);"><span class="d-node-name">P11</span><div class="candle-mini"></div><div class="d-shadow-box d-shadow-split"><div class="d-shadow-left"><span class="ghost-mini">👻</span></div><div class="d-shadow-right"><span class="ghost-mini">👻</span></div></div></div>
+                    <div class="d-node" style="left: 27.5%; top: 82%; transform: translate(-50%, -50%);"><span class="d-node-name">P12 (R)</span><div class="candle-mini"></div><div class="d-shadow-box d-shadow-split"><div class="d-shadow-left"><span class="ghost-mini">👻</span></div><div class="d-shadow-right"><span class="ghost-mini">👻</span></div></div></div>
                 </div>
             </div>
         </section>

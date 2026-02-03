@@ -254,6 +254,37 @@ th {
     gap: 2px;
 }
 
+.d-shadow-box.d-shadow-split {
+    padding: 0;
+    flex-direction: row;
+    justify-content: stretch;
+    gap: 0;
+}
+
+.d-shadow-split .d-shadow-left,
+.d-shadow-split .d-shadow-right {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px;
+    min-height: 20px;
+}
+
+.d-shadow-split .d-shadow-left {
+    border-right: 1px solid var(--ghost-color);
+    border-radius: 3px 0 0 3px;
+}
+
+.d-shadow-split .d-shadow-right {
+    border-radius: 0 3px 3px 0;
+}
+
+.d-shadow-split .d-shadow-left .ghost-mini,
+.d-shadow-split .d-shadow-right .ghost-mini {
+    position: static;
+}
+
 .d-shadow-box .ghost-mini {
     position: static;
     width: 16px;
