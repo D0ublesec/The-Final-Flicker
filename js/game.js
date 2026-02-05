@@ -200,8 +200,8 @@
     var CHEATSHEET_TURN_NORMAL = '<li>Candle empty at end of turn → Consumed (lose).</li>';
     var CHEATSHEET_TURN_DARK = '<li>Candle empty at any moment → Consumed immediately (lose).</li>';
     var CHEATSHEET_REST = '<section class="cs-section"><h3>Actions</h3><ul class="cs-list"><li><strong>Haunt</strong> — Number card to a neighbour\'s Shadow.</li><li><strong>Banish</strong> — Match/beat a Ghost in your Shadow.</li><li><strong>Panic</strong> — Flip top of Candle vs Ghost.</li><li><strong>Séance</strong> — Pair → heal 3 from Dark.</li><li><strong>Cast / Summon</strong> — Card effect (see Grimoire).</li><li><strong>Flicker</strong> — Shuffle hand, draw 3.</li><li><strong>Ability</strong> — Class power.</li></ul></section>' +
-        '<section class="cs-section"><h3>Targeting</h3><p>You can only target your two Neighbours (left/right) unless a card or class says otherwise (e.g. OCCULTIST 9 = any player).</p></section>' +
-        '<section class="cs-section"><h3>Grimoire</h3><table class="cs-table"><tr><td>A</td><td>Sight</td><td>Reveal neighbour\'s hand to the caster.</td></tr><tr><td>2</td><td>Greed</td><td>Draw 2.</td></tr><tr><td>3</td><td>Scare</td><td>Target shuffles hand, blindly discards 1 to The Dark.</td></tr><tr><td>4</td><td>Drain</td><td>Top card of neighbour\'s Candle → your Candle.</td></tr><tr><td>5</td><td>Salt</td><td>Interrupt: cancel action targeting you.</td></tr><tr><td>6</td><td>Claim</td><td>Steal 1 random from neighbour\'s hand.</td></tr><tr><td>7</td><td>Cleanse</td><td>Destroy 1 Ghost. Siphon if suits match (no Spades).</td></tr><tr><td>8</td><td>Vanish</td><td>Ghost from any Shadow → your hand.</td></tr><tr><td>9</td><td>Possess</td><td>Move Ghost from your Shadow to neighbour.</td></tr><tr><td>10</td><td>Rekindle</td><td>Top 3 from Dark → Candle.</td></tr><tr><td>J</td><td>Mirror</td><td>Swap your Shadow with neighbour\'s.</td></tr><tr><td>Q</td><td>Medium</td><td>Pick 1 from Dark to hand OR 2 from Dark to Candle.</td></tr><tr><td>K</td><td>Purge</td><td>Banish all Ghosts in your Shadow.</td></tr><tr><td>★</td><td>BOO!</td><td>Foes burn Candle until they hit a Ghost.</td></tr></table></section>';
+        '<section class="cs-section"><h3>Targeting</h3><p>You can only target your two Neighbours (left/right) unless a card or class says otherwise (e.g. THE OCCULTIST 9 = any player).</p></section>' +
+        '<section class="cs-section"><h3>Grimoire</h3><table class="cs-table"><tr><td>A</td><td>Sight</td><td>Reveal neighbour\'s hand (The Watcher: both neighbours).</td></tr><tr><td>2</td><td>Greed</td><td>Draw 2.</td></tr><tr><td>3</td><td>Scare</td><td>Target shuffles hand, discards 1 to Dark (The Sadist: 2).</td></tr><tr><td>4</td><td>Drain</td><td>Top card of neighbour\'s Candle → your Candle.</td></tr><tr><td>5</td><td>Salt</td><td>Interrupt: cancel action targeting you.</td></tr><tr><td>6</td><td>Claim</td><td>Steal 1 random from neighbour\'s hand.</td></tr><tr><td>7</td><td>Cleanse</td><td>Destroy 1 Ghost. Siphon if suits match (no Spades).</td></tr><tr><td>8</td><td>Vanish</td><td>Ghost from any Shadow → your hand.</td></tr><tr><td>9</td><td>Possess</td><td>Move Ghost from your Shadow to neighbour.</td></tr><tr><td>10</td><td>Rekindle</td><td>Top 3 from Dark → Candle.</td></tr><tr><td>J</td><td>Mirror</td><td>Swap your Shadow with neighbour\'s.</td></tr><tr><td>Q</td><td>Medium</td><td>Pick 1 from Dark to hand OR 2 from Dark to Candle.</td></tr><tr><td>K</td><td>Purge</td><td>Banish all Ghosts in your Shadow.</td></tr><tr><td>★</td><td>BOO!</td><td>Foes burn Candle until they hit a Ghost.</td></tr></table></section>';
 
     function getCheatsheetHTML(darkMode) {
         var candleRule = darkMode ? CHEATSHEET_TURN_DARK : CHEATSHEET_TURN_NORMAL;
@@ -508,7 +508,10 @@
         if (!p) return;
         p.occultistPossessBonusUsedThisTurn = false;
         p.phantomCancelUsedThisTurn = false;
-        if (p.class && p.class.name === 'ORACLE' && p.candle.length > 0 && p.type === 'human') {
+        p.fatalistUsedThisTurn = false;
+        gameState.funeralBellTriggeredThisTurn = false;
+        if (p.class && p.class.name === 'THE GRIMOIRE OF REJECTION') gameState.grimoireRejectionSetThisTurn = false;
+        if (p.class && p.class.name === 'THE ORACLE' && p.candle.length > 0 && p.type === 'human') {
             var topCard = p.candle[0];
             var slot = document.getElementById('oracle-card-slot');
             var modal = document.getElementById('oracle-modal');
@@ -519,11 +522,19 @@
             }
             return;
         }
-        if (p.class && p.class.name === 'ORACLE' && p.candle.length > 0 && p.type === 'ai') {
+        if (p.class && p.class.name === 'THE GRIMOIRE OF REJECTION' && p.type === 'ai' && !gameState.grimoireRejectionSetThisTurn) {
+            var grRanks = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'JOKER'].filter(function (r) { return r !== gameState.grimoireRejectionLastTurn; });
+            if (grRanks.length) {
+                gameState.grimoireRejectionRank = grRanks[Math.floor(Math.random() * grRanks.length)];
+                gameState.grimoireRejectionSetThisTurn = true;
+                log(p.name + ' (THE GRIMOIRE OF REJECTION) wrote down ' + gameState.grimoireRejectionRank + '.');
+            }
+        }
+        if (p.class && p.class.name === 'THE ORACLE' && p.candle.length > 0 && p.type === 'ai') {
             if (Math.random() < 0.5) {
                 var t = p.candle.shift();
                 p.candle.push(t);
-                log(p.name + ' (ORACLE) put top card on bottom.');
+                log(p.name + ' (THE ORACLE) put top card on bottom.');
             }
         }
         continueStartOfTurnPhase();
@@ -537,7 +548,7 @@
         if (!keepOnTop && p.candle.length > 0) {
             var t = p.candle.shift();
             p.candle.push(t);
-            log(p.name + ' (ORACLE) put top card on bottom.');
+            log(p.name + ' (THE ORACLE) put top card on bottom.');
         }
         continueStartOfTurnPhase();
         if (!gameState.isGameOver) updateUI();
@@ -553,9 +564,9 @@
         if (t && t.candle.length > 0) {
             if (putOnBottom) {
                 t.candle.push(t.candle.shift());
-                log(p.name + ' (SEER) put ' + t.name + "'s top card on bottom.");
+                log(p.name + ' (THE WATCHER) put ' + t.name + "'s top card on bottom.");
             } else {
-                log(p.name + ' (SEER) looked at ' + t.name + "'s top card (left on top).");
+                log(p.name + ' (THE WATCHER) looked at ' + t.name + "'s top card (left on top).");
             }
         }
         clearTargetMode();
@@ -568,25 +579,24 @@
         if (!p) return;
         var ghostCount = p.shadow.filter(function (g) { return !g.isWall; }).length;
         var burn = ghostCount;
-        if (p.class && p.class.name === 'SURVIVOR' && p.hand.length <= 1) burn = 0;
-        if (p.class && p.class.name === 'VESSEL' && burn > 0) burn = Math.max(0, burn - 1);
+        if (p.class && p.class.name === 'THE VESSEL' && burn > 0) burn = Math.max(0, burn - 1);
         for (var i = 0; i < burn; i++) {
             if (p.candle.length) {
                 var card = p.candle.shift();
                 var isFace = card.isFace || card.r === 'J' || card.r === 'Q' || card.r === 'K';
                 var crowNeighbour = null;
                 var nBurn = getNeighbours(p);
-                if (isFace && nBurn.left && nBurn.left.class && nBurn.left.class.name === 'CROW') crowNeighbour = nBurn.left;
-                if (isFace && nBurn.right && nBurn.right.class && nBurn.right.class.name === 'CROW') crowNeighbour = crowNeighbour || nBurn.right;
+                if (isFace && nBurn.left && nBurn.left.class && nBurn.left.class.name === 'THE CROW') crowNeighbour = nBurn.left;
+                if (isFace && nBurn.right && nBurn.right.class && nBurn.right.class.name === 'THE CROW') crowNeighbour = crowNeighbour || nBurn.right;
                 if (crowNeighbour) {
                     crowNeighbour.hand.push(card);
-                    log(crowNeighbour.name + ' (CROW) took burned ' + card.r + card.s + '.');
+                    log(crowNeighbour.name + ' (THE CROW) took burned ' + card.r + card.s + '.');
                 } else {
                     gameState.discard.push(card);
                 }
-                if (p.class && p.class.name === 'MARTYR' && p.candle.length) {
+                if (p.class && p.class.name === 'THE SUFFERER' && p.candle.length) {
                     p.hand.push(p.candle.shift());
-                    log(p.name + ' (MARTYR) Drew 1 from Candle.');
+                    log(p.name + ' (THE SUFFERER) Drew 1 from Candle.');
                 }
             } else {
                 if (handleDeath(p)) return;
@@ -614,7 +624,7 @@
         var neighbours = getNeighbours(p);
         p.isDead = true;
         log(p.name + ' ELIMINATED!');
-        if (p.class && p.class.name === 'LICH' && !p.usedLichRevive) {
+        if (p.class && p.class.name === 'THE LICH' && !p.usedLichRevive) {
             p.usedLichRevive = true;
             p.isDead = false;
             var alive = gameState.players.filter(function (pl) { return !pl.isDead && pl.id !== p.id; });
@@ -625,26 +635,26 @@
             log(p.name + ' LICH revived! Stole 2 from each.');
             return false;
         }
-        if (neighbours.left && neighbours.left.class && neighbours.left.class.name === 'VULTURE') {
+        if (neighbours.left && neighbours.left.class && neighbours.left.class.name === 'THE VULTURE') {
             for (var v = 0; v < 5 && gameState.discard.length; v++) {
                 var idx = Math.floor(Math.random() * gameState.discard.length);
                 neighbours.left.candle.push(gameState.discard.splice(idx, 1)[0]);
             }
-            log(neighbours.left.name + ' (VULTURE) took 5 from The Dark.');
+            log(neighbours.left.name + ' (THE VULTURE) took 5 from The Dark.');
         }
-        if (neighbours.right && neighbours.right.class && neighbours.right.class.name === 'VULTURE' && neighbours.right.id !== (neighbours.left && neighbours.left.id)) {
+        if (neighbours.right && neighbours.right.class && neighbours.right.class.name === 'THE VULTURE' && neighbours.right.id !== (neighbours.left && neighbours.left.id)) {
             for (var v2 = 0; v2 < 5 && gameState.discard.length; v2++) {
                 var idx2 = Math.floor(Math.random() * gameState.discard.length);
                 neighbours.right.candle.push(gameState.discard.splice(idx2, 1)[0]);
             }
-            log(neighbours.right.name + ' (VULTURE) took 5 from The Dark.');
+            log(neighbours.right.name + ' (THE VULTURE) took 5 from The Dark.');
         }
-        if (neighbours.left && neighbours.left.class && neighbours.left.class.name === 'GRAVEDIGGER') {
+        if (neighbours.left && neighbours.left.class && neighbours.left.class.name === 'THE GRAVEDIGGER') {
             while (p.candle.length) neighbours.left.candle.push(p.candle.shift());
-            log(neighbours.left.name + ' (GRAVEDIGGER) took ' + p.name + "'s Candle.");
-        } else if (neighbours.right && neighbours.right.class && neighbours.right.class.name === 'GRAVEDIGGER') {
+            log(neighbours.left.name + ' (THE GRAVEDIGGER) took ' + p.name + "'s Candle.");
+        } else if (neighbours.right && neighbours.right.class && neighbours.right.class.name === 'THE GRAVEDIGGER') {
             while (p.candle.length) neighbours.right.candle.push(p.candle.shift());
-            log(neighbours.right.name + ' (GRAVEDIGGER) took ' + p.name + "'s Candle.");
+            log(neighbours.right.name + ' (THE GRAVEDIGGER) took ' + p.name + "'s Candle.");
         }
         if (gameState.darkMode && p.shadow.length > 0) {
             var ghostsToPass = p.shadow.filter(function (g) { return !g.isWall; });
@@ -688,7 +698,43 @@
             }
         }
         var alive = gameState.players.filter(function (pl) { return !pl.isDead; });
+        if (alive.length >= 2) {
+            var witnessPlayer = null;
+            for (var wi = 0; wi < alive.length; wi++) {
+                if (alive[wi].class && alive[wi].class.name === 'THE WITNESS') { witnessPlayer = alive[wi]; break; }
+            }
+            if (witnessPlayer && alive.length === 2) {
+                var otherPlayer = alive[0] === witnessPlayer ? alive[1] : alive[0];
+                otherPlayer.isDead = true;
+                log(otherPlayer.name + ' also loses—THE WITNESS!');
+                return handleDeath(otherPlayer);
+            }
+        }
+        if (alive.length >= 1) {
+            var hasFuneralBell = false;
+            for (var fb = 0; fb < alive.length; fb++) {
+                if (alive[fb].class && alive[fb].class.name === 'THE FUNERAL BELL') { hasFuneralBell = true; break; }
+            }
+            if (hasFuneralBell && !gameState.funeralBellTriggeredThisTurn) {
+                gameState.funeralBellTriggeredThisTurn = true;
+                for (var bi = 0; bi < alive.length; bi++) {
+                    if (alive[bi].candle.length > 0) {
+                        var burned = alive[bi].candle.shift();
+                        gameState.lastDiscardByPlayerId = alive[bi].id;
+                        gameState.discard.push(burned);
+                        log(alive[bi].name + ' (FUNERAL BELL) Burned 1.');
+                        if (typeof window.playSFX === 'function') window.playSFX('burn');
+                        if (handleDeath(alive[bi])) return true;
+                    }
+                }
+            }
+        }
+        alive = gameState.players.filter(function (pl) { return !pl.isDead; });
         if (alive.length === 1) {
+            if (alive[0].class && alive[0].class.name === 'THE WITNESS') {
+                gameOver('No winner—THE WITNESS cannot win.');
+                return true;
+            }
             if (typeof window.playSFX === 'function') window.playSFX('win');
             gameOver(alive[0].name + ' WINS!');
             return true;
@@ -727,10 +773,10 @@
         if (gameState.selectionMode !== 'SELECT_TARGET' || !gameState.pendingAction) return neighbours;
         if ((gameState.pendingAction === 'cast' || gameState.pendingAction === 'cast9') && gameState.pendingCardIdx != null) {
             var c = p.hand[gameState.pendingCardIdx];
-            if (c && c.r === '9' && p.class && p.class.name === 'OCCULTIST')
+            if (c && c.r === '9' && p.class && p.class.name === 'THE OCCULTIST')
                 return gameState.players.filter(function (pl) { return !pl.isDead && pl.id !== p.id; });
         }
-        if (gameState.pendingAction === 'class' && p.class && p.class.name === 'SEER')
+        if (gameState.pendingAction === 'class' && p.class && p.class.name === 'THE WATCHER')
             return gameState.players.filter(function (pl) { return !pl.isDead && pl.id !== p.id; });
         return neighbours;
     }
@@ -749,7 +795,7 @@
     var CARD_EFFECTS = {
         'A': { name: 'Sight', effect: 'Reveal neighbour\'s hand to the caster.' },
         '2': { name: 'Greed', effect: 'Draw 2.' },
-        '3': { name: 'Scare', effect: 'Target shuffles hand, blindly discards 1 to The Dark.' },
+        '3': { name: 'Scare', effect: 'Target shuffles hand, blindly discards 1 to The Dark (The Sadist: 2 cards).' },
         '4': { name: 'Drain', effect: 'Top card of neighbour\'s Candle → your Candle.' },
         '5': { name: 'Salt', effect: 'Interrupt: cancel action targeting you.' },
         '6': { name: 'Claim', effect: 'Steal 1 random from neighbour\'s hand.' },
@@ -1207,7 +1253,7 @@
         var isDouble = gameState.selectedIdxs.length === 2;
         var selCard = isSingle && humanPlayer.hand[gameState.selectedIdxs[0]] ? humanPlayer.hand[gameState.selectedIdxs[0]] : null;
         var isFace = selCard && (selCard.isFace || selCard.r === 'JOKER');
-        var isWarlock = humanPlayer.class && humanPlayer.class.name === 'WARLOCK';
+        var isWarlock = humanPlayer.class && humanPlayer.class.name === 'THE WARLOCK';
         var castLabel = !selCard ? 'CAST' : isFace ? (isWarlock ? 'CAST / SUMMON' : 'SUMMON') : 'CAST';
 
         var castBtn = document.getElementById('btn-cast');
@@ -1224,10 +1270,11 @@
         var btnFlicker = document.getElementById('btn-flicker');
         var btnPanic = document.getElementById('btn-panic');
         var btnCancelTarget = document.getElementById('btn-cancel-target');
+        var canUseGrimoireWithoutCard = humanPlayer.class && humanPlayer.class.name === 'THE GRIMOIRE OF REJECTION' && !gameState.grimoireRejectionSetThisTurn;
         if (btnHaunt) btnHaunt.disabled = inTargetMode || !isHumanTurn || !isSingle || gameState.turnPhase !== 'ACTION';
         if (btnBanish) btnBanish.disabled = inTargetMode || !isHumanTurn || !isSingle || gameState.turnPhase !== 'ACTION';
         if (btnCast) btnCast.disabled = inTargetMode || !isHumanTurn || !isSingle || gameState.turnPhase !== 'ACTION';
-        if (btnClass) btnClass.disabled = inTargetMode || !isHumanTurn || !isSingle || gameState.turnPhase !== 'ACTION';
+        if (btnClass) btnClass.disabled = inTargetMode || !isHumanTurn || gameState.turnPhase !== 'ACTION' || (!isSingle && !canUseGrimoireWithoutCard);
         if (btnSeance) btnSeance.disabled = inTargetMode || !isHumanTurn || !isDouble || gameState.turnPhase !== 'ACTION';
         if (btnFlicker) btnFlicker.disabled = inTargetMode || !isHumanTurn || gameState.turnPhase !== 'ACTION';
         var hasGhosts = humanPlayer.shadow.some(function (g) { return !g.isWall; });
@@ -1250,7 +1297,7 @@
         if (modalHaunt) modalHaunt.disabled = inTargetMode || !isHumanTurn || !isSingle || gameState.turnPhase !== 'ACTION';
         if (modalBanish) modalBanish.disabled = inTargetMode || !isHumanTurn || !isSingle || gameState.turnPhase !== 'ACTION';
         if (modalCast) modalCast.disabled = inTargetMode || !isHumanTurn || !isSingle || gameState.turnPhase !== 'ACTION';
-        if (modalClass) modalClass.disabled = inTargetMode || !isHumanTurn || !isSingle || gameState.turnPhase !== 'ACTION';
+        if (modalClass) modalClass.disabled = inTargetMode || !isHumanTurn || gameState.turnPhase !== 'ACTION' || (!isSingle && !canUseGrimoireWithoutCard);
         if (modalSeance) modalSeance.disabled = inTargetMode || !isHumanTurn || !isDouble || gameState.turnPhase !== 'ACTION';
         if (modalFlicker) modalFlicker.disabled = inTargetMode || !isHumanTurn || gameState.turnPhase !== 'ACTION';
         if (modalPanic) modalPanic.disabled = inTargetMode || !isHumanTurn || !hasGhosts || gameState.turnPhase !== 'ACTION';
@@ -1286,7 +1333,7 @@
         gameState.lastDiscardByPlayerId = pm.attacker.id;
         gameState.discard.push(attCard);
         pm.target.phantomCancelUsedThisTurn = true;
-        log(pm.target.name + ' (PHANTOM) discarded 1 to cancel the Haunt. Both cards → The Dark.');
+        log(pm.target.name + ' (THE UNSEEN) discarded 1 to cancel the Haunt. Both cards → The Dark.');
         gameState.pendingPhantomCancel = null;
         gameState.selectionMode = null;
         finishAction();
@@ -1401,7 +1448,7 @@
     }
 
     function checkSaltInterrupt(attacker, target, card, onContinue) {
-        if (attacker.class && attacker.class.name === 'SILENCE') {
+        if (attacker.class && attacker.class.name === 'THE SILENCE') {
             onContinue();
             return;
         }
@@ -1428,7 +1475,7 @@
         var p = gameState.players[gameState.activeIdx];
         var idx = gameState.selectedIdxs[0];
         var c = p.hand[idx];
-        var isWarlockHaunt = p.class && p.class.name === 'WARLOCK' && (c.isFace || c.r === 'JOKER');
+        var isWarlockHaunt = p.class && p.class.name === 'THE WARLOCK' && (c.isFace || c.r === 'JOKER');
         if ((c.isFace || c.r === 'JOKER') && !isWarlockHaunt) {
             showAlertModal('Face cards and Jokers must be Summoned, not Haunted.', 'Haunt');
             return;
@@ -1471,16 +1518,16 @@
                 var c = p.hand[idx];
                 var valid = getValidTargets();
                 if (valid.indexOf(t) === -1) return;
-                if (t.class && t.class.name === 'WARDEN') {
-                    showAlertModal(t.name + ' (WARDEN) is immune to ghosts being moved into their Shadow (Possess).', 'Blocked');
+                if (t.class && t.class.name === 'THE GATEKEEPER') {
+                    showAlertModal(t.name + ' (THE GATEKEEPER) is immune to ghosts being moved into their Shadow (Possess).', 'Blocked');
                     clearTargetMode();
                     updateUI();
                     return;
                 }
                 var ghost9 = p.shadow[gIdx];
                 var binder9 = ghost9 && ghost9.hauntedBy != null ? gameState.players[ghost9.hauntedBy] : null;
-                if (binder9 && binder9.class && binder9.class.name === 'BINDER') {
-                    showAlertModal('That ghost was Haunted by BINDER; it cannot be Possessed.', 'Blocked');
+                if (binder9 && binder9.class && binder9.class.name === 'THE SEALBINDER') {
+                    showAlertModal('That ghost was Haunted by THE SEALBINDER; it cannot be Possessed.', 'Blocked');
                     clearTargetMode();
                     updateUI();
                     return;
@@ -1499,20 +1546,20 @@
                 viewHand(t);
                 return;
             }
-            if (c.r === '2' && p.class && p.class.name === 'SIREN' && t && t.hand.length > 0) {
+            if (c.r === '2' && p.class && p.class.name === 'THE RAVENOUS' && t && t.hand.length > 0) {
                 p.hand.splice(p.hand.indexOf(c), 1);
                 gameState.lastDiscardByPlayerId = p.id;
                 gameState.discard.push(c);
                 var takeIdx = Math.floor(Math.random() * t.hand.length);
                 var stolen = t.hand.splice(takeIdx, 1)[0];
                 p.hand.push(stolen);
-                log(p.name + ' (SIREN) Greed: Stole 1 from ' + t.name + '.');
+                log(p.name + ' (THE RAVENOUS) Greed: Stole 1 from ' + t.name + '.');
                 clearTargetMode();
                 finishAction();
                 return;
             }
-            if (c.r === 'J' && t.class && t.class.name === 'WARDEN') {
-                showAlertModal(t.name + ' (WARDEN) is immune to ghosts being moved into their Shadow (Mirror).', 'Blocked');
+            if (c.r === 'J' && t.class && t.class.name === 'THE GATEKEEPER') {
+                showAlertModal(t.name + ' (THE GATEKEEPER) is immune to ghosts being moved into their Shadow (Mirror).', 'Blocked');
                 clearTargetMode();
                 updateUI();
                 return;
@@ -1528,14 +1575,32 @@
         }
     }
 
+    function isGrimoireRejected(c) {
+        if (!c || !gameState.grimoireRejectionRank) return false;
+        var r = c.r === '★' ? 'JOKER' : c.r;
+        if (r === gameState.grimoireRejectionRank) return true;
+        if (gameState.grimoireRejectionRank === 'JOKER' && (c.isFace || c.r === 'JOKER' || c.r === '★')) return true;
+        return false;
+    }
+
     function doHauntWithTarget(t) {
         var p = gameState.players[gameState.activeIdx];
         var idx = gameState.pendingCardIdx;
         if (idx == null || !p.hand[idx]) return;
         var c = p.hand[idx];
+        if (isGrimoireRejected(c)) {
+            p.hand.splice(idx, 1);
+            gameState.lastDiscardByPlayerId = p.id;
+            gameState.discard.push(c);
+            log('THE GRIMOIRE OF REJECTION cancelled ' + (c.r === '★' ? 'JOKER' : c.r + c.s) + '!');
+            gameState.grimoireRejectionRank = null;
+            clearTargetMode();
+            finishAction();
+            return;
+        }
         var n = getNeighbours(p);
         if (t !== n.left && t !== n.right) return;
-        if (t.class && t.class.name === 'HEX' && t.type === 'ai') {
+        if (t.class && t.class.name === 'THE HEX' && t.type === 'ai') {
             var hexIdx = -1;
             for (var h = 0; h < t.hand.length; h++) { if (t.hand[h].r === c.r) { hexIdx = h; break; } }
             if (hexIdx >= 0 && Math.random() < 0.5) {
@@ -1544,27 +1609,27 @@
                 gameState.discard.push(c);
                 gameState.lastDiscardByPlayerId = t.id;
                 gameState.discard.push(t.hand.splice(hexIdx, 1)[0]);
-                log(t.name + ' (HEX) cancelled Haunt! Both discarded.');
+                log(t.name + ' (THE HEX) cancelled Haunt! Both discarded.');
                 clearTargetMode();
                 finishAction();
                 return;
             }
         }
-        if (t.class && t.class.name === 'JESTER' && t.hand.length >= 1 && t.type === 'ai' && Math.random() < 0.5) {
+        if (t.class && t.class.name === 'THE MIME' && t.hand.length >= 1 && t.type === 'ai' && Math.random() < 0.5) {
             var jesterTarget = t;
             var discardIdx = Math.floor(Math.random() * t.hand.length);
             gameState.lastDiscardByPlayerId = t.id;
             gameState.discard.push(t.hand.splice(discardIdx, 1)[0]);
             t = n.left === t ? n.right : n.left;
             if (!t) return;
-            log(jesterTarget.name + ' (JESTER) redirected Haunt to ' + t.name + '.');
+            log(jesterTarget.name + ' (THE MIME) redirected Haunt to ' + t.name + '.');
         }
         var hauntContinuation = function () {
             var cardCopy = { r: c.r, s: c.s, val: c.val, isFace: c.isFace };
-            if (p.class && p.class.name === 'WARLOCK' && (c.isFace || c.r === 'JOKER')) cardCopy.val = 10;
+            if (p.class && p.class.name === 'THE WARLOCK' && (c.isFace || c.r === 'JOKER')) cardCopy.val = 10;
             cardCopy.hauntedBy = p.id;
             var architectHasWall = t.shadow.some(function (g) { return g.isWall; });
-            if (t.class && t.class.name === 'ARCHITECT' && architectHasWall) {
+            if (t.class && t.class.name === 'THE CRYPTKEEPER' && architectHasWall) {
                 var wallIdx = -1;
                 for (var w = 0; w < t.shadow.length; w++) { if (t.shadow[w].isWall) { wallIdx = w; break; } }
                 var wall = t.shadow.splice(wallIdx, 1)[0];
@@ -1572,7 +1637,7 @@
                 gameState.discard.push(cardCopy);
                 gameState.discard.push(wall);
                 p.hand.splice(idx, 1);
-                log(t.name + ' (ARCHITECT) Wall blocked the Haunt! Ghost and Wall → The Dark.');
+                log(t.name + ' (THE CRYPTKEEPER) Wall blocked the Haunt! Ghost and Wall → The Dark.');
                 clearTargetMode();
                 finishAction();
                 return;
@@ -1581,22 +1646,22 @@
             gameState.lastDamageTo[t.id] = p.id;
             t.shadow.push(cardCopy);
             p.hand.splice(idx, 1);
-            if (t.class && t.class.name === 'DOLL') {
+            if (t.class && t.class.name === 'THE VOODOO DOLL') {
                 gameState.lastDiscardByPlayerId = p.id;
                 if (p.candle.length) gameState.discard.push(p.candle.shift());
-                log(p.name + ' (DOLL) also Burned 1.');
+                log(p.name + ' (THE VOODOO DOLL) also Burned 1.');
             }
-            if (p.class && p.class.name === 'SHADE' && t.candle.length > 0) {
+            if (p.class && p.class.name === 'THE MEDDLER' && t.candle.length > 0) {
                 var top = t.candle.shift();
                 t.candle.push(top);
-                log(p.name + ' (SHADE) put ' + t.name + "'s top Candle on bottom.");
+                log(p.name + ' (THE MEDDLER) put ' + t.name + "'s top Candle on bottom.");
             }
             log(p.name + ' Haunted ' + t.name + ' with ' + c.r + c.s);
             if (typeof window.playSFX === 'function') window.playSFX('haunt');
             clearTargetMode();
             finishAction();
         };
-        if (t.class && t.class.name === 'PHANTOM' && t.hand.length >= 1 && !t.phantomCancelUsedThisTurn) {
+        if (t.class && t.class.name === 'THE UNSEEN' && t.hand.length >= 1 && !t.phantomCancelUsedThisTurn) {
             if (t.type === 'ai') {
                 if (Math.random() < 0.5) {
                     var phIdx = Math.floor(Math.random() * t.hand.length);
@@ -1606,7 +1671,7 @@
                     gameState.lastDiscardByPlayerId = p.id;
                     gameState.discard.push(c);
                     t.phantomCancelUsedThisTurn = true;
-                    log(t.name + ' (PHANTOM) discarded 1 to cancel the Haunt. Both cards → The Dark.');
+                    log(t.name + ' (THE UNSEEN) discarded 1 to cancel the Haunt. Both cards → The Dark.');
                     clearTargetMode();
                     updateUI();
                     finishAction();
@@ -1695,13 +1760,20 @@
         if (c.r === 'A') {
             var n = getNeighbours(p);
             if (!n.left && !n.right) { showAlertModal('No neighbour to target.', 'Cast'); return; }
+            if (p.class && p.class.name === 'THE WATCHER') {
+                p.hand.splice(idx, 1);
+                gameState.lastDiscardByPlayerId = p.id;
+                gameState.discard.push(c);
+                viewHandAllNeighbours(p);
+                return;
+            }
             gameState.pendingAction = 'cast';
             gameState.pendingCardIdx = idx;
             gameState.selectionMode = 'SELECT_TARGET';
             updateUI();
             return;
         }
-        if (c.r === '2' && p.class && p.class.name === 'SIREN') {
+        if (c.r === '2' && p.class && p.class.name === 'THE RAVENOUS') {
             var n5 = getNeighbours(p);
             if (!n5.left && !n5.right) { showAlertModal('No neighbour to target.', 'Cast'); return; }
             gameState.pendingAction = 'cast';
@@ -1728,7 +1800,7 @@
         }
         if (c.r === '9') {
             var n = getNeighbours(p);
-            if (p.class && p.class.name === 'OCCULTIST') {
+            if (p.class && p.class.name === 'THE OCCULTIST') {
                 var alive = gameState.players.filter(function (pl) { return !pl.isDead && pl.id !== p.id; });
                 if (alive.length === 0) { showAlertModal('No one to target.', 'Possess'); return; }
             } else if (!n.left && !n.right) { showAlertModal('No neighbour to target.', 'Possess'); return; }
@@ -1782,12 +1854,56 @@
         log(p.name + ' used Sight on ' + target.name + '.');
     }
 
+    function viewHandAllNeighbours(p) {
+        var n = getNeighbours(p);
+        if (!n.left && !n.right) { finishAction(); return; }
+        var d = document.getElementById('hand-view-area');
+        var modal = document.getElementById('hand-view-modal');
+        var h2 = modal ? modal.querySelector('h2') : null;
+        if (h2) h2.textContent = "SIGHT (THE WATCHER) — All Neighbours' Hands";
+        if (d) d.innerHTML = '';
+        if (n.left) {
+            var leftLabel = document.createElement('p');
+            leftLabel.style.marginTop = '12px';
+            leftLabel.style.marginBottom = '4px';
+            leftLabel.textContent = n.left.name + "'s hand:";
+            d.appendChild(leftLabel);
+            for (var i = 0; i < n.left.hand.length; i++) d.appendChild(mkCard(n.left.hand[i]));
+        }
+        if (n.right && n.right !== n.left) {
+            var rightLabel = document.createElement('p');
+            rightLabel.style.marginTop = '16px';
+            rightLabel.style.marginBottom = '4px';
+            rightLabel.textContent = n.right.name + "'s hand:";
+            d.appendChild(rightLabel);
+            for (var j = 0; j < n.right.hand.length; j++) d.appendChild(mkCard(n.right.hand[j]));
+        }
+        if (modal) modal.style.display = 'flex';
+        log(p.name + ' (THE WATCHER) used Sight on all neighbours.');
+    }
+
     function closeHandView() {
-        document.getElementById('hand-view-modal').style.display = 'none';
+        var modal = document.getElementById('hand-view-modal');
+        if (modal) {
+            var h2 = modal.querySelector('h2');
+            if (h2) h2.textContent = 'SIGHT REVEALED';
+            modal.style.display = 'none';
+        }
         finishAction();
     }
 
     function executeCast(p, c, target, ghostIdx) {
+        if (isGrimoireRejected(c)) {
+            var handIdx = p.hand.indexOf(c);
+            if (handIdx > -1) p.hand.splice(handIdx, 1);
+            gameState.lastDiscardByPlayerId = p.id;
+            gameState.discard.push(c);
+            log('THE GRIMOIRE OF REJECTION cancelled ' + (c.r === '★' ? 'JOKER' : c.r + (c.s || '')) + '!');
+            gameState.grimoireRejectionRank = null;
+            gameState.selectionMode = null;
+            finishAction();
+            return;
+        }
         var handIdx = p.hand.indexOf(c);
         if (handIdx > -1) {
             p.hand.splice(handIdx, 1);
@@ -1803,11 +1919,17 @@
                         target.hand[s] = target.hand[j];
                         target.hand[j] = tmp;
                     }
-                    var discardIdx = p.class && p.class.name === 'SADIST' ? 0 : Math.floor(Math.random() * target.hand.length);
-                    var discarded = target.hand.splice(discardIdx, 1)[0];
-                    gameState.lastDiscardByPlayerId = target.id;
-                    gameState.discard.push(discarded);
-                    log(p.name + ' Scare: ' + target.name + ' discarded ' + discarded.r + discarded.s + (p.class && p.class.name === 'SADIST' ? ' (SADIST chose).' : '.'));
+                    var numDiscard = (p.class && p.class.name === 'THE SADIST') ? 2 : 1;
+                    numDiscard = Math.min(numDiscard, target.hand.length);
+                    var discardedLog = [];
+                    for (var d = 0; d < numDiscard; d++) {
+                        var discardIdx = p.class && p.class.name === 'THE SADIST' ? 0 : Math.floor(Math.random() * target.hand.length);
+                        var discarded = target.hand.splice(discardIdx, 1)[0];
+                        gameState.lastDiscardByPlayerId = target.id;
+                        gameState.discard.push(discarded);
+                        discardedLog.push(discarded.r + discarded.s);
+                    }
+                    log(p.name + ' Scare: ' + target.name + ' discarded ' + discardedLog.join(', ') + (p.class && p.class.name === 'THE SADIST' ? ' (THE SADIST chose).' : '.'));
                 }
                 break;
             case '2':
@@ -1816,8 +1938,8 @@
                 if (typeof window.playSFX === 'function') window.playSFX('draw');
                 break;
             case '4':
-                if (target && target.class && target.class.name === 'SKEPTIC') {
-                    log(target.name + ' (SKEPTIC) immune to Drain.');
+                if (target && target.class && target.class.name === 'THE SKEPTIC') {
+                    log(target.name + ' (THE SKEPTIC) immune to Drain.');
                 } else if (target && target.candle.length) {
                     var stolen = target.candle.shift();
                     p.candle.unshift(stolen);
@@ -1838,13 +1960,13 @@
                 break;
             case '6':
                 if (target && target.hand.length > 0) {
-                    var numClaim = (p.class && p.class.name === 'JUDGE' && target.hand.length >= 2) ? 2 : 1;
+                    var numClaim = (p.class && p.class.name === 'THE EXTORTIONER' && target.hand.length >= 2) ? 2 : 1;
                     for (var cl = 0; cl < numClaim && target.hand.length > 0; cl++) {
                         var takeIdx = Math.floor(Math.random() * target.hand.length);
                         var stolen = target.hand.splice(takeIdx, 1)[0];
                         p.hand.push(stolen);
                     }
-                    log(p.name + ' Claim: Stole ' + numClaim + ' card(s) from ' + target.name + (p.class && p.class.name === 'JUDGE' ? ' (JUDGE).' : '.'));
+                    log(p.name + ' Claim: Stole ' + numClaim + ' card(s) from ' + target.name + (p.class && p.class.name === 'THE EXTORTIONER' ? ' (THE EXTORTIONER).' : '.'));
                 }
                 break;
             case '8':
@@ -1857,13 +1979,13 @@
                 if (p.shadow.length > ghostIdx && target) {
                     var ghost = p.shadow.splice(ghostIdx, 1)[0];
                     target.shadow.push(ghost);
-                    if (p.class && p.class.name === 'OCCULTIST') {
+                    if (p.class && p.class.name === 'THE OCCULTIST') {
                         var nOcc = getNeighbours(p);
                         var isNonNeighbour = target !== nOcc.left && target !== nOcc.right;
                         if (isNonNeighbour && !p.occultistPossessBonusUsedThisTurn && gameState.discard.length) {
                             p.occultistPossessBonusUsedThisTurn = true;
                             p.candle.push(gameState.discard.pop());
-                            log(p.name + ' (OCCULTIST) Possess to non-neighbour this turn: +1 to Candle.');
+                            log(p.name + ' (THE OCCULTIST) Possess to non-neighbour this turn: +1 to Candle.');
                         }
                     }
                 }
@@ -1886,16 +2008,6 @@
                 for (var ji = 0; ji < gameState.players.length; ji++) {
                     var foe = gameState.players[ji];
                     if (foe.isDead || foe.id === p.id) continue;
-                    var shadowAllBinder = foe.shadow.length > 0;
-                    for (var si = 0; shadowAllBinder && si < foe.shadow.length; si++) {
-                        var g = foe.shadow[si];
-                        var haunter = g && g.hauntedBy != null ? gameState.players[g.hauntedBy] : null;
-                        if (!haunter || !haunter.class || haunter.class.name !== 'BINDER') shadowAllBinder = false;
-                    }
-                    if (shadowAllBinder) {
-                        log('BOO!: ' + foe.name + '\'s Shadow is only Binder-haunted—Joker has no effect.');
-                        continue;
-                    }
                     resolveJoker(foe);
                 }
                 break;
@@ -1930,8 +2042,8 @@
                 }
                 var clownOwnerB = ghost.hauntedBy != null ? gameState.players[ghost.hauntedBy] : null;
                 var canBanishNumberB = !c.isFace && c.r !== '7';
-                if (clownOwnerB && clownOwnerB.class && clownOwnerB.class.name === 'CLOWN' && canBanishNumberB) {
-                    showAlertModal('That ghost was Haunted by CLOWN; it can only be Banished by a Face card or Cleanse (7).', 'Blocked');
+                if (clownOwnerB && clownOwnerB.class && clownOwnerB.class.name === 'THE CLOWN' && canBanishNumberB) {
+                    showAlertModal('That ghost was Haunted by THE CLOWN; it can only be Banished by a Face card or Cleanse (7).', 'Blocked');
                     return;
                 }
                 if (canBanish(c, ghost)) {
@@ -1940,11 +2052,12 @@
                     gameState.discard.push(c);
                     t.shadow.splice(idx, 1);
                     var isSiphonB = (c.r === ghost.r && ghost.s !== '♠');
-                    if (p.class && p.class.name === 'LEECH' && ghost.s !== '♠') isSiphonB = true;
+                    if (p.class && p.class.name === 'THE LEECH' && ghost.s !== '♠') isSiphonB = true;
                     var plagueOwnerB = ghost.hauntedBy != null ? gameState.players[ghost.hauntedBy] : null;
                     resolveBanishResult(p, ghost, isSiphonB, plagueOwnerB, t);
                     gameState.pendingAction = null;
                     gameState.selectionMode = null;
+                    if (gameState.pendingPriestDraw) { showPriestDrawModal(); return; }
                     finishAction();
                 } else {
                     showAlertModal('Card too weak to banish that ghost.', 'Banish');
@@ -1954,14 +2067,14 @@
             if (c.r === '8') {
                 var g8 = t.shadow[idx];
                 var binder = g8 && g8.hauntedBy != null ? gameState.players[g8.hauntedBy] : null;
-                if (binder && binder.class && binder.class.name === 'BINDER') {
-                    showAlertModal('That ghost was Haunted by BINDER; it cannot be Vanished.', 'Blocked');
+                if (binder && binder.class && binder.class.name === 'THE SEALBINDER') {
+                    showAlertModal('That ghost was Haunted by THE SEALBINDER; it cannot be Vanished.', 'Blocked');
                     return;
                 }
                 executeCast(p, c, t, idx);
                 return;
             }
-            if (c.r === '7' && p.class && p.class.name === 'EXORCIST') {
+            if (c.r === '7' && p.class && p.class.name === 'THE EXORCIST') {
                 if (gameState.pendingExorcistFirstOwner == null) {
                     gameState.pendingExorcistFirstOwner = ownerId;
                     gameState.pendingExorcistFirstIdx = idx;
@@ -1983,7 +2096,7 @@
                     p.hand.splice(p.hand.indexOf(c), 1);
                     gameState.lastDiscardByPlayerId = p.id;
                     gameState.discard.push(c);
-                    log(p.name + ' (EXORCIST) Cleanse: 2 ghosts, Siphoned one.');
+                    log(p.name + ' (THE EXORCIST) Cleanse: 2 ghosts, Siphoned one.');
                     gameState.pendingExorcistFirstOwner = null;
                     gameState.pendingExorcistFirstIdx = null;
                     gameState.selectionMode = null;
@@ -1998,7 +2111,7 @@
             if (c.r === '9') {
                 if (t.id !== p.id) return;
                 var n = getNeighbours(p);
-                if (p.class && p.class.name === 'OCCULTIST') {
+                if (p.class && p.class.name === 'THE OCCULTIST') {
                     var alive = gameState.players.filter(function (pl) { return !pl.isDead && pl.id !== p.id; });
                     if (alive.length === 0) { showAlertModal('No one to target.', 'Possess'); return; }
                 } else if (!n.left && !n.right) { showAlertModal('No neighbour to target.', 'Target'); return; }
@@ -2016,8 +2129,8 @@
             }
             var clownOwner = ghost.hauntedBy != null ? gameState.players[ghost.hauntedBy] : null;
             var canBanishNumber = !c.isFace && c.r !== '7';
-            if (clownOwner && clownOwner.class && clownOwner.class.name === 'CLOWN' && canBanishNumber) {
-                showAlertModal('That ghost was Haunted by CLOWN; it can only be Banished by a Face card or Cleanse (7).', 'Blocked');
+            if (clownOwner && clownOwner.class && clownOwner.class.name === 'THE CLOWN' && canBanishNumber) {
+                showAlertModal('That ghost was Haunted by THE CLOWN; it can only be Banished by a Face card or Cleanse (7).', 'Blocked');
                 return;
             }
             if (canBanish(c, ghost)) {
@@ -2026,10 +2139,11 @@
                 gameState.discard.push(c);
                 t.shadow.splice(idx, 1);
                 var isSiphon = (c.r === ghost.r && ghost.s !== '♠');
-                if (p.class && p.class.name === 'LEECH' && ghost.s !== '♠') isSiphon = true;
+                if (p.class && p.class.name === 'THE LEECH' && ghost.s !== '♠') isSiphon = true;
                 var plagueOwner = ghost.hauntedBy != null ? gameState.players[ghost.hauntedBy] : null;
                 resolveBanishResult(p, ghost, isSiphon, plagueOwner, t);
                 gameState.selectionMode = null;
+                if (gameState.pendingPriestDraw) { showPriestDrawModal(); return; }
                 finishAction();
             } else {
                 showAlertModal('Card too weak to banish that ghost.', 'Banish');
@@ -2053,31 +2167,82 @@
             p.candle.push(ghost);
             log(p.name + ' SIPHON! Healed +1. Candle: ' + p.candle.length);
         } else {
-            if (plagueOwner && plagueOwner.class && plagueOwner.class.name === 'PLAGUE') {
+            if (plagueOwner && plagueOwner.class && plagueOwner.class.name === 'THE PLAGUE') {
                 var nT = getNeighbours(t);
                 var other = (nT.left && nT.left.id !== p.id ? nT.left : null) || (nT.right && nT.right.id !== p.id ? nT.right : null);
-                if (other && !other.isDead) {
+                if (other && !other.isDead && other.id !== plagueOwner.id) {
                     other.shadow.push(ghost);
                     log(p.name + ' Banished ' + ghost.r + ghost.s + ' but PLAGUE: moved to ' + other.name + '.');
                 } else {
                     gameState.lastDiscardByPlayerId = p.id;
                     gameState.discard.push(ghost);
-                    log(p.name + ' Banished ' + ghost.r + ghost.s);
+                    log(p.name + ' Banished ' + ghost.r + ghost.s + (other && other.id === plagueOwner.id ? ' (THE PLAGUE cannot receive spread).' : ''));
                 }
             } else {
                 var n = getNeighbours(p);
-                var reaperNeighbour = (n.left && n.left.class && n.left.class.name === 'REAPER') ? n.left : (n.right && n.right.class && n.right.class.name === 'REAPER') ? n.right : null;
+                var reaperNeighbour = (n.left && n.left.class && n.left.class.name === 'THE REAPER') ? n.left : (n.right && n.right.class && n.right.class.name === 'THE REAPER') ? n.right : null;
                 if (reaperNeighbour && !reaperNeighbour.isDead) {
                     reaperNeighbour.candle.push(ghost);
-                    log(p.name + ' Banished ' + ghost.r + ghost.s + '; ' + reaperNeighbour.name + ' (REAPER) took it to Candle.');
+                    log(p.name + ' Banished ' + ghost.r + ghost.s + '; ' + reaperNeighbour.name + ' (THE REAPER) took it to Candle.');
                 } else {
                     gameState.lastDiscardByPlayerId = p.id;
                     gameState.discard.push(ghost);
                     log(p.name + ' Banished ' + ghost.r + ghost.s);
                 }
             }
-            if (p.class && p.class.name === 'PRIEST') drawCards(p, 1);
+            if (p.class && p.class.name === 'THE PRIEST') gameState.pendingPriestDraw = p;
         }
+    }
+
+    function showPriestDrawModal() {
+        var modal = document.getElementById('priest-draw-modal');
+        if (modal) modal.style.display = 'flex';
+    }
+
+    function resolvePriestDraw(draw) {
+        var modal = document.getElementById('priest-draw-modal');
+        if (modal) modal.style.display = 'none';
+        var p = gameState.pendingPriestDraw;
+        gameState.pendingPriestDraw = null;
+        if (p && draw) drawCards(p, 1);
+        finishAction();
+    }
+
+    function openGrimoireRejectionModal() {
+        var p = gameState.players[gameState.activeIdx];
+        if (!p || !p.class || p.class.name !== 'THE GRIMOIRE OF REJECTION' || gameState.grimoireRejectionSetThisTurn) return;
+        var container = document.getElementById('grimoire-rank-buttons');
+        if (!container) return;
+        container.innerHTML = '';
+        var ranks = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'JOKER'];
+        for (var ri = 0; ri < ranks.length; ri++) {
+            var r = ranks[ri];
+            if (r === gameState.grimoireRejectionLastTurn) continue;
+            (function (rank) {
+                var btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'game-btn';
+                btn.textContent = rank;
+                btn.onclick = function () { setGrimoireRejection(rank); };
+                container.appendChild(btn);
+            })(r);
+        }
+        var modal = document.getElementById('grimoire-rejection-modal');
+        if (modal) modal.style.display = 'flex';
+    }
+
+    function setGrimoireRejection(rank) {
+        gameState.grimoireRejectionRank = rank;
+        gameState.grimoireRejectionSetThisTurn = true;
+        closeGrimoireRejectionModal();
+        var p = gameState.players[gameState.activeIdx];
+        if (p) log(p.name + ' (THE GRIMOIRE OF REJECTION) wrote down ' + rank + '.');
+        updateUI();
+    }
+
+    function closeGrimoireRejectionModal() {
+        var modal = document.getElementById('grimoire-rejection-modal');
+        if (modal) modal.style.display = 'none';
     }
 
     function drawCards(p, n) {
@@ -2148,14 +2313,21 @@
 
     function actionClass() {
         var p = gameState.players[gameState.activeIdx];
+        if (p.class && p.class.name === 'THE GRIMOIRE OF REJECTION') {
+            if (!gameState.grimoireRejectionSetThisTurn) { openGrimoireRejectionModal(); return; }
+            showAlertModal('THE GRIMOIRE OF REJECTION: Already set this turn.', 'Ability');
+            return;
+        }
         if (gameState.selectedIdxs.length !== 1) return;
         var idx = gameState.selectedIdxs[0];
         var c = p.hand[idx];
 
-        if (p.class.name === 'FATALIST') {
+        if (p.class.name === 'THE DOOMREADER') {
+            if (p.fatalistUsedThisTurn) { showAlertModal('THE DOOMREADER: Up to once per turn. Already used this turn.', 'Ability'); return; }
             if (p.shadow.length === 0) return;
             p.hand.splice(idx, 1);
             gameState.discard.push(c);
+            p.fatalistUsedThisTurn = true;
             var g = p.shadow[0];
             var suits = ['♠', '♥', '♣', '♦'];
             g.s = suits[(suits.indexOf(g.s) + 1) % 4];
@@ -2163,7 +2335,7 @@
             finishAction();
             return;
         }
-        if (p.class.name === 'PYROMANIAC' && (c.s === '♥' || c.s === '♦')) {
+        if (p.class.name === 'THE PYROMANIAC' && (c.s === '♥' || c.s === '♦')) {
             var n = getNeighbours(p);
             if (!n.left && !n.right) { showAlertModal('No neighbour to target.', 'Cast'); return; }
             gameState.pendingAction = 'class';
@@ -2172,7 +2344,7 @@
             updateUI();
             return;
         }
-        if (p.class.name === 'TRADER') {
+        if (p.class.name === 'THE USERER') {
             var n = getNeighbours(p);
             if (!n.left && !n.right) { showAlertModal('No neighbour to target.', 'Cast'); return; }
             gameState.pendingAction = 'class';
@@ -2181,14 +2353,23 @@
             updateUI();
             return;
         }
-        if (p.class.name === 'SEER') {
+        if (p.class.name === 'THE INQUISITOR') {
+            var nInq = getNeighbours(p);
+            if (!nInq.left && !nInq.right) { showAlertModal('No neighbour to target.', 'Ability'); return; }
+            gameState.pendingAction = 'class';
+            gameState.pendingCardIdx = idx;
+            gameState.selectionMode = 'SELECT_TARGET';
+            updateUI();
+            return;
+        }
+        if (p.class.name === 'THE WATCHER') {
             gameState.pendingAction = 'class';
             gameState.pendingCardIdx = null;
             gameState.selectionMode = 'SELECT_TARGET';
             updateUI();
             return;
         }
-        if (p.class.name === 'MIMIC' && !p.usedMimic) {
+        if (p.class.name === 'THE MIMIC' && !p.usedMimic) {
             var n = getNeighbours(p);
             if (!n.left && !n.right) { showAlertModal('No neighbour to target.', 'Ability'); return; }
             gameState.pendingAction = 'class';
@@ -2197,17 +2378,17 @@
             updateUI();
             return;
         }
-        if (p.class.name === 'MIMIC' && p.usedMimic) {
-            showAlertModal('MIMIC: Once per game. Already used.', 'Ability');
+        if (p.class.name === 'THE MIMIC' && p.usedMimic) {
+            showAlertModal('THE MIMIC: Once per game. Already used.', 'Ability');
             return;
         }
-        if (p.class.name === 'ARCHITECT') {
+        if (p.class.name === 'THE CRYPTKEEPER') {
             var card = p.hand[idx];
             if (!card) return;
             p.hand.splice(idx, 1);
             var wall = { r: card.r, s: card.s, val: card.val, isFace: card.isFace, isWall: true };
             p.shadow.push(wall);
-            log(p.name + ' (ARCHITECT) played a Wall.');
+            log(p.name + ' (THE CRYPTKEEPER) played a Wall.');
             finishAction();
             return;
         }
@@ -2218,9 +2399,32 @@
         var p = gameState.players[gameState.activeIdx];
         var idx = gameState.pendingCardIdx;
         var n = getNeighbours(p);
-        if (p.class.name === 'SEER') {
+        if (p.class.name === 'THE INQUISITOR') {
+            if (t !== n.left && t !== n.right) return;
+            if (idx == null || !p.hand[idx]) { clearTargetMode(); updateUI(); return; }
+            var cInq = p.hand.splice(idx, 1)[0];
+            gameState.lastDiscardByPlayerId = p.id;
+            gameState.discard.push(cInq);
+            var hasFace = false;
+            for (var fi = 0; fi < t.hand.length; fi++) {
+                if (t.hand[fi].isFace || t.hand[fi].r === 'J' || t.hand[fi].r === 'Q' || t.hand[fi].r === 'K') { hasFace = true; break; }
+            }
+            log(p.name + ' (THE INQUISITOR) revealed ' + t.name + "'s hand" + (hasFace ? '—Face card! ' + t.name + ' Burns 2.' : '.'));
+            if (hasFace) {
+                for (var bi = 0; bi < 2 && t.candle.length; bi++) {
+                    gameState.lastDiscardByPlayerId = t.id;
+                    gameState.discard.push(t.candle.shift());
+                }
+                if (typeof window.playSFX === 'function') window.playSFX('burn');
+                if (handleDeath(t)) return;
+            }
+            clearTargetMode();
+            finishAction();
+            return;
+        }
+        if (p.class.name === 'THE WATCHER') {
             if (t.candle.length === 0) {
-                showAlertModal(t.name + "'s Candle is empty.", 'SEER');
+                showAlertModal(t.name + "'s Candle is empty.", 'THE WATCHER');
                 clearTargetMode();
                 updateUI();
                 return;
@@ -2229,9 +2433,9 @@
                 var toBottom = Math.random() < 0.5;
                 if (toBottom) {
                     t.candle.push(t.candle.shift());
-                    log(p.name + ' (SEER) put ' + t.name + "'s top card on bottom.");
+                    log(p.name + ' (THE WATCHER) put ' + t.name + "'s top card on bottom.");
                 } else {
-                    log(p.name + ' (SEER) looked at ' + t.name + "'s top card (left on top).");
+                    log(p.name + ' (THE WATCHER) looked at ' + t.name + "'s top card (left on top).");
                 }
                 clearTargetMode();
                 finishAction();
@@ -2252,13 +2456,13 @@
             updateUI();
             return;
         }
-        if (p.class.name === 'MIMIC' && !p.usedMimic) {
+        if (p.class.name === 'THE MIMIC' && !p.usedMimic) {
             if (t !== n.left && t !== n.right) { clearTargetMode(); updateUI(); return; }
             var temp = p.candle.slice();
             p.candle = t.candle.slice();
             t.candle = temp;
             p.usedMimic = true;
-            log(p.name + ' (MIMIC) swapped Candles with ' + t.name + '.');
+            log(p.name + ' (THE MIMIC) swapped Candles with ' + t.name + '.');
             clearTargetMode();
             finishAction();
             return;
@@ -2266,7 +2470,7 @@
         if (idx == null || !p.hand[idx]) { clearTargetMode(); updateUI(); return; }
         var c = p.hand[idx];
         if (t !== n.left && t !== n.right) { clearTargetMode(); updateUI(); return; }
-        if (p.class.name === 'PYROMANIAC' && (c.s === '♥' || c.s === '♦')) {
+        if (p.class.name === 'THE PYROMANIAC' && (c.s === '♥' || c.s === '♦')) {
             p.hand.splice(idx, 1);
             gameState.lastDiscardByPlayerId = p.id;
             gameState.discard.push(c);
@@ -2275,7 +2479,7 @@
             log(p.name + ' Pyro Burned 2 on ' + t.name + '!');
             clearTargetMode();
             finishAction();
-        } else if (p.class.name === 'TRADER') {
+        } else if (p.class.name === 'THE USERER') {
             if (!t || t.hand.length === 0) { clearTargetMode(); updateUI(); return; }
             p.hand.splice(idx, 1);
             var give = c;
@@ -2335,7 +2539,9 @@
     }
 
     function finishAction() {
-        gameState.lastDiscardByPlayerId = gameState.players[gameState.activeIdx] ? gameState.players[gameState.activeIdx].id : null;
+        var finisher = gameState.players[gameState.activeIdx];
+        gameState.lastDiscardByPlayerId = finisher ? finisher.id : null;
+        if (finisher && finisher.class && finisher.class.name === 'THE GRIMOIRE OF REJECTION') gameState.grimoireRejectionLastTurn = gameState.grimoireRejectionRank;
         gameState.selectedIdxs = [];
         gameState.turnPhase = 'END';
         updateUI();
@@ -2395,7 +2601,7 @@
         var p = gameState.players[gameState.activeIdx];
         if (!p) return;
         gameState.lastDiscardByPlayerId = p.id;
-        var handLimit = (p.class && p.class.name === 'HOARDER') ? 8 : 5;
+        var handLimit = (p.class && p.class.name === 'THE ACCUMULATOR') ? 8 : 5;
         if (p.type === 'human' && p.hand.length > handLimit) {
             gameState.pendingDiscardDown = { handLimit: handLimit, needToDiscard: p.hand.length - handLimit };
             gameState.selectionMode = 'DISCARD_DOWN';
@@ -2448,17 +2654,16 @@
         aiTimer = setTimeout(function () {
             if (gameState.isGameOver) return;
             gameState.lastDiscardByPlayerId = ai.id;
-            if (ai.class && ai.class.name === 'ORACLE' && ai.candle.length > 0) {
+            if (ai.class && ai.class.name === 'THE ORACLE' && ai.candle.length > 0) {
                 if (Math.random() < 0.5) {
                     var t = ai.candle.shift();
                     ai.candle.push(t);
-                    log(ai.name + ' (ORACLE) put top card on bottom.');
+                    log(ai.name + ' (THE ORACLE) put top card on bottom.');
                 }
             }
             var aiGhostCount = ai.shadow.filter(function (g) { return !g.isWall; }).length;
             var burn = aiGhostCount;
-            if (ai.class && ai.class.name === 'SURVIVOR' && ai.hand.length <= 1) burn = 0;
-            if (ai.class && ai.class.name === 'VESSEL' && burn > 0) burn = Math.max(0, burn - 1);
+            if (ai.class && ai.class.name === 'THE VESSEL' && burn > 0) burn = Math.max(0, burn - 1);
             for (var i = 0; i < burn; i++) {
                 if (ai.candle.length) { gameState.lastDiscardByPlayerId = ai.id; gameState.discard.push(ai.candle.shift()); }
                 else {
@@ -2484,10 +2689,10 @@
                 if (numCard && t) {
                     checkSaltInterrupt(ai, t, numCard, function () {
                         var cardCopy = { r: numCard.r, s: numCard.s, val: numCard.val, isFace: numCard.isFace };
-                        if (ai.class && ai.class.name === 'WARLOCK' && (numCard.isFace || numCard.r === 'JOKER')) cardCopy.val = 10;
+                        if (ai.class && ai.class.name === 'THE WARLOCK' && (numCard.isFace || numCard.r === 'JOKER')) cardCopy.val = 10;
                         cardCopy.hauntedBy = ai.id;
                         var architectHasWall = t.shadow.some(function (g) { return g.isWall; });
-                        if (t.class && t.class.name === 'ARCHITECT' && architectHasWall) {
+                        if (t.class && t.class.name === 'THE CRYPTKEEPER' && architectHasWall) {
                             var wallIdx = -1;
                             for (var w = 0; w < t.shadow.length; w++) { if (t.shadow[w].isWall) { wallIdx = w; break; } }
                             var wall = t.shadow.splice(wallIdx, 1)[0];
@@ -2495,16 +2700,16 @@
                             gameState.discard.push(cardCopy);
                             gameState.discard.push(wall);
                             ai.hand.splice(ai.hand.indexOf(numCard), 1);
-                            log(t.name + ' (ARCHITECT) Wall blocked AI Haunt! Ghost and Wall → The Dark.');
+                            log(t.name + ' (THE CRYPTKEEPER) Wall blocked AI Haunt! Ghost and Wall → The Dark.');
                             finishAction();
                             return;
                         }
                         t.shadow.push(cardCopy);
                         ai.hand.splice(ai.hand.indexOf(numCard), 1);
-                        if (ai.class && ai.class.name === 'SHADE' && t.candle.length > 0) {
+                        if (ai.class && ai.class.name === 'THE MEDDLER' && t.candle.length > 0) {
                             var top = t.candle.shift();
                             t.candle.push(top);
-                            log(ai.name + ' (SHADE) put ' + t.name + "'s top Candle on bottom.");
+                            log(ai.name + ' (THE MEDDLER) put ' + t.name + "'s top Candle on bottom.");
                         }
                         log('AI Haunted ' + t.name);
                         finishAction();
@@ -2572,6 +2777,9 @@
     window.queenExhume = queenExhume;
     window.queenRekindle = queenRekindle;
     window.closeHandView = closeHandView;
+    window.resolvePriestDraw = resolvePriestDraw;
+    window.closeGrimoireRejectionModal = closeGrimoireRejectionModal;
+    window.setGrimoireRejection = setGrimoireRejection;
     window.goBackToSetup = goBackToSetup;
     window.chooseDarkMode = chooseDarkMode;
     window.showManual = showManual;

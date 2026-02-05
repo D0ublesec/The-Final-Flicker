@@ -3,12 +3,79 @@
     var CLASSES = window.CLASSES;
     if (!CLASSES) return;
 
+    var STORAGE_KEY = 'finalflicker_manual_picked';
+
     var manualClassPool = CLASSES.slice();
     var currentManualPair = [];
+    var pickedClasses = [];
 
     function updatePoolStatus() {
         var el = document.getElementById('pool-status');
         if (el) el.textContent = manualClassPool.length + ' Classes Available.';
+    }
+
+    function saveToStorage() {
+        try {
+            var payload = {
+                picked: pickedClasses,
+                poolNames: manualClassPool.map(function (c) { return c.name; })
+            };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+        } catch (e) {}
+    }
+
+    function loadFromStorage() {
+        try {
+            var raw = localStorage.getItem(STORAGE_KEY);
+            if (!raw) return;
+            var data = JSON.parse(raw);
+            if (data.picked && Array.isArray(data.picked) && data.poolNames && Array.isArray(data.poolNames)) {
+                pickedClasses = data.picked;
+                manualClassPool = CLASSES.filter(function (c) {
+                    return data.poolNames.indexOf(c.name) !== -1;
+                });
+                updatePoolStatus();
+                renderPickedClasses();
+            }
+        } catch (e) {}
+    }
+
+    function setPlayerLabel(idx, label) {
+        if (idx >= 0 && idx < pickedClasses.length) {
+            pickedClasses[idx].playerLabel = (label || '').trim() || ('Player ' + (idx + 1));
+            saveToStorage();
+        }
+    }
+
+    function renderPickedClasses() {
+        var res = document.getElementById('result-area');
+        if (pickedClasses.length === 0) {
+            res.style.display = 'none';
+            res.innerHTML = '';
+            return;
+        }
+        res.style.display = 'block';
+        var html = '<p class="picked-classes-heading">Selected classes (reference until Reset):</p>';
+        pickedClasses.forEach(function (cls, idx) {
+            var label = (cls.playerLabel || ('Player ' + (idx + 1)));
+            var safeLabel = label.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+            html += '<div class="picked-class-entry">' +
+                '<label class="picked-class-player-label">Player:</label>' +
+                '<input type="text" class="picked-class-player-input" value="' + safeLabel + '" data-idx="' + idx + '" placeholder="Player ' + (idx + 1) + '">' +
+                '<strong class="picked-class-name">' + cls.name + '</strong>' +
+                '<p class="picked-class-desc">' + cls.desc + '</p></div>';
+        });
+        res.innerHTML = html;
+        res.querySelectorAll('.picked-class-player-input').forEach(function (input) {
+            input.addEventListener('change', function () {
+                setPlayerLabel(parseInt(input.getAttribute('data-idx'), 10), input.value);
+                renderPickedClasses();
+            });
+            input.addEventListener('blur', function () {
+                setPlayerLabel(parseInt(input.getAttribute('data-idx'), 10), input.value);
+                renderPickedClasses();
+            });
+        });
     }
 
     window.drawClassesManual = function () {
@@ -29,24 +96,30 @@
         document.getElementById('name-2').textContent = currentManualPair[2].name;
         document.getElementById('desc-2').textContent = currentManualPair[2].desc;
         document.getElementById('selection-area').style.display = 'grid';
-        document.getElementById('result-area').style.display = 'none';
+        renderPickedClasses();
     };
 
     window.pickClassManual = function (i) {
         var sel = currentManualPair[i];
         manualClassPool = manualClassPool.filter(function (c) { return c.name !== sel.name; });
-        var res = document.getElementById('result-area');
-        res.innerHTML = '<strong>ACCEPTED:</strong> You are <em>' + sel.name + '</em>.';
-        res.style.display = 'block';
+        pickedClasses.push({
+            name: sel.name,
+            desc: sel.desc,
+            playerLabel: 'Player ' + (pickedClasses.length + 1)
+        });
         document.getElementById('selection-area').style.display = 'none';
+        saveToStorage();
+        renderPickedClasses();
         updatePoolStatus();
     };
 
     window.resetPoolManual = function () {
         manualClassPool = CLASSES.slice();
+        pickedClasses = [];
+        try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
         updatePoolStatus();
         document.getElementById('selection-area').style.display = 'none';
-        document.getElementById('result-area').style.display = 'none';
+        renderPickedClasses();
     };
 
     window.showDiagram = function (c) {
@@ -67,4 +140,5 @@
 
     populateManual();
     updatePoolStatus();
+    loadFromStorage();
 })();

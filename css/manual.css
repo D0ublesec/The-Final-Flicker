@@ -1,6 +1,10 @@
 /* Manual view — layout and typography only; content unchanged */
 @import 'variables.css';
 
+/* Suit colours (standard playing card scheme) for tier listings */
+.suit-spades, .suit-clubs { color: #d8d4cc; }   /* black suits (light on dark bg) */
+.suit-hearts, .suit-diamonds { color: #c41e3a; } /* red suits */
+
 body {
     font-family: var(--font-body);
     background-color: var(--bg-color);
@@ -75,6 +79,20 @@ h1 {
     text-shadow: 0 0 20px var(--accent-glow);
 }
 
+h2 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-top: 1.75em;
+    margin-bottom: 0.5em;
+}
+
+h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-top: 1.25em;
+    margin-bottom: 0.4em;
+}
+
 .subtitle {
     text-align: center;
     color: var(--text-muted);
@@ -83,21 +101,51 @@ h1 {
     margin-bottom: 40px;
 }
 
+.game-overview {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    max-width: 36em;
+    margin: 0 auto 24px auto;
+    line-height: 1.5;
+}
+
 .flavor-text {
     background-color: #08080a;
-    border-left: 4px solid var(--accent-color);
-    padding: 20px 24px;
+    border: 2px solid var(--accent-color);
+    padding: 24px 28px;
     font-style: italic;
     color: #ccc;
     margin-bottom: 30px;
     font-size: 1.05em;
-    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    border-radius: var(--radius-md);
+    box-shadow: 0 0 24px rgba(201, 77, 40, 0.12);
+}
+
+.flavor-text .flavor-text-title {
+    margin: 0 0 1rem 0;
+    padding: 0;
+    border: none;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--accent-color);
+    text-align: left;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.flavor-text p {
+    margin: 0 0 0.75em 0;
+}
+
+.flavor-text p:last-of-type {
+    margin-bottom: 0;
 }
 
 .tagline {
     font-weight: bold;
     color: var(--accent-color);
-    margin-top: 15px;
+    margin-top: 1rem;
     display: block;
 }
 
@@ -148,14 +196,83 @@ th {
     padding-left: 22px;
 }
 
-.faq-list {
-    padding-left: 22px;
-    margin-bottom: 1em;
+.setup-list li::marker,
+.rules-list li::marker {
+    color: var(--accent-color);
 }
 
-.faq-list li {
+.faq-list,
+.manual-bullets {
+    padding-left: 22px;
+    margin-bottom: 1em;
+    list-style-type: disc;
+}
+
+.faq-list li::marker,
+.manual-bullets li::marker {
+    color: var(--accent-color);
+}
+
+.faq-list li,
+.manual-bullets li {
     margin-bottom: 12px;
     line-height: 1.5;
+}
+
+/* Phase C: ritual actions — clear card-style blocks */
+.ritual-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.ritual-action {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--accent-color);
+    border-radius: var(--radius-sm);
+    padding: 1rem 1.25rem;
+}
+
+.ritual-action-name {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.1rem;
+    color: var(--accent-color);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.ritual-action-tag {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted, #888);
+    background: rgba(255, 255, 255, 0.08);
+    padding: 0.2rem 0.5rem;
+    border-radius: 3px;
+}
+
+.ritual-action-summary {
+    margin: 0 0 0.5rem 0;
+    line-height: 1.5;
+}
+
+.ritual-action-detail {
+    margin: 0;
+    padding: 0.5rem 0 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    font-size: 0.95em;
+    line-height: 1.45;
+    color: var(--text-color);
+}
+
+.ritual-action-detail:empty {
+    display: none;
 }
 
 .rules-list li, .setup-list li {
@@ -380,8 +497,68 @@ th {
     padding: 15px;
     background: #0a0a0c;
     border: 1px solid var(--border-color);
-    color: #8f8;
+    color: var(--text-color);
     border-radius: var(--radius-sm);
+}
+
+#result-area .picked-classes-heading {
+    margin: 0 0 12px 0;
+    font-weight: 600;
+    color: var(--accent-color);
+    font-size: 1em;
+}
+
+#result-area .picked-class-entry {
+    margin-bottom: 14px;
+    padding: 12px;
+    background: rgba(255,255,255,0.04);
+    border-radius: var(--radius-sm);
+    border-left: 3px solid var(--accent-color);
+}
+
+#result-area .picked-class-entry:last-child {
+    margin-bottom: 0;
+}
+
+#result-area .picked-class-player-label {
+    display: block;
+    font-size: 0.8em;
+    color: var(--text-muted, #888);
+    margin-bottom: 4px;
+}
+
+#result-area .picked-class-player-input {
+    display: block;
+    width: 100%;
+    max-width: 200px;
+    margin-bottom: 8px;
+    padding: 6px 8px;
+    font: inherit;
+    font-size: 0.95em;
+    color: var(--text-color);
+    background: rgba(0,0,0,0.3);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    box-sizing: border-box;
+}
+
+#result-area .picked-class-player-input:focus {
+    outline: none;
+    border-color: var(--accent-color);
+}
+
+#result-area .picked-class-name {
+    display: block;
+    color: var(--accent-color);
+    font-size: 1.05em;
+    margin-bottom: 6px;
+}
+
+#result-area .picked-class-desc {
+    margin: 0;
+    font-size: 0.95em;
+    line-height: 1.4;
+    color: var(--text-color);
 }
 
 @media print {

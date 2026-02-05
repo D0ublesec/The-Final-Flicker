@@ -98,7 +98,7 @@
 
     <div id="phantom-modal" class="modal" style="z-index:3000;">
         <div class="modal-content" style="border-color:var(--magic-color);">
-            <h2 style="color:var(--magic-color)">PHANTOM</h2>
+            <h2 style="color:var(--magic-color)">THE UNSEEN</h2>
             <p id="phantom-msg">Discard 1 card to cancel the Haunt?</p>
             <div style="display:flex; gap:20px; justify-content:center;">
                 <button type="button" class="game-btn" style="background:#444;" onclick="resolvePhantomCancel(true)">ALLOW HAUNT</button>
@@ -156,9 +156,20 @@
         </div>
     </div>
 
+    <div id="priest-draw-modal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <h2 style="color:var(--accent-color)">PRIEST</h2>
+            <p>Draw 1 card from your Candle?</p>
+            <div style="display:flex; gap:12px; justify-content:center; margin-top:12px;">
+                <button type="button" class="game-btn" onclick="resolvePriestDraw(true)">Draw 1</button>
+                <button type="button" class="game-btn" style="background:#444;" onclick="resolvePriestDraw(false)">Skip</button>
+            </div>
+        </div>
+    </div>
+
     <div id="oracle-modal" class="modal" style="display:none;">
         <div class="modal-content">
-            <h2 style="color:var(--magic-color)">ORACLE — Precognition</h2>
+            <h2 style="color:var(--magic-color)">THE ORACLE — Precognition</h2>
             <p>Top card of your Candle:</p>
             <div id="oracle-card-slot" class="card-slot-inline"></div>
             <p style="margin-top:8px;">Put it on top or on the bottom?</p>
@@ -169,9 +180,18 @@
         </div>
     </div>
 
+    <div id="grimoire-rejection-modal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <h2 style="color:var(--magic-color)">THE GRIMOIRE OF REJECTION</h2>
+            <p>Write down a card to reject (next time it's played, cancel it). Does not count as action.</p>
+            <div id="grimoire-rank-buttons" class="card-grid" style="margin-top:12px;"></div>
+            <button type="button" class="game-btn" style="margin-top:12px; background:#444;" onclick="closeGrimoireRejectionModal()">Skip</button>
+        </div>
+    </div>
+
     <div id="seer-modal" class="modal" style="display:none;">
         <div class="modal-content">
-            <h2 style="color:var(--magic-color)">SEER</h2>
+            <h2 style="color:var(--magic-color)">THE WATCHER</h2>
             <p id="seer-target-label">Top card of their Candle:</p>
             <div id="seer-card-slot" class="card-slot-inline"></div>
             <p style="margin-top:8px;">Leave on top or put on bottom?</p>

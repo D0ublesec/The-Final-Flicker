@@ -22,10 +22,13 @@
         <header>
             <h1>The Final Flicker</h1>
             <p class="subtitle">Official Manual: Version 1.0</p>
+            <p class="game-overview">A card game of survival and betrayal. 2–20 players, or as many as you can fit around a table. Burn cards from your Candle to play, fend off ghosts and Possession, and be the last flame standing to win.</p>
             <div class="flavor-text">
+                <h2 class="flavor-text-title">The Story</h2>
+                <p>You are in the dark, part of a ritual you did not choose. Someone drew the circle and gave you each a candle. There is no leaving until only one flame is left flickering. Around you, others hold their own candles, strangers or allies, you cannot yet say.</p>
                 <p>This candle is your heartbeat. As long as it flickers, you are safe. But every card you burn brings you one step closer to being Consumed by the Darkness.</p>
-                <p>However, the dark isn't the only danger. If you let too many ghosts gather, you won't just die—you will lose your mind to the Possession.</p>
-                <p>Do not trust your neighbours. They are not your friends. They will shove the spirits into your shadow to save their own skin.</p>
+                <p>However, the dark isn't the only danger. If you let too many ghosts of the same kind gather, too many of one shade, you won't just die; you will lose your mind to the Possession.</p>
+                <p>Do not trust your neighbours. They are not your friends. They will shove the ghosts into your shadow to save their own skin.</p>
                 <span class="tagline">"You don't have to be the brightest light in the room. You just have to be the last one burning."</span>
             </div>
         </header>
@@ -82,9 +85,9 @@
         </section>
 
         <section id="board">
-            <h2>3. The Ritual Circle</h2>
-            <p><strong>Who plays when:</strong> In a 2–5 player game, one person takes a turn at a time (clockwise). In a 6–8 player game, two people play at once (see Twin Flame above). In a 9–12 player game, three people play at once (see Three Flames above). The diagrams below show where each player sits and which seats start the round (❄️ starter, 🔥 concurrent starters).</p>
-            <p><strong>Shadow layout (3+ players):</strong> In games with three or more players, each player’s <strong>Shadow</strong> is shown split: <strong>ghosts on the left</strong> are from your <strong>left neighbour</strong> (who Haunted you from that side), and <strong>ghosts on the right</strong> are from your <strong>right neighbour</strong>. This lets you see at a glance who Haunted which ghost—especially useful for classes like <strong>Binder</strong> (whose Haunted ghosts cannot be moved or Vanished) or <strong>Clown</strong> (whose Haunted ghosts can only be Banished by Face or Cleanse). In a 2‑player game there is only one opponent, so the Shadow is a single zone.</p>
+            <h2>2. The Ritual Circle</h2>
+            <p><strong>Who plays when:</strong> In a 2–5 player game, one person takes a turn at a time (clockwise). In a 6–8 player game, two people play at once; in a 9–12 player game, three or four people play at once (see <strong>Concurrent Flames</strong> in section 1). The diagrams below show where each player sits and which seats start the round (❄️ starter, 🔥 concurrent starters).</p>
+            <p><strong>Shadow layout (3+ players):</strong> In games with three or more players, each player’s <strong>Shadow</strong> is shown split: <strong>ghosts on the left</strong> are from your <strong>left neighbour</strong> (who Haunted you from that side), and <strong>ghosts on the right</strong> are from your <strong>right neighbour</strong>. This lets you see at a glance who Haunted which ghost—especially useful for classes like <strong>The Sealbinder</strong> (whose Haunted ghosts cannot be moved or Vanished) or <strong>The Clown</strong> (whose Haunted ghosts can only be Banished by Face or Cleanse). In a 2‑player game there is only one opponent, so the Shadow is a single zone.</p>
             <div id="layout-tool">
                 <button type="button" class="tool-btn" onclick="showDiagram(2)">2 Players</button>
                 <button type="button" class="tool-btn" onclick="showDiagram(3)">3 Players</button>
@@ -226,112 +229,134 @@
         </section>
 
         <section id="turn">
-            <h2>4. The Passage of Time</h2>
-            <p><strong>Terms:</strong> Your <strong>Neighbours</strong> are the two players immediately to your left and right in the circle (you can only Haunt, Drain, etc. a Neighbour unless a card says otherwise). Your <strong>Shadow</strong> is the pile of ghost cards in front of you; each ghost there makes you <strong>Burn</strong> one card from your Candle at the start of your turn. To <strong>Burn</strong> means to take the top card of your Candle and put it face up into The Dark.</p>
-            <h3>Phase A: THE HAUNTING</h3>
-            <p>Look into your <strong>Shadow</strong>. Count the Ghosts. For <strong>every Ghost</strong> currently haunting you, <strong>BURN 1 card</strong> from your Candle into The Dark.</p>
-            <h3>Phase B: THE BURN</h3>
-            <p>Draw <strong>1 card</strong> from the top of your Candle.</p>
-            <h3>Phase C: THE RITUAL</h3>
-            <p>Perform <strong>EXACTLY ONE</strong> of the following:</p>
-            <ul>
-                <li><strong>HAUNT (Attack):</strong> Play a Number Card (A-10) into a Neighbour's Shadow.</li>
-                <li><strong>BANISH (Defend):</strong> Play a card from hand onto a Ghost in <em>your</em> Shadow (Higher/Equal Value).
-                    <br><strong>THE SIPHON:</strong> If Banish Rank matches Ghost Rank, Heal the Ghost. 
-                    <br><em>EXCEPTION:</em> You cannot Siphon <strong>Spades (♠)</strong>.
-                    <br><strong>SUIT TIERS (Tie-Breaker):</strong> Spades > Hearts > Clubs > Diamonds.
-                </li>
-                <li><strong>PANIC (Desperation):</strong> Play the <strong>Top Card of your Candle BLINDLY</strong>.
-                    <br><em>Higher/Equal:</em> Success. <em>Lower:</em> Failure (Ghost Added).
-                    <br>Face Cards (J,Q,K) count as <strong>VALUE 0</strong>.
-                    <br><strong>JOKER MIRACLE:</strong> Instant Win! You Siphon the Ghost (Heal) unless it is a Spade.
-                </li>
-                <li><strong>SÉANCE (Heal):</strong> Discard a <strong>MATCHING PAIR</strong>. Take <strong>BOTTOM 3 CARDS</strong> of The Dark to your Candle.</li>
-                <li><strong>CAST (Effect) / SUMMON (Power):</strong> Discard for Ability (See Grimoire).</li>
-                <li><strong>FLICKER (Reset):</strong> Shuffle your Hand into your Candle. Draw 3 new cards.</li>
-            </ul>
-            <h3>Phase D: THE BURDEN</h3>
+            <h2>3. The Passage of Time</h2>
+            <p><strong>Terms:</strong> Your <strong>neighbours</strong> are the two players immediately to your left and right in the circle (you can only Haunt, Drain, etc. a neighbour unless a card says otherwise). Your <strong>Shadow</strong> is the pile of ghost cards in front of you; each ghost there makes you <strong>burn</strong> one card from your Candle at the start of your turn. To <strong>burn</strong> means to take the top card of your Candle and put it face up into The Dark. <strong>Suit tier</strong> (for tie-breaking): <span class="suit-spades">♠</span> &gt; <span class="suit-hearts">♥</span> &gt; <span class="suit-clubs">♣</span> &gt; <span class="suit-diamonds">♦</span> (Spades, Hearts, Clubs, Diamonds).</p>
+            <h3>The Haunting</h3>
+            <p>Look at your <strong>Shadow</strong>. For <strong>each ghost</strong> in your Shadow, <strong>burn 1 card</strong> from your Candle (place it face up into The Dark).</p>
+            <h3>The Draw</h3>
+            <p><strong>Draw 1 card</strong> from the top of your Candle into your hand.</p>
+            <h3>The Ritual</h3>
+            <p>Perform <strong>exactly one</strong> of the following actions:</p>
+            <div class="ritual-actions">
+                <div class="ritual-action">
+                    <h4 class="ritual-action-name">HAUNT <span class="ritual-action-tag">Attack</span></h4>
+                    <p class="ritual-action-summary">Play a number card (A–10) from your hand into a neighbour’s Shadow. That card becomes a ghost; they will burn one card per ghost at the start of their next turn.</p>
+                </div>
+                <div class="ritual-action">
+                    <h4 class="ritual-action-name">BANISH <span class="ritual-action-tag">Defend</span></h4>
+                    <p class="ritual-action-summary">Play a card from your hand onto one ghost in <em>your</em> Shadow. Your card must have <strong>equal or higher value</strong> than the ghost; on a tie, <strong>suit tier</strong> breaks it: Spades <span class="suit-spades">♠</span> &gt; Hearts <span class="suit-hearts">♥</span> &gt; Clubs <span class="suit-clubs">♣</span> &gt; Diamonds <span class="suit-diamonds">♦</span>. The ghost is destroyed.</p>
+                    <div class="ritual-action-detail">
+                        <strong>Siphon:</strong> If your card’s <strong>rank matches</strong> the ghost’s rank (e.g. 7<span class="suit-hearts">♥</span> on 7<span class="suit-clubs">♣</span>), you <strong>siphon</strong>—put that ghost on the bottom of your Candle instead of The Dark. You cannot siphon <strong>Spades (<span class="suit-spades">♠</span>)</strong>.
+                    </div>
+                </div>
+                <div class="ritual-action">
+                    <h4 class="ritual-action-name">CAST / SUMMON <span class="ritual-action-tag">Effect</span></h4>
+                    <p class="ritual-action-summary">Discard a card to use its effect (see <a href="#grimoire">The Grimoire</a>). Number cards (A–10) have special effects; face cards (J, Q, K) and Jokers have unique powers.</p>
+                </div>
+                <div class="ritual-action">
+                    <h4 class="ritual-action-name">FLICKER <span class="ritual-action-tag">Reset</span></h4>
+                    <p class="ritual-action-summary">Shuffle your entire hand back into your Candle, then draw 3 new cards.</p>
+                </div>
+                <div class="ritual-action">
+                    <h4 class="ritual-action-name">SÉANCE <span class="ritual-action-tag">Heal</span></h4>
+                    <p class="ritual-action-summary">Discard a <strong>matching pair</strong> from your hand (two cards of the same rank). Take the <strong>bottom 3 cards</strong> of The Dark and add them to your Candle.</p>
+                </div>
+                <div class="ritual-action">
+                    <h4 class="ritual-action-name">PANIC <span class="ritual-action-tag">Desperation</span></h4>
+                    <p class="ritual-action-summary">Reveal the <strong>top card of your Candle</strong> (you do not look first). Compare it to the ghost: <strong>higher or equal</strong> = success (ghost destroyed); <strong>lower</strong> = failure (the ghost stays and the revealed card goes to The Dark). Face cards (J, Q, K) count as <strong>0</strong>.</p>
+                    <div class="ritual-action-detail">
+                        <strong>Joker:</strong> Instant success; you siphon the ghost (unless it is a Spade).
+                    </div>
+                </div>
+            </div>
+            <h3>The Burden</h3>
             <p>Discard down to your hand limit (usually 5 cards).</p>
-            <h3>Phase E: THE CANDLE CHECK</h3>
-            <p>If your Candle is empty, you are <strong>Consumed by the Darkness</strong> and are eliminated immediately.</p>
-            <h3>Phase F: THE POSSESSION CHECK</h3>
-            <p>Look at your Shadow. If you have <strong>3 or more Ghosts of the same suit</strong>, you are <strong>Possessed</strong> and lose immediately.</p>
-            <p><em>Note:</em> At the <strong>start</strong> of your turn (Phase A), you must Burn one card per Ghost before you Draw. If your Candle is empty when you must Burn, you are Consumed then. If your Candle becomes empty <strong>during</strong> your turn, see FAQ below for optional ruling.</p>
+            <h3>Am I Alive?</h3>
+            <p><strong>Candle check:</strong> If your Candle is empty, you are <strong>Consumed by the Darkness</strong> and are eliminated.</p>
+            <p><strong>Possession check:</strong> If you have <strong>3 or more ghosts of the same suit</strong> in your Shadow, you are <strong>Possessed</strong> and lose immediately.</p>
+            <p><em>Note:</em> At the <strong>start</strong> of your turn (The Haunting), you burn one card per ghost before you draw. If your Candle is empty when you must burn, you are Consumed then. If your Candle becomes empty <strong>during</strong> your turn, see <a href="#faq">FAQ</a> for the optional ruling.</p>
         </section>
 
         <section id="grimoire">
-            <h2>5. The Grimoire</h2>
+            <h2>4. The Grimoire</h2>
             <table>
                 <thead><tr><th>Rank</th><th>Name</th><th>Effect</th></tr></thead>
                 <tbody>
-                    <tr><td>A</td><td>SIGHT</td><td>Reveal a Neighbour's Hand To The Caster.</td></tr>
+                    <tr><td>A</td><td>SIGHT</td><td>Reveal a neighbour's hand to the caster (The Watcher: reveal both neighbours' hands).</td></tr>
                     <tr><td>2</td><td>GREED</td><td>Draw 2 cards.</td></tr>
-                    <tr><td>3</td><td>SCARE</td><td>Target must shuffle their hand and blindly discard one card to The Dark.</td></tr>
-                    <tr><td>4</td><td>DRAIN</td><td>Force a Neighbour to give you the Top Card of their Candle (Goes to YOUR Candle).</td></tr>
+                    <tr><td>3</td><td>SCARE</td><td>Target shuffles their hand and blindly discards 1 card to The Dark (The Sadist: 2 cards; you pick which).</td></tr>
+                    <tr><td>4</td><td>DRAIN</td><td>Take the top card of a neighbour's Candle; it goes to your Candle.</td></tr>
                     <tr><td>5</td><td>SALT</td><td><strong>Reaction:</strong> Cancel an action targeting you (see Salt section below).</td></tr>
-                    <tr><td>6</td><td>CLAIM</td><td>Steal 1 Random Card from Neighbour's Hand.</td></tr>
-                    <tr><td>7</td><td>CLEANSE</td><td>Destroy 1 Ghost (no number check). <strong>Siphon</strong> if Suits match (No Spades).</td></tr>
-                    <tr><td>8</td><td>VANISH</td><td>Return a Ghost from Any Shadow to your Hand.</td></tr>
-                    <tr><td>9</td><td>POSSESS</td><td>Move a Ghost from your Shadow to a Neighbour.</td></tr>
-                    <tr><td>10</td><td>REKINDLE</td><td>Take top 3 cards from Discard to Candle.</td></tr>
-                    <tr><td>J</td><td>MIRROR</td><td>Swap all ghosts in your Shadow with a Neighbour's ghosts.</td></tr>
-                    <tr><td>Q</td><td>MEDIUM</td><td>Choose: Pick 1 from Dark to Hand OR Shuffle 2 from Dark to Candle.</td></tr>
-                    <tr><td>K</td><td>PURGE</td><td>Banish ALL Ghosts in your Shadow instantly.</td></tr>
-                    <tr><td>JOKER</td><td>BOO!</td><td>Force Foes to burn Candle until they hit a Ghost (Face→Dark, Num→Shadow). No effect on a player whose Shadow contains only ghosts Haunted by Binder.</td></tr>
+                    <tr><td>6</td><td>CLAIM</td><td>Steal 1 random card from a neighbour's hand.</td></tr>
+                    <tr><td>7</td><td>CLEANSE</td><td>Destroy 1 ghost (no value check). Siphon it if suits match (<span class="suit-spades">♠</span> cannot be siphoned).</td></tr>
+                    <tr><td>8</td><td>VANISH</td><td>Return a ghost from any Shadow to your hand.</td></tr>
+                    <tr><td>9</td><td>POSSESS</td><td>Move a ghost from your Shadow to a neighbour (The Occultist: any player).</td></tr>
+                    <tr><td>10</td><td>REKINDLE</td><td>Take the top 3 cards from The Dark and add them to your Candle.</td></tr>
+                    <tr><td>J</td><td>MIRROR</td><td>Swap all ghosts in your Shadow with a neighbour's Shadow.</td></tr>
+                    <tr><td>Q</td><td>MEDIUM</td><td>Choose: take 1 card from The Dark to your hand, OR take 2 cards from The Dark and add them to your Candle.</td></tr>
+                    <tr><td>K</td><td>PURGE</td><td>Banish all ghosts in your Shadow instantly (no card played).</td></tr>
+                    <tr><td>JOKER</td><td>BOO!</td><td>Each other player burns from their Candle until they reveal a number card (face cards go to The Dark; the number card becomes a ghost in their Shadow).</td></tr>
                 </tbody>
             </table>
         </section>
 
         <section id="classes">
-            <h2>6. The Cursed (Classes)</h2>
+            <h2>5. The Cursed (Classes)</h2>
             <div class="classes-grid" id="manual-class-grid"></div>
         </section>
 
         <section id="faq">
-            <h2>7. FAQ &amp; Edge Cases</h2>
+            <h2>6. FAQ &amp; Edge Cases</h2>
             <p style="border: 1px solid var(--accent-color); padding: 10px; border-radius: 4px; background: #1a1a22;">
                 <strong>When in doubt:</strong> Use your best judgement in a way that <strong>favours the worst-case scenario</strong> (e.g. rule against the player who could gain, or in favour of the defender).
             </p>
             <h3>Siphon</h3>
             <p><strong>Siphon</strong> is one of the rules: when you remove a Ghost from your Shadow in the right way, you can <strong>Heal</strong>—put that Ghost on the <strong>bottom of your Candle</strong> instead of sending it to The Dark. You get a card back; your Candle lasts longer.</p>
             <ul class="faq-list">
-                <li><strong>When do I Siphon?</strong> When you <strong>Banish</strong> a Ghost: play a card from your hand that meets or beats the Ghost (value, and suit tier on a tie). If your card’s <strong>rank matches</strong> the Ghost’s rank (e.g. your 7♥ on a 7♣ Ghost), you Siphon—the Ghost goes to your Candle. If the ranks don’t match, you still destroy the Ghost but it goes to The Dark (no heal).</li>
-                <li><strong>Spades (♠) can never be Siphoned.</strong> You can Banish a Spade Ghost (destroy it), but it always goes to The Dark. Only hearts, clubs, and diamonds can be Siphoned when ranks match.</li>
+                <li><strong>When do I Siphon?</strong> When you <strong>Banish</strong> a Ghost: play a card from your hand that meets or beats the Ghost (value, and suit tier on a tie). If your card’s <strong>rank matches</strong> the Ghost’s rank (e.g. your 7<span class="suit-hearts">♥</span> on a 7<span class="suit-clubs">♣</span> Ghost), you Siphon—the Ghost goes to your Candle. If the ranks don’t match, you still destroy the Ghost but it goes to The Dark (no heal).</li>
+                <li><strong>Spades <span class="suit-spades">♠</span> can never be Siphoned because they are cursed by the darkness.</strong> You can Banish a Spade ghost (destroy it), but it always goes to The Dark. Only Hearts <span class="suit-hearts">♥</span>, Clubs <span class="suit-clubs">♣</span>, and Diamonds <span class="suit-diamonds">♦</span> can be Siphoned when ranks match.</li>
                 <li><strong>Do I still use my card when I Siphon?</strong> Yes. You discard the card you played; only the Ghost is healed to your Candle.</li>
                 <li><strong>Panic and Joker:</strong> If you Panic and flip a Joker, you Siphon the Ghost (unless it’s a Spade). Cleanse (7) can Siphon if suits match (no Spades).</li>
             </ul>
             <h3>Banish (how you remove Ghosts)</h3>
-            <p><strong>Banish</strong> = play one card from your hand onto one Ghost in <em>your</em> Shadow. Your card must have <strong>equal or higher value</strong> than the Ghost; on a tie, <strong>suit tier</strong> breaks it (Spades &gt; Hearts &gt; Clubs &gt; Diamonds). The Ghost is destroyed. If rank matched and the Ghost wasn’t a Spade, you <strong>Siphon</strong> it (see above).</p>
+            <ul class="manual-bullets">
+                <li><strong>Banish</strong> = play one card from your hand onto one Ghost in <em>your</em> Shadow.</li>
+                <li>Your card must have <strong>equal or higher value</strong> than the Ghost; on a tie, <strong>suit tier</strong> breaks it: Spades <span class="suit-spades">♠</span> &gt; Hearts <span class="suit-hearts">♥</span> &gt; Clubs <span class="suit-clubs">♣</span> &gt; Diamonds <span class="suit-diamonds">♦</span>.</li>
+                <li>The Ghost is destroyed. If rank matched and the Ghost wasn’t a Spade, you <strong>Siphon</strong> it (Ghost goes to the bottom of your Candle—see Siphon above).</li>
+            </ul>
             <h3>Salt (reaction)</h3>
-            <p><strong>Salt (5)</strong> is a <strong>reaction</strong>, not a turn action. You keep it in hand until someone targets you (e.g. with a Haunt). When they do, you may reveal Salt to <strong>interrupt</strong>.</p>
+            <ul class="manual-bullets">
+                <li><strong>Salt (5)</strong> is a <strong>reaction</strong>, not a turn action: keep it in hand until someone targets you (e.g. with a Haunt), then you may reveal Salt to <strong>interrupt</strong>.</li>
+            </ul>
             <ul class="faq-list">
                 <li><strong>When the defender uses Salt:</strong> The defender's Salt and the attacker's card both go to The Dark (discard). The <strong>attacker's turn ends</strong> immediately. The defender does <strong>not</strong> lose their turn—the interrupt happens during the attacker's turn.</li>
                 <li><strong>Counter-Salt:</strong> The attacker may respond with their own Salt to "counter" the interrupt. If they do, their Salt and the defender's Salt both go to The Dark, and the defender may interrupt again with another Salt (if they have one). This can repeat as long as both players have Salt in hand. The <strong>last player to play Salt</strong> decides the outcome: if the defender played last, the action is cancelled (attacker's card and defender's Salt to The Dark, attacker's turn ends). If the attacker played last (or the defender allows), the original action (e.g. Haunt) goes through.</li>
             </ul>
             <h3>Consumed by the Darkness</h3>
-            <p>If your <strong>Candle is empty</strong> when you must <strong>Burn</strong> (e.g. at the start of your turn, one Burn per Ghost in your Shadow), you are <strong>Consumed by the Darkness</strong> and are eliminated immediately. You Burn one card at a time; the first time you have no card to Burn, you lose.</p>
-            <p><strong>Empty Candle during your turn?</strong> If your Candle becomes empty <em>during</em> your turn (e.g. after an action or effect), you can rule either way: <strong>Eliminated immediately</strong>—you cannot finish your turn; or <strong>Check at end of turn</strong>—you finish your action and Phases D–F (discard, then Candle check, then Possession check). Most groups find the latter more enjoyable: the player gets a last turn and only loses when Phase E is checked. Agree before the game. <strong>Standard ritual</strong> checks at end of turn; <strong>Dark ritual</strong> eliminates immediately when Candle becomes empty. The digital version lets you pick either when starting a match.</p>
+            <ul class="manual-bullets">
+                <li>If your <strong>Candle is empty</strong> when you must <strong>Burn</strong> (e.g. at the start of your turn, one Burn per Ghost in your Shadow), you are <strong>Consumed by the Darkness</strong> and are eliminated immediately.</li>
+                <li>You Burn one card at a time; the first time you have no card to Burn, you lose.</li>
+                <li><strong>Empty Candle during your turn?</strong> If your Candle becomes empty <em>during</em> your turn (e.g. after an action or effect), agree before the game which ruling to use: <strong>Eliminated immediately</strong> (you cannot finish your turn), or <strong>Check at end of turn</strong> (you finish your action, then The Burden, then Am I Alive?). Most groups prefer the latter so the player gets a last turn.</li>
+                <li><strong>Standard ritual</strong> = check at end of turn; <strong>Dark ritual</strong> = eliminated immediately when Candle becomes empty. The digital version lets you pick either when starting a match.</li>
+            </ul>
             <h3>Possession</h3>
-            <p>At the <strong>end of your turn</strong> (after your one action and after discarding down to hand limit), check your <strong>Shadow</strong>. If you have <strong>3 or more Ghosts of the same suit</strong>, you are <strong>Possessed</strong> and lose immediately. You have your whole turn to Banish, Siphon, Vanish, or otherwise reduce your Shadow before this check.</p>
+            <ul class="manual-bullets">
+                <li>At the <strong>end of your turn</strong> (after your one action and after discarding down to hand limit), check your <strong>Shadow</strong>.</li>
+                <li>If you have <strong>3 or more ghosts of the same suit</strong>, you are <strong>Possessed</strong> and lose immediately. You have your whole turn to Banish, Siphon, Vanish, or otherwise reduce your Shadow before this check.</li>
+            </ul>
             <h3>Other common questions</h3>
             <ul class="faq-list">
-                <li><strong>If I have no cards in hand after Drawing, can I still do an action?</strong> You Draw 1 at the start of your turn, so you usually have at least one. If you still have none: you can Haunt (if you draw first—you draw at start of turn), Banish (if you have a ghost and a card), Flicker (shuffle nothing, draw 3), or use an ability that doesn’t require a card. You cannot Séance (need 2), Cast/Summon (need 1), or Panic (need candle).</li>
-                <li><strong>Empty Candle when I must Burn?</strong> You are Consumed by the Darkness (see above) and eliminated.</li>
                 <li><strong>If two effects happen at once (e.g. death and “when a neighbour dies”), who resolves first?</strong> The active player’s triggers resolve first, then clockwise. If still unclear, favour the worst-case (e.g. defender).</li>
-                <li><strong>Does “once per turn” mean my turn only?</strong> Yes, unless the class says “once per round” or “once per game.”</li>
-                <li><strong>If my Candle is empty when I must Burn, do I die immediately?</strong> Yes—you are Consumed by the Darkness (see Consumed by the Darkness above).</li>
                 <li><strong>Concurrent Flames: do the two (or three) players take turns with each other?</strong> No. Each concurrent player takes one full turn (Burn, Draw, One Action, Discard) in parallel; they do not interrupt each other’s turn.</li>
             </ul>
             <h3>Edge cases</h3>
             <ul class="faq-list">
-                <li><strong>Mirror (J) or Possess (9) vs WARDEN.</strong> Blocked; card not spent.</li>
-                <li><strong>Joker (BOO!) vs BINDER:</strong> Joker has no effect on a player whose Shadow contains only ghosts Haunted by Binder.</li>
-                <li><strong>Haunt vs PHANTOM.</strong> Once per turn, the defender may discard 1 card to cancel the Haunt (both cards → The Dark).</li>
-                <li><strong>Hand limit (e.g. HOARDER 8):</strong> Discard down at end of your turn. Effects that add cards can push you over until end of that turn.</li>
+                <li><strong>Mirror (J) or Possess (9) vs The Gatekeeper.</strong> Blocked; card not spent.</li>
+                <li><strong>Haunt vs The Unseen.</strong> Once per <strong>that attacker's turn</strong>, The Unseen may discard 1 card to cancel the Haunt (both cards → The Dark). So if five different players Haunt The Unseen on their respective turns, they may cancel once per attacker (one discard per turn in which they are targeted), not only once per round.</li>
+                <li><strong>Haunt vs The Hex.</strong> Same idea as The Unseen: once per <strong>that attacker's turn</strong>, The Hex may reveal a matching rank from hand to cancel the Haunt (both cards → The Dark). One cancel per attacker's turn, not one per round.</li>
+                <li><strong>Hand limit (e.g. The Accumulator 8):</strong> Discard down at end of your turn. Effects that add cards can push you over until end of that turn.</li>
                 <li><strong>“Top of Candle” effects with no cards:</strong> Effect fizzles (e.g. Drain does nothing).</li>
             </ul>
-            <h3>Final balance notes</h3>
-            <p>Classes are tuned so that strong defensive options (e.g. PHANTOM, WARDEN) have clear counters; once-per-game effects (LICH, MIMIC) are impactful but limited; and "when a neighbour dies" (VULTURE, GRAVEDIGGER) reward positioning. If a class feels too strong in your group, agree a small nerf (e.g. VULTURE: 3 cards from The Dark instead of 5) or favour the worst-case ruling when its ability is disputed.</p>
         </section>
 
         <footer>
