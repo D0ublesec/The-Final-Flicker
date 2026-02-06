@@ -776,8 +776,6 @@
             if (c && c.r === '9' && p.class && p.class.name === 'THE OCCULTIST')
                 return gameState.players.filter(function (pl) { return !pl.isDead && pl.id !== p.id; });
         }
-        if (gameState.pendingAction === 'class' && p.class && p.class.name === 'THE WATCHER')
-            return gameState.players.filter(function (pl) { return !pl.isDead && pl.id !== p.id; });
         return neighbours;
     }
 
@@ -2363,10 +2361,7 @@
             return;
         }
         if (p.class.name === 'THE WATCHER') {
-            gameState.pendingAction = 'class';
-            gameState.pendingCardIdx = null;
-            gameState.selectionMode = 'SELECT_TARGET';
-            updateUI();
+            showClassDesc(p.class);
             return;
         }
         if (p.class.name === 'THE MIMIC' && !p.usedMimic) {
@@ -2420,40 +2415,6 @@
             }
             clearTargetMode();
             finishAction();
-            return;
-        }
-        if (p.class.name === 'THE WATCHER') {
-            if (t.candle.length === 0) {
-                showAlertModal(t.name + "'s Candle is empty.", 'THE WATCHER');
-                clearTargetMode();
-                updateUI();
-                return;
-            }
-            if (p.type === 'ai') {
-                var toBottom = Math.random() < 0.5;
-                if (toBottom) {
-                    t.candle.push(t.candle.shift());
-                    log(p.name + ' (THE WATCHER) put ' + t.name + "'s top card on bottom.");
-                } else {
-                    log(p.name + ' (THE WATCHER) looked at ' + t.name + "'s top card (left on top).");
-                }
-                clearTargetMode();
-                finishAction();
-                updateUI();
-                return;
-            }
-            gameState.seerTarget = t;
-            var slot = document.getElementById('seer-card-slot');
-            var modal = document.getElementById('seer-modal');
-            var label = document.getElementById('seer-target-label');
-            if (label) label.textContent = t.name + "'s top Candle card:";
-            if (slot) {
-                slot.innerHTML = '';
-                slot.appendChild(mkCard(t.candle[0]));
-            }
-            if (modal) modal.style.display = 'flex';
-            clearTargetMode();
-            updateUI();
             return;
         }
         if (p.class.name === 'THE MIMIC' && !p.usedMimic) {
@@ -2601,7 +2562,7 @@
         var p = gameState.players[gameState.activeIdx];
         if (!p) return;
         gameState.lastDiscardByPlayerId = p.id;
-        var handLimit = (p.class && p.class.name === 'THE ACCUMULATOR') ? 8 : 5;
+        var handLimit = (p.class && p.class.name === 'THE HOARDER') ? 8 : 5;
         if (p.type === 'human' && p.hand.length > handLimit) {
             gameState.pendingDiscardDown = { handLimit: handLimit, needToDiscard: p.hand.length - handLimit };
             gameState.selectionMode = 'DISCARD_DOWN';
