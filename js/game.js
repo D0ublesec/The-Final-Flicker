@@ -7,7 +7,7 @@
     var CARD_IMAGES_BASE = 'images/cards/';
     var CARD_RANKS_BASE = 'images/cards/ranks/';
     var CARD_BACKS_BASE = 'images/cards/backs/';
-    var CLASS_IMAGES_BASE = 'images/cards/class/';
+    var CLASS_IMAGES_BASE = 'images/cards/classes/';
     var CARD_IMAGE_EXT = '.png';
     if (!CLASSES || !SUITS || !RANKS || !getVal) {
         console.error('The Final Flicker: Load data.js before game.js');
@@ -876,6 +876,13 @@
         if (!rank || !suit) return null;
         return 'the_final_flicker_' + rank + '_' + suit;
     }
+    /** Rank subfolder under images/cards/ranks/ (ace, two, three, … ten, jack, queen, king, joker) */
+    function getRankSubfolder(c) {
+        if (!c || c.isWall) return '';
+        if (c.r === 'JOKER' || c.r === '★') return 'joker';
+        var folderMap = { 'A': 'ace', '2': 'two', '3': 'three', '4': 'four', '5': 'five', '6': 'six', '7': 'seven', '8': 'eight', '9': 'nine', '10': 'ten', 'J': 'jack', 'Q': 'queen', 'K': 'king' };
+        return folderMap[c.r] || '';
+    }
     function getCardBackFilename() {
         return 'the_final_flicker_back_portrait';
     }
@@ -890,7 +897,8 @@
         if (imgName) {
             var img = document.createElement('img');
             img.className = 'card-face';
-            img.src = CARD_RANKS_BASE + imgName + CARD_IMAGE_EXT;
+            var rankFolder = getRankSubfolder(c);
+            img.src = CARD_RANKS_BASE + (rankFolder ? rankFolder + '/' : '') + imgName + CARD_IMAGE_EXT;
             img.alt = (c.r || '') + (c.s || '');
             img.loading = 'lazy';
             img.onerror = function () { d.classList.add('card-face-failed'); };

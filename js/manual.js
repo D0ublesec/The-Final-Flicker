@@ -4,7 +4,7 @@
     var getClassImageFilename = window.getClassImageFilename;
     if (!CLASSES) return;
 
-    var CLASS_IMAGES_BASE = 'images/cards/class/';
+    var CLASS_IMAGES_BASE = 'images/cards/classes/';
     var CARD_IMAGE_EXT = '.png';
 
     var STORAGE_KEY = 'finalflicker_manual_picked';
