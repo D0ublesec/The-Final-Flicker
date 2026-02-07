@@ -4,6 +4,11 @@
     var SUITS = window.SUITS;
     var RANKS = window.RANKS;
     var getVal = window.getVal;
+    var CARD_IMAGES_BASE = 'images/cards/';
+    var CARD_RANKS_BASE = 'images/cards/ranks/';
+    var CARD_BACKS_BASE = 'images/cards/backs/';
+    var CLASS_IMAGES_BASE = 'images/cards/class/';
+    var CARD_IMAGE_EXT = '.png';
     if (!CLASSES || !SUITS || !RANKS || !getVal) {
         console.error('The Final Flicker: Load data.js before game.js');
         return;
@@ -201,7 +206,7 @@
     var CHEATSHEET_TURN_DARK = '<li>Candle empty at any moment → Consumed immediately (lose).</li>';
     var CHEATSHEET_REST = '<section class="cs-section"><h3>Actions</h3><ul class="cs-list"><li><strong>Haunt</strong> — Number card to a neighbour\'s Shadow.</li><li><strong>Banish</strong> — Match/beat a Ghost in your Shadow.</li><li><strong>Panic</strong> — Flip top of Candle vs Ghost.</li><li><strong>Séance</strong> — Pair → heal 4 from Dark.</li><li><strong>Cast / Summon</strong> — Card effect (see Grimoire).</li><li><strong>Flicker</strong> — Shuffle hand, draw 3.</li><li><strong>Ability</strong> — Class power.</li></ul></section>' +
         '<section class="cs-section"><h3>Targeting</h3><p>You can only target your two Neighbours (left/right) unless a card or class says otherwise (e.g. THE OCCULTIST 9 = any player).</p></section>' +
-        '<section class="cs-section"><h3>Grimoire</h3><table class="cs-table"><tr><td>A</td><td>Sight</td><td>Choose a neighbour; reveal their hand (Watcher: both).</td></tr><tr><td>2</td><td>Greed</td><td>Draw 2 to your hand.</td></tr><tr><td>3</td><td>Scare</td><td>Choose a neighbour; they shuffle hand, discard 1 to The Dark (Sadist: 2 to The Dark).</td></tr><tr><td>4</td><td>Drain</td><td>Choose a neighbour; take top of their Candle, put on top of yours.</td></tr><tr><td>5</td><td>Salt</td><td>Reaction: cancel action targeting you (both to The Dark).</td></tr><tr><td>6</td><td>Claim</td><td>Choose a neighbour; take 1 random from their hand and add to yours.</td></tr><tr><td>7</td><td>Cleanse</td><td>Destroy 1 Ghost (to The Dark or Siphon to your Candle).</td></tr><tr><td>8</td><td>Vanish</td><td>Take a Ghost from any Shadow to your hand.</td></tr><tr><td>9</td><td>Possess</td><td>Move a Ghost from your Shadow to a neighbour\'s Shadow.</td></tr><tr><td>10</td><td>Rekindle</td><td>Top 3 from The Dark → top of your Candle.</td></tr><tr><td>J</td><td>Mirror</td><td>Choose a neighbour; swap your Shadow with theirs.</td></tr><tr><td>Q</td><td>Medium</td><td>1 from Dark to hand, OR top 2 from Dark → top of your Candle.</td></tr><tr><td>K</td><td>Purge</td><td>Banish all Ghosts in your Shadow (to The Dark / Siphon).</td></tr><tr><td>★</td><td>BOO!</td><td>Others Burn until number (to The Dark); number → Ghost in their Shadow.</td></tr></table></section>';
+        '<section class="cs-section"><h3>Grimoire</h3><table class="cs-table"><tr><td>A</td><td>Sight</td><td>Choose a neighbour; reveal their hand (Watcher: both).</td></tr><tr><td>2</td><td>Greed</td><td>Draw 2 to your hand.</td></tr><tr><td>3</td><td>Scare</td><td>Choose a neighbour; they shuffle hand, discard 1 to The Dark (Sadist: 2 to The Dark).</td></tr><tr><td>4</td><td>Drain</td><td>Choose a neighbour; take top of their Candle, put on top of yours.</td></tr><tr><td>5</td><td>Salt</td><td>Reaction: cancel action targeting you (both to The Dark).</td></tr><tr><td>6</td><td>Claim</td><td>Choose a neighbour; take 1 random from their hand and add to yours.</td></tr><tr><td>7</td><td>Cleanse</td><td>Destroy 1 Ghost (to The Dark or Siphon to your Candle).</td></tr><tr><td>8</td><td>Recall</td><td>Take a Ghost from any Shadow to your hand.</td></tr><tr><td>9</td><td>Possess</td><td>Move a Ghost from your Shadow to a neighbour\'s Shadow.</td></tr><tr><td>10</td><td>Rekindle</td><td>Top 3 from The Dark → top of your Candle.</td></tr><tr><td>J</td><td>Mirror</td><td>Choose a neighbour and swap your Shadow with their Shadow.</td></tr><tr><td>Q</td><td>Medium</td><td>1 from Dark to hand, OR top 2 from Dark → top of your Candle.</td></tr><tr><td>K</td><td>Purge</td><td>Banish all Ghosts in your Shadow (to The Dark / Siphon).</td></tr><tr><td>★</td><td>BOO!</td><td>Others Burn until number (to The Dark); number → Ghost in their Shadow.</td></tr></table></section>';
 
     function getCheatsheetHTML(darkMode) {
         var candleRule = darkMode ? CHEATSHEET_TURN_DARK : CHEATSHEET_TURN_NORMAL;
@@ -466,7 +471,20 @@
         [c1, c2, c3].forEach(function (c) {
             var b = document.createElement('div');
             b.className = 'class-box';
-            b.innerHTML = '<span class="class-title">' + c.name + '</span><small>' + c.desc + '</small>';
+            var classImgName = getClassImageFilename(c.name);
+            if (classImgName) {
+                var img = document.createElement('img');
+                img.className = 'class-card-img';
+                img.src = CLASS_IMAGES_BASE + classImgName + CARD_IMAGE_EXT;
+                img.alt = c.name;
+                img.loading = 'lazy';
+                img.onerror = function () { img.style.display = 'none'; };
+                b.appendChild(img);
+            }
+            var textWrap = document.createElement('div');
+            textWrap.className = 'class-box-text';
+            textWrap.innerHTML = '<span class="class-title">' + c.name + '</span><small>' + c.desc + '</small>';
+            b.appendChild(textWrap);
             b.onclick = function () {
                 p.class = c;
                 modal.style.display = 'none';
@@ -810,10 +828,10 @@
         '5': { name: 'Salt', effect: 'Reaction: cancel an action targeting you (your Salt and their card go to the top of The Dark).' },
         '6': { name: 'Claim', effect: 'Choose a neighbour. Take 1 random card from their hand and add it to your hand.' },
         '7': { name: 'Cleanse', effect: 'Destroy 1 Ghost from your Shadow (to the top of The Dark, or to the bottom of your Candle if Siphon).' },
-        '8': { name: 'Vanish', effect: 'Take a Ghost from any Shadow; add it to your hand.' },
+        '8': { name: 'Recall', effect: 'Take a Ghost from any Shadow and add it to your hand.' },
         '9': { name: 'Possess', effect: 'Move a Ghost from your Shadow to a neighbour\'s Shadow.' },
-        '10': { name: 'Rekindle', effect: 'Take the top 3 cards from The Dark; put them on top of your Candle.' },
-        'J': { name: 'Mirror', effect: 'Choose a neighbour; swap your Shadow with their Shadow.' },
+        '10': { name: 'Rekindle', effect: 'Take the top 3 cards from The Dark and put them on top of your Candle.' },
+        'J': { name: 'Mirror', effect: 'Choose a neighbour and swap your Shadow with their Shadow.' },
         'Q': { name: 'Medium', effect: 'Choose: take 1 from The Dark to your hand, OR take the top 2 from The Dark and put them on top of your Candle.' },
         'K': { name: 'Purge', effect: 'Banish all Ghosts in your Shadow (to the top of The Dark; Siphon if rank matches and not Spades—Siphoned to bottom of your Candle).' },
         'JOKER': { name: 'BOO!', effect: 'Each other player Burns from the top of their Candle until they reveal a number (burned cards go to the top of The Dark; the number becomes a Ghost in their Shadow).' }
@@ -830,6 +848,12 @@
         var tip = document.getElementById('card-effect-tooltip');
         if (!tip || !info) return;
         if (ev) ev.stopPropagation();
+        var rankSuitEl = tip.querySelector('.card-effect-rank-suit');
+        if (rankSuitEl && card) {
+            var rankSuit = (card.r === 'JOKER' || card.r === '★') ? 'JOKER' : (card.r || '') + (card.s || '');
+            rankSuitEl.textContent = rankSuit;
+            rankSuitEl.className = 'card-effect-rank-suit' + (card.s === '♥' || card.s === '♦' ? ' red' : '');
+        }
         tip.querySelector('.card-effect-name').textContent = info.name;
         tip.querySelector('.card-effect-text').textContent = info.effect;
         tip.classList.add('visible');
@@ -842,11 +866,64 @@
         if (tip) tip.classList.remove('visible');
     }
 
+    function getCardImageFilename(c) {
+        if (!c || c.isWall) return null;
+        if (c.r === 'JOKER' || c.r === '★') return 'the_final_flicker_joker';
+        var rankMap = { 'A': 'ace', '2': '2', '3': '3', '4': '4', '5': '5', '6': '6', '7': '7', '8': '8', '9': '9', '10': '10', 'J': 'jack', 'Q': 'queen', 'K': 'king' };
+        var suitMap = { '♠': 'spades', '♥': 'hearts', '♣': 'clubs', '♦': 'diamonds' };
+        var rank = rankMap[c.r];
+        var suit = c.s ? suitMap[c.s] : '';
+        if (!rank || !suit) return null;
+        return 'the_final_flicker_' + rank + '_' + suit;
+    }
+    function getCardBackFilename() {
+        return 'the_final_flicker_back_portrait';
+    }
+    function getClassImageFilename(className) {
+        return window.getClassImageFilename ? window.getClassImageFilename(className) : null;
+    }
     function mkCard(c, isGhost) {
         var d = document.createElement('div');
         var red = (c.s === '♥' || c.s === '♦');
         d.className = 'g-card ' + (red ? 'red' : 'black') + (isGhost ? ' ghost' : '');
-        d.innerHTML = '<div class="tl">' + c.r + c.s + '</div><div class="mid">' + c.s + '</div><div class="br">' + c.r + c.s + '</div>';
+        var imgName = getCardImageFilename(c);
+        if (imgName) {
+            var img = document.createElement('img');
+            img.className = 'card-face';
+            img.src = CARD_RANKS_BASE + imgName + CARD_IMAGE_EXT;
+            img.alt = (c.r || '') + (c.s || '');
+            img.loading = 'lazy';
+            img.onerror = function () { d.classList.add('card-face-failed'); };
+            d.appendChild(img);
+        }
+        var tl = document.createElement('div');
+        tl.className = 'tl';
+        tl.textContent = c.r + (c.s || '');
+        d.appendChild(tl);
+        var mid = document.createElement('div');
+        mid.className = 'mid';
+        mid.textContent = c.s || '';
+        d.appendChild(mid);
+        var br = document.createElement('div');
+        br.className = 'br';
+        br.textContent = c.r + (c.s || '');
+        d.appendChild(br);
+        if (c && !c.isWall && getCardEffect(c)) {
+            d.addEventListener('mouseenter', function (ev) { showCardEffectTooltip(c, ev); });
+            d.addEventListener('mouseleave', hideCardEffectTooltip);
+        }
+        return d;
+    }
+    function mkCardBack(small) {
+        var d = document.createElement('div');
+        d.className = 'g-card back' + (small ? ' small' : '');
+        var img = document.createElement('img');
+        img.className = 'card-face card-back';
+        img.src = CARD_BACKS_BASE + getCardBackFilename() + CARD_IMAGE_EXT;
+        img.alt = 'Card back';
+        img.loading = 'lazy';
+        img.onerror = function () { d.classList.add('card-face-failed'); };
+        d.appendChild(img);
         return d;
     }
 
@@ -981,6 +1058,18 @@
             }
             previousDiscardLength = gameState.discard.length;
         }
+        var darkPreview = document.getElementById('dark-preview');
+        var darkPreviewCard = document.getElementById('dark-preview-card');
+        if (darkPreview && darkPreviewCard) {
+            var topCard = gameState.discard.length > 0 ? gameState.discard[gameState.discard.length - 1] : null;
+            var showPreview = gameState.turnPhase !== 'SETUP' && topCard && !topCard.isWall;
+            darkPreview.classList.toggle('visible', showPreview);
+            darkPreview.setAttribute('aria-hidden', showPreview ? 'false' : 'true');
+            darkPreviewCard.innerHTML = '';
+            if (showPreview && topCard) {
+                darkPreviewCard.appendChild(mkCard(topCard));
+            }
+        }
         var p = getActivePlayer();
         if (!p) return;
         var targets = getNeighbours(p);
@@ -1019,6 +1108,17 @@
             playerClass.className = 'seat-class clickable-class' + (humanPlayer.class ? '' : ' empty');
             playerClass.onclick = humanPlayer.class ? (function (cls) { return function () { showClassDesc(cls); }; })(humanPlayer.class) : null;
         }
+        var playerClassImg = document.getElementById('player-class-img');
+        if (playerClassImg) {
+            if (humanPlayer.class && getClassImageFilename(humanPlayer.class.name)) {
+                playerClassImg.src = CLASS_IMAGES_BASE + getClassImageFilename(humanPlayer.class.name) + CARD_IMAGE_EXT;
+                playerClassImg.alt = humanPlayer.class.name;
+                playerClassImg.style.display = '';
+            } else {
+                playerClassImg.src = '';
+                playerClassImg.style.display = 'none';
+            }
+        }
         if (playerStatus) playerStatus.innerHTML = humanPlayer.isSalted ? ' <span class="status-badge status-salt">SALTED</span>' : '';
 
         var seatYou = document.getElementById('seat-you');
@@ -1045,12 +1145,6 @@
                         updateUI();
                     };
                 })(i);
-                if (getCardEffect(c) && typeof window.matchMedia === 'function' && window.matchMedia('(hover: hover)').matches) {
-                    (function (card) {
-                        el.addEventListener('mouseenter', function (e) { showCardEffectTooltip(card, e); });
-                        el.addEventListener('mouseleave', function () { hideCardEffectTooltip(); });
-                    })(c);
-                }
                 hDiv.appendChild(el);
             }
         }
@@ -1180,6 +1274,10 @@
                 }
                 var leftPct = 50 + radius * Math.cos(angle);
                 var topPct = 50 - radius * Math.sin(angle) + topNudge;
+                /* 2-player: place opponent higher so The Dark doesn't overlap; keep enough clearance from top */
+                if (displayCount === 1) {
+                    topPct = 14;
+                }
                 /* 6 players: P2/P3 and P5/P6 stacked vertically; add gap between top of lower (P2,P6) and bottom of upper (P3,P5) */
                 if (displayCount === 5) {
                     if (o === 0) topPct += 5;  /* P2 lower right: move down */
@@ -1204,9 +1302,11 @@
                     seat.onclick = (function (tgt) { return function () { targetPlayerSelected(tgt); }; })(other);
                 }
                 var clsName = other.class ? other.class.name : '';
+                var classImgName = other.class ? getClassImageFilename(other.class.name) : null;
+                var classImgHtml = classImgName ? '<img class="class-card-img seat-class-img" src="' + CLASS_IMAGES_BASE + classImgName + CARD_IMAGE_EXT + '" alt="">' : '';
                 var concurrentBadge = (concurrentIds.indexOf(other.id) >= 0 && gameState.turnOrder.length >= 6) ? ' <span class="concurrent-badge" title="Concurrent flame">🔥</span>' : '';
                 var twoPlayerShadow = displayCount === 1;
-                seat.innerHTML = '<div class="seat-header"><span class="seat-name">' + other.name + '</span><span class="seat-class clickable-class' + (other.class ? '' : ' empty') + '" data-class-name="' + clsName + '">' + clsName + '</span>' + concurrentBadge + '</div>' +
+                seat.innerHTML = '<div class="seat-header"><span class="seat-name">' + other.name + '</span>' + classImgHtml + '<span class="seat-class clickable-class' + (other.class ? '' : ' empty') + '" data-class-name="' + clsName + '">' + clsName + '</span>' + concurrentBadge + '</div>' +
                     '<div class="seat-candle-wrap"><div class="candle-visual" style="--candle-pct:' + Math.max(0, Math.min(100, (other.candle.length / 27) * 100)) + '"><div class="candle-flame"></div><div class="candle-wax"></div></div></div>' +
                     '<div class="seat-hand-label">Hand</div><div class="nb-hand-zone seat-hand-' + o + '"></div>' +
                     '<div class="seat-shadow-label">Shadow</div><div class="nb-shadow-split-wrap' + (twoPlayerShadow ? ' shadow-single' : '') + '">' +
@@ -1222,9 +1322,7 @@
                 var leftZone = twoPlayerShadow ? seat.querySelector('.seat-shadow-single-' + o) : seat.querySelector('.seat-shadow-left-' + o);
                 var rightZone = twoPlayerShadow ? null : seat.querySelector('.seat-shadow-right-' + o);
                 for (var h = 0; h < other.hand.length; h++) {
-                    var back = document.createElement('div');
-                    back.className = 'g-card back small';
-                    handZone.appendChild(back);
+                    handZone.appendChild(mkCardBack(true));
                 }
                 for (var s = 0; s < other.shadow.length; s++) {
                     var sc = other.shadow[s];
@@ -1237,7 +1335,7 @@
                         el = mkCard(sc, true);
                         el.classList.add('small');
                     }
-                    /* Only allow clicking other players' ghosts when selectionTarget is null (e.g. Vanish); Banish/Cleanse/Possess/Panic are own-shadow only */
+                    /* Only allow clicking other players' ghosts when selectionTarget is null (e.g. Recall); Banish/Cleanse/Possess/Panic are own-shadow only */
                     if (gameState.selectionMode === 'SELECT_GHOST' && !sc.isWall && gameState.selectionTarget == null) {
                         el.classList.add('targetable');
                         el.onclick = (function (ownerId, ghostIdx) {
@@ -1983,7 +2081,7 @@
                 if (target && target.shadow && target.shadow.length > ghostIdx) {
                     p.hand.push(target.shadow.splice(ghostIdx, 1)[0]);
                 }
-                log(p.name + ' used Vanish.');
+                log(p.name + ' used Recall.');
                 break;
             case '9':
                 if (p.shadow.length > ghostIdx && target) {
@@ -2048,7 +2146,7 @@
             var c = p.hand[gameState.selectedIdxs[0]];
             var ghost = t.shadow[idx];
             if (ghost && ghost.isWall) {
-                showAlertModal('Walls cannot be targeted (Banish/Vanish/Cleanse/Possess target ghosts only).', 'Wall');
+                showAlertModal('Walls cannot be targeted (Banish/Recall/Cleanse/Possess target ghosts only).', 'Wall');
                 return;
             }
             /* Banish flow: only resolve banish, do not treat as Cast (7/8/9) */
@@ -2085,7 +2183,7 @@
                 var g8 = t.shadow[idx];
                 var binder = g8 && g8.hauntedBy != null ? gameState.players[g8.hauntedBy] : null;
                 if (binder && binder.class && binder.class.name === 'THE SEALBINDER') {
-                    showAlertModal('That ghost was Haunted by THE SEALBINDER; it cannot be Vanished.', 'Blocked');
+                    showAlertModal('That ghost was Haunted by THE SEALBINDER; it cannot be Recalled.', 'Blocked');
                     return;
                 }
                 executeCast(p, c, t, idx);
@@ -2843,5 +2941,18 @@
         } catch (e) {
             document.body.classList.add('ritual-theme-fire');
         }
+    })();
+
+    (function initDarkPreviewTooltip() {
+        var el = document.getElementById('dark-preview-card');
+        if (!el) return;
+        el.addEventListener('mouseenter', function (ev) {
+            if (gameState.turnPhase === 'SETUP' || gameState.discard.length === 0) return;
+            var top = gameState.discard[gameState.discard.length - 1];
+            if (top && !top.isWall) showCardEffectTooltip(top, ev);
+        });
+        el.addEventListener('mouseleave', function () {
+            hideCardEffectTooltip();
+        });
     })();
 })();

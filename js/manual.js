@@ -1,7 +1,11 @@
 /* Manual view only — class selector, diagram buttons */
 (function () {
     var CLASSES = window.CLASSES;
+    var getClassImageFilename = window.getClassImageFilename;
     if (!CLASSES) return;
+
+    var CLASS_IMAGES_BASE = 'images/cards/class/';
+    var CARD_IMAGE_EXT = '.png';
 
     var STORAGE_KEY = 'finalflicker_manual_picked';
 
@@ -128,14 +132,66 @@
         if (d) d.classList.add('active');
     };
 
-    function populateManual() {
+    function escapeHtml(s) {
+        if (!s) return '';
+        return String(s)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;');
+    }
+
+    function renderClassGrid(classesToShow) {
         var grid = document.getElementById('manual-class-grid');
-        if (grid) {
-            grid.innerHTML = '';
-            CLASSES.forEach(function (cls) {
-                grid.innerHTML += '<div class="class-card"><span class="class-name">' + cls.name + '</span>' + cls.desc + '</div>';
+        if (!grid) return;
+        grid.innerHTML = '';
+        (classesToShow || CLASSES).forEach(function (cls) {
+            var nameEsc = escapeHtml(cls.name);
+            var descEsc = escapeHtml(cls.desc);
+            var imgName = getClassImageFilename ? getClassImageFilename(cls.name) : null;
+            var imgHtml = imgName
+                ? '<img class="manual-class-card-img" src="' + escapeHtml(CLASS_IMAGES_BASE + imgName + CARD_IMAGE_EXT) + '" alt="' + nameEsc + '">'
+                : '';
+            grid.innerHTML += '<div class="class-card" data-class-name="' + nameEsc + '" data-class-desc="' + descEsc + '">' +
+                '<span class="class-name">' + nameEsc + '</span>' +
+                '<p class="class-desc">' + descEsc + '</p>' +
+                (imgHtml ? '<div class="manual-class-card-img-wrap">' + imgHtml + '</div>' : '') +
+                '</div>';
+        });
+    }
+
+    function populateManual() {
+        var section = document.getElementById('classes');
+        var grid = document.getElementById('manual-class-grid');
+        if (!section || !grid) return;
+
+        var searchWrap = document.getElementById('manual-class-search-wrap');
+        if (!searchWrap) {
+            var input = document.createElement('input');
+            input.type = 'search';
+            input.placeholder = 'Search classes by name or description…';
+            input.id = 'manual-class-search';
+            input.className = 'manual-class-search-input';
+            input.setAttribute('aria-label', 'Search classes');
+            var wrap = document.createElement('div');
+            wrap.id = 'manual-class-search-wrap';
+            wrap.className = 'manual-class-search-wrap';
+            wrap.appendChild(input);
+            section.insertBefore(wrap, grid);
+            input.addEventListener('input', function () {
+                var q = (input.value || '').trim().toLowerCase();
+                if (!q) {
+                    renderClassGrid(CLASSES);
+                    return;
+                }
+                var filtered = CLASSES.filter(function (cls) {
+                    return (cls.name && cls.name.toLowerCase().indexOf(q) !== -1) ||
+                        (cls.desc && cls.desc.toLowerCase().indexOf(q) !== -1);
+                });
+                renderClassGrid(filtered);
             });
         }
+        renderClassGrid(CLASSES);
     }
 
     populateManual();

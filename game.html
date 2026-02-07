@@ -273,6 +273,7 @@
             <div id="seat-you" class="ritual-seat ritual-seat-you">
                 <div class="seat-header">
                     <span id="player-name" class="seat-name">YOU</span>
+                    <img id="player-class-img" class="class-card-img seat-class-img" alt="" src="">
                     <span id="player-class" class="seat-class"></span>
                     <span id="player-status"></span>
                 </div>
@@ -325,8 +326,14 @@
     <div id="possession-warning">POSSESSION IMMINENT</div>
 
     <div id="card-effect-tooltip" class="card-effect-tooltip" aria-hidden="true" role="tooltip">
+        <span class="card-effect-rank-suit"></span>
         <span class="card-effect-name"></span>
         <span class="card-effect-text"></span>
+    </div>
+
+    <div id="dark-preview" class="dark-preview" aria-label="The Dark – top card" aria-hidden="true">
+        <span class="dark-preview-label">THE DARK</span>
+        <div id="dark-preview-card" class="dark-preview-card"></div>
     </div>
 
     <script src="js/config.js"></script>

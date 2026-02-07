@@ -3,13 +3,13 @@ window.CLASSES = [
     { name: "THE PRIEST", desc: "When you Banish a Ghost, you may draw 1 card. (Does not trigger on Siphon)." },
     { name: "THE PYROMANIAC", desc: "Discard a Red card to the top of The Dark to choose a neighbour; they Burn 2 cards (to the top of The Dark). Once per turn; counts as your action." },
     { name: "THE LEECH", desc: "When you Banish a Ghost, you always Siphon it. (Spades are still destroyed)." },
-    { name: "THE FUNERAL BELL", desc: "Once per turn, when a player dies, each remaining player Burns 1 card." },
+    { name: "THE FUNERAL BELL", desc: "When a player dies, each remaining player Burns 1 card." },
     { name: "THE EXORCIST", desc: "Your 7 (Cleanse) destroys 2 Ghosts from your Shadow. You may Siphon only one (to the bottom of your Candle); the other goes to the top of The Dark." },
     { name: "THE SKEPTIC", desc: "Immune to 4s (Drain)." },
     { name: "THE USERER", desc: "Discard 1 to The Dark to choose a neighbour; look at their hand and swap 1 card with theirs (one to your hand, one to theirs). Once per turn; counts as your action." },
     { name: "THE DOOMREADER", desc: "Up to once per turn, you may discard 1 card to The Dark to change the suit of a Ghost in your Shadow." },
     { name: "THE SADIST", desc: "When you play a 3 (Scare), your chosen neighbour discards 2 cards to The Dark (you blindly pick which; they do not choose)." },
-    { name: "THE SEALBINDER", desc: "Ghosts you Haunt cannot be moved (Possess) or returned (Vanish)." },
+    { name: "THE SEALBINDER", desc: "Ghosts you Haunt cannot be moved (Possess) or returned (Recall)." },
     { name: "THE WARLOCK", desc: "You can use Face Cards to Haunt (Strength 10) instead of Summon. *Note: 10♠ can banish a J♠, Q♠ and K♠ haunted by you.*" },
     { name: "THE VULTURE", desc: "When a neighbour dies, add up to 5 random cards from The Dark to the bottom of your Candle." },
     { name: "THE OCCULTIST", desc: "Your 9 (Possess) can choose any player, not just neighbours. When you Possess to a non-neighbour, add 1 card from the top of The Dark to the bottom of your Candle." },
@@ -45,4 +45,11 @@ window.RANKS = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'
 
 window.getVal = function (r) {
     return { 'A': 1, 'J': 11, 'Q': 12, 'K': 13 }[r] || parseInt(r, 10);
+};
+
+/** Returns base filename for a class card image (e.g. "THE PRIEST" -> "the_final_flicker_priest"). */
+window.getClassImageFilename = function (className) {
+    if (!className) return null;
+    var slug = className.replace(/^THE\s+/i, '').toLowerCase().replace(/\s+/g, '_');
+    return 'the_final_flicker_' + slug;
 };

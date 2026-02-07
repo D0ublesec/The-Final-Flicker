@@ -87,7 +87,7 @@
         <section id="board">
             <h2>2. The Ritual Circle</h2>
             <p><strong>Who plays when:</strong> In a 2–5 player game, one person takes a turn at a time (clockwise). In a 6–8 player game, two people play at once; in a 9–12 player game, three or four people play at once (see <strong>Concurrent Flames</strong> in section 1). The diagrams below show where each player sits and which seats start the round (❄️ starter, 🔥 concurrent starters).</p>
-            <p><strong>Shadow layout (3+ players):</strong> In games with three or more players, each player’s <strong>Shadow</strong> is shown split: <strong>ghosts on the left</strong> are from your <strong>left neighbour</strong> (who Haunted you from that side), and <strong>ghosts on the right</strong> are from your <strong>right neighbour</strong>. This lets you see at a glance who Haunted which ghost—especially useful for classes like <strong>The Sealbinder</strong> (whose Haunted ghosts cannot be moved or Vanished) or <strong>The Clown</strong> (whose Haunted ghosts can only be Banished by Face or Cleanse). In a 2‑player game there is only one opponent, so the Shadow is a single zone.</p>
+            <p><strong>Shadow layout (3+ players):</strong> In games with three or more players, each player’s <strong>Shadow</strong> is shown split: <strong>ghosts on the left</strong> are from your <strong>left neighbour</strong> (who Haunted you from that side), and <strong>ghosts on the right</strong> are from your <strong>right neighbour</strong>. This lets you see at a glance who Haunted which ghost—especially useful for classes like <strong>The Sealbinder</strong> (whose Haunted ghosts cannot be moved or Recalled) or <strong>The Clown</strong> (whose Haunted ghosts can only be Banished by Face or Cleanse). In a 2‑player game there is only one opponent, so the Shadow is a single zone.</p>
             <div id="layout-tool">
                 <button type="button" class="tool-btn" onclick="showDiagram(2)">2 Players</button>
                 <button type="button" class="tool-btn" onclick="showDiagram(3)">3 Players</button>
@@ -289,10 +289,10 @@
                     <tr><td>5</td><td>SALT</td><td><strong>Reaction:</strong> Cancel an action targeting you; your Salt and their card go to The Dark (see Salt section below).</td></tr>
                     <tr><td>6</td><td>CLAIM</td><td>Choose a neighbour. Take 1 random card from their hand and add it to your hand.</td></tr>
                     <tr><td>7</td><td>CLEANSE</td><td>Destroy 1 ghost from your Shadow (to the top of The Dark, or to the bottom of your Candle if Siphon; <span class="suit-spades">♠</span> cannot be Siphoned).</td></tr>
-                    <tr><td>8</td><td>VANISH</td><td>Take a ghost from any Shadow; add it to your hand.</td></tr>
+                    <tr><td>8</td><td>RECALL</td><td>Take a ghost from any Shadow and add it to your hand.</td></tr>
                     <tr><td>9</td><td>POSSESS</td><td>Move a ghost from your Shadow to a neighbour's Shadow (The Occultist: any player's Shadow).</td></tr>
                     <tr><td>10</td><td>REKINDLE</td><td>Take the top 3 cards from The Dark and put them on top of your Candle.</td></tr>
-                    <tr><td>J</td><td>MIRROR</td><td>Choose a neighbour; swap all ghosts in your Shadow with their Shadow.</td></tr>
+                    <tr><td>J</td><td>MIRROR</td><td>Choose a neighbour and swap your Shadow with their Shadow.</td></tr>
                     <tr><td>Q</td><td>MEDIUM</td><td>Choose: take 1 card from The Dark to your hand, OR take the top 2 cards from The Dark and put them on top of your Candle.</td></tr>
                     <tr><td>K</td><td>PURGE</td><td>Banish all ghosts in your Shadow (to the top of The Dark; Siphon if rank matches and not Spades—Siphoned Ghost to bottom of your Candle).</td></tr>
                     <tr><td>JOKER</td><td>BOO!</td><td>Each other player Burns from the top of their Candle until they reveal a number card (burned cards go to the top of The Dark; the number card becomes a ghost in their Shadow).</td></tr>
@@ -342,7 +342,7 @@
             <h3>Possession</h3>
             <ul class="manual-bullets">
                 <li>At the <strong>end of your turn</strong> (after your one action and after discarding down to hand limit), check your <strong>Shadow</strong>.</li>
-                <li>If you have <strong>3 or more ghosts of the same suit</strong>, you are <strong>Possessed</strong> and lose immediately. You have your whole turn to Banish, Siphon, Vanish, or otherwise reduce your Shadow before this check.</li>
+                <li>If you have <strong>3 or more ghosts of the same suit</strong>, you are <strong>Possessed</strong> and lose immediately. You have your whole turn to Banish, Siphon, Recall, or otherwise reduce your Shadow before this check.</li>
             </ul>
             <h3>Other common questions</h3>
             <ul class="faq-list">
