@@ -747,7 +747,19 @@
         if (!gameState.isGameOver) updateUI();
     }
 
+    /** Current turn player; resolves by id so it stays correct after state sync or when players die. */
+    function getActivePlayer() {
+        var idx = gameState.activeIdx;
+        var p = gameState.players[idx];
+        if (p && p.id === idx) return p;
+        for (var i = 0; i < gameState.players.length; i++) {
+            if (gameState.players[i].id === idx) return gameState.players[i];
+        }
+        return p || null;
+    }
+
     function getNeighbours(p) {
+        if (!p || p.isDead) return { left: null, right: null };
         var active = gameState.players.filter(function (pl) { return !pl.isDead; });
         var idx = -1;
         for (var i = 0; i < active.length; i++) {
@@ -766,7 +778,7 @@
 
     /** Returns array of valid target players for current pending action (neighbours only unless card/ability says any). */
     function getValidTargets() {
-        var p = gameState.players[gameState.activeIdx];
+        var p = getActivePlayer();
         if (!p) return [];
         var n = getNeighbours(p);
         var neighbours = [n.left, n.right].filter(Boolean);
@@ -969,7 +981,7 @@
             }
             previousDiscardLength = gameState.discard.length;
         }
-        var p = gameState.players[gameState.activeIdx];
+        var p = getActivePlayer();
         if (!p) return;
         var targets = getNeighbours(p);
         var tLeft = targets.left;
@@ -1515,7 +1527,7 @@
                 if (idx == null || !p.hand[idx] || gIdx == null) { clearTargetMode(); updateUI(); return; }
                 var c = p.hand[idx];
                 var valid = getValidTargets();
-                if (valid.indexOf(t) === -1) return;
+                if (!valid.some(function (pl) { return pl && pl.id === t.id; })) return;
                 if (t.class && t.class.name === 'THE GATEKEEPER') {
                     showAlertModal(t.name + ' (THE GATEKEEPER) is immune to ghosts being moved into their Shadow (Possess).', 'Blocked');
                     clearTargetMode();
@@ -1538,7 +1550,7 @@
             if (idx == null || !p.hand[idx]) { clearTargetMode(); updateUI(); return; }
             var c = p.hand[idx];
             var valid = getValidTargets();
-            if (valid.indexOf(t) === -1) return;
+            if (!valid.some(function (pl) { return pl && pl.id === t.id; })) return;
             if (c.r === 'A') {
                 clearTargetMode();
                 viewHand(t);
