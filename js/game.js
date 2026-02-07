@@ -191,9 +191,22 @@
         if (!cls) return;
         var title = document.getElementById('class-desc-title');
         var text = document.getElementById('class-desc-text');
+        var cardImg = document.getElementById('class-desc-card');
         var modal = document.getElementById('class-desc-modal');
         if (title) title.textContent = cls.name;
         if (text) text.textContent = cls.desc;
+        if (cardImg) {
+            var imgName = getClassImageFilename(cls.name);
+            if (imgName) {
+                var folder = window.getClassSubfolder ? window.getClassSubfolder(imgName) : '';
+                cardImg.src = CLASS_IMAGES_BASE + (folder ? folder + '/' : '') + imgName + CARD_IMAGE_EXT;
+                cardImg.alt = cls.name;
+                cardImg.style.display = 'block';
+            } else {
+                cardImg.src = '';
+                cardImg.style.display = 'none';
+            }
+        }
         if (modal) modal.style.display = 'flex';
     }
 
@@ -475,7 +488,8 @@
             if (classImgName) {
                 var img = document.createElement('img');
                 img.className = 'class-card-img';
-                img.src = CLASS_IMAGES_BASE + classImgName + CARD_IMAGE_EXT;
+                var classFolder = window.getClassSubfolder ? window.getClassSubfolder(classImgName) : '';
+                img.src = CLASS_IMAGES_BASE + (classFolder ? classFolder + '/' : '') + classImgName + CARD_IMAGE_EXT;
                 img.alt = c.name;
                 img.loading = 'lazy';
                 img.onerror = function () { img.style.display = 'none'; };
@@ -1119,7 +1133,9 @@
         var playerClassImg = document.getElementById('player-class-img');
         if (playerClassImg) {
             if (humanPlayer.class && getClassImageFilename(humanPlayer.class.name)) {
-                playerClassImg.src = CLASS_IMAGES_BASE + getClassImageFilename(humanPlayer.class.name) + CARD_IMAGE_EXT;
+                var name = getClassImageFilename(humanPlayer.class.name);
+                var folder = window.getClassSubfolder ? window.getClassSubfolder(name) : '';
+                playerClassImg.src = CLASS_IMAGES_BASE + (folder ? folder + '/' : '') + name + CARD_IMAGE_EXT;
                 playerClassImg.alt = humanPlayer.class.name;
                 playerClassImg.style.display = '';
             } else {
@@ -1311,7 +1327,8 @@
                 }
                 var clsName = other.class ? other.class.name : '';
                 var classImgName = other.class ? getClassImageFilename(other.class.name) : null;
-                var classImgHtml = classImgName ? '<img class="class-card-img seat-class-img" src="' + CLASS_IMAGES_BASE + classImgName + CARD_IMAGE_EXT + '" alt="">' : '';
+                var classFolder = classImgName && window.getClassSubfolder ? window.getClassSubfolder(classImgName) : '';
+                var classImgHtml = classImgName ? '<img class="class-card-img seat-class-img" src="' + CLASS_IMAGES_BASE + (classFolder ? classFolder + '/' : '') + classImgName + CARD_IMAGE_EXT + '" alt="">' : '';
                 var concurrentBadge = (concurrentIds.indexOf(other.id) >= 0 && gameState.turnOrder.length >= 6) ? ' <span class="concurrent-badge" title="Concurrent flame">🔥</span>' : '';
                 var twoPlayerShadow = displayCount === 1;
                 seat.innerHTML = '<div class="seat-header"><span class="seat-name">' + other.name + '</span>' + classImgHtml + '<span class="seat-class clickable-class' + (other.class ? '' : ' empty') + '" data-class-name="' + clsName + '">' + clsName + '</span>' + concurrentBadge + '</div>' +

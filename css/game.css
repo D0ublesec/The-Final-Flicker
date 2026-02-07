@@ -1356,6 +1356,16 @@ body.game-page {
     font-size: 1.5rem;
 }
 
+.class-desc-modal-content .class-desc-card-img {
+    display: block;
+    width: 100%;
+    max-width: 180px;
+    height: auto;
+    margin: 12px auto 16px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-color);
+}
+
 .cheatsheet-content {
     max-width: 520px;
     text-align: left;

@@ -53,3 +53,19 @@ window.getClassImageFilename = function (className) {
     var slug = className.replace(/^THE\s+/i, '').toLowerCase().replace(/\s+/g, '_');
     return 'the_final_flicker_' + slug;
 };
+
+/** Returns subfolder under images/cards/classes/ for a class image filename (a-c, d-f, g-i, j-l, m-o, p-r, s-u, v-z). */
+window.getClassSubfolder = function (classImageFilename) {
+    if (!classImageFilename || typeof classImageFilename !== 'string') return '';
+    var slug = classImageFilename.replace(/^the_final_flicker_/, '');
+    var c = slug.charAt(0).toLowerCase();
+    if (c >= 'a' && c <= 'c') return 'a-c';
+    if (c >= 'd' && c <= 'f') return 'd-f';
+    if (c >= 'g' && c <= 'i') return 'g-i';
+    if (c >= 'j' && c <= 'l') return 'j-l';
+    if (c >= 'm' && c <= 'o') return 'm-o';
+    if (c >= 'p' && c <= 'r') return 'p-r';
+    if (c >= 's' && c <= 'u') return 's-u';
+    if (c >= 'v' && c <= 'z') return 'v-z';
+    return '';
+};

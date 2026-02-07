@@ -149,8 +149,10 @@
             var nameEsc = escapeHtml(cls.name);
             var descEsc = escapeHtml(cls.desc);
             var imgName = getClassImageFilename ? getClassImageFilename(cls.name) : null;
-            var imgHtml = imgName
-                ? '<img class="manual-class-card-img" src="' + escapeHtml(CLASS_IMAGES_BASE + imgName + CARD_IMAGE_EXT) + '" alt="' + nameEsc + '">'
+            var classFolder = imgName && window.getClassSubfolder ? window.getClassSubfolder(imgName) : '';
+            var imgPath = imgName ? CLASS_IMAGES_BASE + (classFolder ? classFolder + '/' : '') + imgName + CARD_IMAGE_EXT : '';
+            var imgHtml = imgPath
+                ? '<img class="manual-class-card-img" src="' + escapeHtml(imgPath) + '" alt="' + nameEsc + '">'
                 : '';
             grid.innerHTML += '<div class="class-card" data-class-name="' + nameEsc + '" data-class-desc="' + descEsc + '">' +
                 '<span class="class-name">' + nameEsc + '</span>' +
