@@ -199,9 +199,9 @@
 
     var CHEATSHEET_TURN_NORMAL = '<li>Candle empty at end of turn → Consumed (lose).</li>';
     var CHEATSHEET_TURN_DARK = '<li>Candle empty at any moment → Consumed immediately (lose).</li>';
-    var CHEATSHEET_REST = '<section class="cs-section"><h3>Actions</h3><ul class="cs-list"><li><strong>Haunt</strong> — Number card to a neighbour\'s Shadow.</li><li><strong>Banish</strong> — Match/beat a Ghost in your Shadow.</li><li><strong>Panic</strong> — Flip top of Candle vs Ghost.</li><li><strong>Séance</strong> — Pair → heal 3 from Dark.</li><li><strong>Cast / Summon</strong> — Card effect (see Grimoire).</li><li><strong>Flicker</strong> — Shuffle hand, draw 3.</li><li><strong>Ability</strong> — Class power.</li></ul></section>' +
+    var CHEATSHEET_REST = '<section class="cs-section"><h3>Actions</h3><ul class="cs-list"><li><strong>Haunt</strong> — Number card to a neighbour\'s Shadow.</li><li><strong>Banish</strong> — Match/beat a Ghost in your Shadow.</li><li><strong>Panic</strong> — Flip top of Candle vs Ghost.</li><li><strong>Séance</strong> — Pair → heal 4 from Dark.</li><li><strong>Cast / Summon</strong> — Card effect (see Grimoire).</li><li><strong>Flicker</strong> — Shuffle hand, draw 3.</li><li><strong>Ability</strong> — Class power.</li></ul></section>' +
         '<section class="cs-section"><h3>Targeting</h3><p>You can only target your two Neighbours (left/right) unless a card or class says otherwise (e.g. THE OCCULTIST 9 = any player).</p></section>' +
-        '<section class="cs-section"><h3>Grimoire</h3><table class="cs-table"><tr><td>A</td><td>Sight</td><td>Reveal neighbour\'s hand (The Watcher: both neighbours).</td></tr><tr><td>2</td><td>Greed</td><td>Draw 2.</td></tr><tr><td>3</td><td>Scare</td><td>The target shuffles hand, discards 1 to Dark (The Sadist: 2).</td></tr><tr><td>4</td><td>Drain</td><td>Top card of neighbour\'s Candle → your Candle.</td></tr><tr><td>5</td><td>Salt</td><td>Interrupt: cancel action targeting you.</td></tr><tr><td>6</td><td>Claim</td><td>Steal 1 random from neighbour\'s hand.</td></tr><tr><td>7</td><td>Cleanse</td><td>Destroy 1 Ghost. Siphon if suits match (no Spades).</td></tr><tr><td>8</td><td>Vanish</td><td>Ghost from any Shadow → your hand.</td></tr><tr><td>9</td><td>Possess</td><td>Move Ghost from your Shadow to neighbour.</td></tr><tr><td>10</td><td>Rekindle</td><td>Top 3 from Dark → Candle.</td></tr><tr><td>J</td><td>Mirror</td><td>Swap your Shadow with neighbour\'s.</td></tr><tr><td>Q</td><td>Medium</td><td>Pick 1 from Dark to hand OR 2 from Dark to Candle.</td></tr><tr><td>K</td><td>Purge</td><td>Banish all Ghosts in your Shadow.</td></tr><tr><td>★</td><td>BOO!</td><td>Foes burn Candle until they hit a Ghost.</td></tr></table></section>';
+        '<section class="cs-section"><h3>Grimoire</h3><table class="cs-table"><tr><td>A</td><td>Sight</td><td>Choose a neighbour; reveal their hand (Watcher: both).</td></tr><tr><td>2</td><td>Greed</td><td>Draw 2 to your hand.</td></tr><tr><td>3</td><td>Scare</td><td>Choose a neighbour; they shuffle hand, discard 1 to The Dark (Sadist: 2 to The Dark).</td></tr><tr><td>4</td><td>Drain</td><td>Choose a neighbour; take top of their Candle, put on top of yours.</td></tr><tr><td>5</td><td>Salt</td><td>Reaction: cancel action targeting you (both to The Dark).</td></tr><tr><td>6</td><td>Claim</td><td>Choose a neighbour; steal 1 random from their hand to yours.</td></tr><tr><td>7</td><td>Cleanse</td><td>Destroy 1 Ghost (to The Dark or Siphon to your Candle).</td></tr><tr><td>8</td><td>Vanish</td><td>Take a Ghost from any Shadow to your hand.</td></tr><tr><td>9</td><td>Possess</td><td>Move a Ghost from your Shadow to a neighbour\'s Shadow.</td></tr><tr><td>10</td><td>Rekindle</td><td>Top 3 from The Dark → top of your Candle.</td></tr><tr><td>J</td><td>Mirror</td><td>Choose a neighbour; swap your Shadow with theirs.</td></tr><tr><td>Q</td><td>Medium</td><td>1 from Dark to hand, OR top 2 from Dark → top of your Candle.</td></tr><tr><td>K</td><td>Purge</td><td>Banish all Ghosts in your Shadow (to The Dark / Siphon).</td></tr><tr><td>★</td><td>BOO!</td><td>Others Burn until number (to The Dark); number → Ghost in their Shadow.</td></tr></table></section>';
 
     function getCheatsheetHTML(darkMode) {
         var candleRule = darkMode ? CHEATSHEET_TURN_DARK : CHEATSHEET_TURN_NORMAL;
@@ -803,20 +803,20 @@
     }
 
     var CARD_EFFECTS = {
-        'A': { name: 'Sight', effect: 'Reveal neighbour\'s hand to the caster.' },
-        '2': { name: 'Greed', effect: 'Draw 2.' },
-        '3': { name: 'Scare', effect: 'The target shuffles hand, blindly discards 1 to The Dark (The Sadist: 2 cards).' },
-        '4': { name: 'Drain', effect: 'Top card of neighbour\'s Candle → your Candle.' },
-        '5': { name: 'Salt', effect: 'Interrupt: cancel action targeting you.' },
-        '6': { name: 'Claim', effect: 'Steal 1 random from neighbour\'s hand.' },
-        '7': { name: 'Cleanse', effect: 'Destroy 1 Ghost. Siphon if suits match (no Spades).' },
-        '8': { name: 'Vanish', effect: 'Ghost from any Shadow → your hand.' },
-        '9': { name: 'Possess', effect: 'Move Ghost from your Shadow to neighbour.' },
-        '10': { name: 'Rekindle', effect: 'Top 3 from Dark → Candle.' },
-        'J': { name: 'Mirror', effect: 'Swap your Shadow with neighbour\'s.' },
-        'Q': { name: 'Medium', effect: 'Pick 1 from Dark to hand OR 2 from Dark to Candle.' },
-        'K': { name: 'Purge', effect: 'Banish all Ghosts in your Shadow.' },
-        'JOKER': { name: 'BOO!', effect: 'Foes burn Candle until they hit a Ghost.' }
+        'A': { name: 'Sight', effect: 'Choose a neighbour; reveal their hand to you (The Watcher: both neighbours).' },
+        '2': { name: 'Greed', effect: 'Draw 2 cards to your hand.' },
+        '3': { name: 'Scare', effect: 'Choose a neighbour. They shuffle their hand and blindly discard 1 to The Dark (The Sadist: 2 to The Dark; you pick which).' },
+        '4': { name: 'Drain', effect: 'Choose a neighbour. Take the top card of their Candle; put it on top of your Candle.' },
+        '5': { name: 'Salt', effect: 'Reaction: cancel an action targeting you (your Salt and their card go to the top of The Dark).' },
+        '6': { name: 'Claim', effect: 'Choose a neighbour. Steal 1 random card from their hand (to your hand).' },
+        '7': { name: 'Cleanse', effect: 'Destroy 1 Ghost from your Shadow (to the top of The Dark, or to the bottom of your Candle if Siphon).' },
+        '8': { name: 'Vanish', effect: 'Take a Ghost from any Shadow; add it to your hand.' },
+        '9': { name: 'Possess', effect: 'Move a Ghost from your Shadow to a neighbour\'s Shadow.' },
+        '10': { name: 'Rekindle', effect: 'Take the top 3 cards from The Dark; put them on top of your Candle.' },
+        'J': { name: 'Mirror', effect: 'Choose a neighbour; swap your Shadow with their Shadow.' },
+        'Q': { name: 'Medium', effect: 'Choose: take 1 from The Dark to your hand, OR take the top 2 from The Dark and put them on top of your Candle.' },
+        'K': { name: 'Purge', effect: 'Banish all Ghosts in your Shadow (to the top of The Dark; Siphon if rank matches and not Spades—Siphoned to bottom of your Candle).' },
+        'JOKER': { name: 'BOO!', effect: 'Each other player Burns from the top of their Candle until they reveal a number (burned cards go to the top of The Dark; the number becomes a Ghost in their Shadow).' }
     };
 
     function getCardEffect(c) {
@@ -1840,10 +1840,10 @@
         p.hand.splice(idxs[1], 1);
         gameState.lastDiscardByPlayerId = p.id;
         gameState.discard.push(c1, c2);
-        for (var i = 0; i < 3 && gameState.discard.length; i++) {
+        for (var i = 0; i < 4 && gameState.discard.length; i++) {
             p.candle.push(gameState.discard.shift());
         }
-        log(p.name + ' used Séance: Healed 3 cards.');
+        log(p.name + ' used Séance: Healed 4 cards.');
         finishAction();
     }
 
@@ -2006,6 +2006,13 @@
                 p.shadow = target.shadow;
                 target.shadow = tmp;
                 log(p.name + ' used Mirror with ' + target.name + '.');
+                break;
+            case '10':
+                for (var rk = 0; rk < 3 && gameState.discard.length; rk++) {
+                    p.candle.unshift(gameState.discard.pop());
+                }
+                log(p.name + ' Rekindle: Top 3 from The Dark to top of Candle. Candle: ' + p.candle.length);
+                if (typeof window.playSFX === 'function') window.playSFX('draw');
                 break;
             case 'K':
                 gameState.lastDiscardByPlayerId = p.id;
@@ -2313,10 +2320,10 @@
             gameState.discard.push(p.hand.splice(gameState.selectedIdxs[0], 1)[0]);
         }
         for (var i = 0; i < 2 && gameState.discard.length; i++) {
-            p.candle.push(gameState.discard.shift());
+            p.candle.unshift(gameState.discard.pop());
         }
         document.getElementById('queen-modal').style.display = 'none';
-        log(p.name + ' Rekindled 2. Candle: ' + p.candle.length);
+        log(p.name + ' Rekindled 2 to top of Candle. Candle: ' + p.candle.length);
         if (typeof window.playSFX === 'function') window.playSFX('draw');
         finishAction();
     }
