@@ -2191,8 +2191,7 @@
                     gameState.lastDiscardByPlayerId = p.id;
                     gameState.discard.push(c);
                     t.shadow.splice(idx, 1);
-                    var isSiphonB = (c.r === ghost.r && ghost.s !== '♠');
-                    if (p.class && p.class.name === 'THE LEECH' && ghost.s !== '♠') isSiphonB = true;
+                    var isSiphonB = computeSiphon(p, c, ghost);
                     var plagueOwnerB = ghost.hauntedBy != null ? gameState.players[ghost.hauntedBy] : null;
                     resolveBanishResult(p, ghost, isSiphonB, plagueOwnerB, t);
                     gameState.pendingAction = null;
@@ -2278,8 +2277,7 @@
                 gameState.lastDiscardByPlayerId = p.id;
                 gameState.discard.push(c);
                 t.shadow.splice(idx, 1);
-                var isSiphon = (c.r === ghost.r && ghost.s !== '♠');
-                if (p.class && p.class.name === 'THE LEECH' && ghost.s !== '♠') isSiphon = true;
+                var isSiphon = computeSiphon(p, c, ghost);
                 var plagueOwner = ghost.hauntedBy != null ? gameState.players[ghost.hauntedBy] : null;
                 resolveBanishResult(p, ghost, isSiphon, plagueOwner, t);
                 gameState.selectionMode = null;
@@ -2299,6 +2297,16 @@
             resolvePanic(p, idx);
             gameState.selectionMode = null;
         }
+    }
+
+    /** Siphon when: rank match, or Cleanse 7 suit match, or face ghost banished with 10/face and suit match; never Spades; Leech always (non-Spade). */
+    function computeSiphon(p, c, ghost) {
+        if (ghost.s === '♠') return false;
+        if (p.class && p.class.name === 'THE LEECH') return true;
+        if (c.r === ghost.r) return true;
+        if (c.r === '7' && c.s === ghost.s) return true;
+        if (ghost.isFace && (c.r === '10' || c.isFace) && c.s === ghost.s) return true;
+        return false;
     }
 
     function resolveBanishResult(p, ghost, isSiphon, plagueOwner, t) {
