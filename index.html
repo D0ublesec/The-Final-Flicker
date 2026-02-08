@@ -43,7 +43,7 @@
                 <li>3-4 Players: 2 Decks</li>
                 <li>5-6 Players: 3 Decks</li>
                 <li>7-8 Players: 4 Decks</li>
-                <li>9-20 Players: Scale accordingly (1 deck per 2 players)</li>
+                <li>9-? Players: Scale accordingly (1 deck per 2 players)</li>
             </ul>
             <p><strong>The Shuffle:</strong> Shuffle all decks together to create one massive pool.</p>
 
@@ -72,7 +72,7 @@
                 <li><strong>The Chilling Touch:</strong> All players must touch the hand of the person to their left. The player at the table with the <strong>Coldest Hands</strong> goes first.</li>
                 <li style="border: 1px solid var(--accent-color); padding: 10px; border-radius: 4px; background: #2a1a1a;">
                     <strong>CONCURRENT FLAMES (6+ players):</strong> 
-                    <br>With 6 or more players, multiple players take a turn at the same time. With <strong>6–8 players</strong>, 2 players act simultaneously (the starting player and the player opposite). With <strong>9–12 players</strong>, 3 players act simultaneously (e.g. P1, P4, P7 for 9 players; P1, P4, P7, P10 for 12 players). Play proceeds clockwise from each starter so everyone gets one turn per round.
+                    <br>With 6 or more players, multiple players take a turn at the same time. With <strong>6–8 players</strong>, 2 players act simultaneously; with <strong>9+ players</strong>, 3 players act simultaneously. Play proceeds clockwise from each starter so everyone gets one turn per round. See the <a href="#concurrent-flames-table">Concurrent Flames table</a> at the end of the manual for which player numbers act together.
                 </li>
             </ol>
 
@@ -87,7 +87,7 @@
 
         <section id="board">
             <h2>2. The Ritual Circle</h2>
-            <p><strong>Who plays when:</strong> In a 2–5 player game, one person takes a turn at a time (clockwise). In a 6–8 player game, two people play at once; in a 9–12 player game, three or four people play at once (see <strong>Concurrent Flames</strong> in section 1). The diagrams below show where each player sits and which seats start the round (❄️ starter, 🔥 concurrent starters).</p>
+            <p><strong>Who plays when:</strong> In a 2–5 player game, one person takes a turn at a time (clockwise). In a 6–8 player game, two people play at once; in a 9+ player game, three or more play at once. Each concurrent group does Burn, Draw, One Action, and Discard in parallel; then the round advances clockwise. For which player numbers act together (6–20 players), see the <a href="#concurrent-flames-table">Concurrent Flames table</a> at the end of the manual. The diagrams below show where each player sits and which seats start the round (❄️ starter, 🔥 concurrent starters).</p>
             <p><strong>Shadow layout (3+ players):</strong> In games with three or more players, each player’s <strong>Shadow</strong> is shown split: <strong>ghosts on the left</strong> are from your <strong>left neighbour</strong> (who Haunted you from that side), and <strong>ghosts on the right</strong> are from your <strong>right neighbour</strong>. This lets you see at a glance who Haunted which ghost—especially useful for classes like <strong>The Sealbinder</strong> (whose Haunted ghosts cannot be moved or Recalled) or <strong>The Clown</strong> (whose Haunted ghosts can only be Banished by Face or Cleanse). In a 2‑player game there is only one opponent, so the Shadow is a single zone.</p>
             <div id="layout-tool">
                 <button type="button" class="tool-btn" onclick="showDiagram(2)">2 Players</button>
@@ -362,6 +362,33 @@
                 <li><strong>Hand limit (e.g. The Hoarder 8):</strong> Discard down at end of your turn. Effects that add cards can push you over until end of that turn.</li>
                 <li><strong>“Top of Candle” effects with no cards:</strong> Effect fizzles (e.g. Drain does nothing).</li>
             </ul>
+        </section>
+
+        <section id="concurrent-flames-table">
+            <h2>Concurrent Flames table (6–22 players)</h2>
+            <p>When 6 or more players are in the game, the players listed below take their turns <strong>at the same time</strong> (each does Burn, Draw, One Action, Discard in parallel). After they finish, the round advances clockwise to the next group. In the digital version, the game adjusts when players leave the circle (elimination), so the active group may differ from this starting layout.</p>
+            <table class="concurrent-flames-table">
+                <thead><tr><th>Players</th><th>Concurrent flames (act simultaneously)</th></tr></thead>
+                <tbody>
+                    <tr><td>6</td><td>P1, P4</td></tr>
+                    <tr><td>7</td><td>P1, P4, P7</td></tr>
+                    <tr><td>8</td><td>P1, P4, P7</td></tr>
+                    <tr><td>9</td><td>P1, P4, P7</td></tr>
+                    <tr><td>10</td><td>P1, P4, P7, P10</td></tr>
+                    <tr><td>11</td><td>P1, P4, P7, P10</td></tr>
+                    <tr><td>12</td><td>P1, P4, P7, P10</td></tr>
+                    <tr><td>13</td><td>P1, P4, P7, P10, P13</td></tr>
+                    <tr><td>14</td><td>P1, P4, P7, P10, P13</td></tr>
+                    <tr><td>15</td><td>P1, P4, P7, P10, P13</td></tr>
+                    <tr><td>16</td><td>P1, P4, P7, P10, P13, P16</td></tr>
+                    <tr><td>17</td><td>P1, P4, P7, P10, P13, P16</td></tr>
+                    <tr><td>18</td><td>P1, P4, P7, P10, P13, P16</td></tr>
+                    <tr><td>19</td><td>P1, P4, P7, P10, P13, P16, P19</td></tr>
+                    <tr><td>20</td><td>P1, P4, P7, P10, P13, P16, P19</td></tr>
+                    <tr><td>21</td><td>P1, P4, P7, P10, P13, P16, P19</td></tr>
+                    <tr><td>22</td><td>P1, P4, P7, P10, P13, P16, P19, P22</td></tr>
+                </tbody>
+            </table>
         </section>
 
         <footer>
