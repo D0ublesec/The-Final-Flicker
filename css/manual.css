@@ -203,10 +203,50 @@ th {
     line-height: 1.5;
 }
 
+/* Reference card images (same size as grimoire table cards; click to preview) */
+.reference-cards-wrap {
+    margin: 16px 0 24px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.reference-card-img {
+    display: block;
+    width: 120px;
+    height: auto;
+    aspect-ratio: 56 / 80;
+    object-fit: contain;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
 .grimoire-intro {
     margin-bottom: 12px;
     font-size: 0.9rem;
     color: var(--text-muted, #888);
+}
+
+/* Let table scroll horizontally on narrow screens so Effect column has room to wrap nicely */
+.grimoire-table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin-bottom: 24px;
+}
+
+.grimoire-table {
+    min-width: 480px;
+}
+
+/* Effect column: min-width so it doesn't squash to 2–3 words per line on phone */
+.grimoire-effect {
+    min-width: 200px;
+    max-width: 420px;
 }
 
 .grimoire-table .grimoire-card-img {
@@ -239,6 +279,52 @@ th {
 .grimoire-jokers-wrap .grimoire-card-img {
     width: 56px;
     flex-shrink: 0;
+}
+
+/* Quick reference table (same as in-game RULES) */
+.manual-ref-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin-bottom: 24px;
+}
+
+.manual-ref-table {
+    width: 100%;
+    min-width: 320px;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    background: var(--bg-elevated, #1e1e28);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+}
+
+.manual-ref-table th,
+.manual-ref-table td {
+    padding: 10px 12px;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.manual-ref-table th {
+    color: var(--accent-color);
+    font-weight: 600;
+    font-family: var(--font-heading);
+}
+
+.manual-ref-table td:first-child {
+    font-weight: 700;
+    color: var(--magic-color, #a78bfa);
+    width: 2em;
+}
+
+.manual-ref-table td:nth-child(2) {
+    font-weight: 600;
+    width: 5.5em;
+}
+
+.manual-ref-effect {
+    min-width: 180px;
 }
 
 /* Big card preview (hover or click) */

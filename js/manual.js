@@ -207,7 +207,7 @@
         var manualView = document.getElementById('manual-view');
         if (!preview || !previewImg || !backdrop || !manualView) return;
 
-        var cardSelector = '.grimoire-card-img, .manual-class-card-img';
+        var cardSelector = '.grimoire-card-img, .manual-class-card-img, .reference-card-img';
 
         function show(src, alt) {
             previewImg.src = src || '';
