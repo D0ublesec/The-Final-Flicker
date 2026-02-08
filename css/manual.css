@@ -323,6 +323,7 @@ th {
     object-position: bottom left;
     border-radius: var(--radius-sm);
     border: 1px solid var(--border-color);
+    cursor: pointer;
 }
 
 .rules-list, .setup-list {

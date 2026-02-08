@@ -200,18 +200,16 @@
     updatePoolStatus();
     loadFromStorage();
 
-    (function initGrimoireCardPreview() {
+    (function initCardPreview() {
         var preview = document.getElementById('grimoire-card-preview');
         var previewImg = preview && preview.querySelector('.grimoire-card-preview-img');
         var backdrop = preview && preview.querySelector('.grimoire-card-preview-backdrop');
-        if (!preview || !previewImg || !backdrop) return;
+        var manualView = document.getElementById('manual-view');
+        if (!preview || !previewImg || !backdrop || !manualView) return;
 
-        var hideTimeout = null;
-        var pinned = false;
+        var cardSelector = '.grimoire-card-img, .manual-class-card-img';
 
         function show(src, alt) {
-            if (hideTimeout) clearTimeout(hideTimeout);
-            hideTimeout = null;
             previewImg.src = src || '';
             previewImg.alt = alt || '';
             preview.classList.add('visible');
@@ -219,30 +217,17 @@
         }
 
         function hide() {
-            if (hideTimeout) clearTimeout(hideTimeout);
-            hideTimeout = null;
             preview.classList.remove('visible');
             preview.setAttribute('aria-hidden', 'true');
-            pinned = false;
         }
 
-        function scheduleHide() {
-            if (pinned) return;
-            hideTimeout = setTimeout(hide, 200);
-        }
-
-        document.querySelectorAll('.grimoire-card-img').forEach(function (img) {
-            img.addEventListener('mouseenter', function () {
-                show(img.src, img.alt);
-            });
-            img.addEventListener('mouseleave', function () {
-                scheduleHide();
-            });
-            img.addEventListener('click', function (e) {
+        /* Preview only on click (no hover) */
+        manualView.addEventListener('click', function (e) {
+            var img = e.target.closest ? e.target.closest(cardSelector) : null;
+            if (img) {
                 e.preventDefault();
-                pinned = true;
                 show(img.src, img.alt);
-            });
+            }
         });
 
         backdrop.addEventListener('click', hide);
