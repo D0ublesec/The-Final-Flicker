@@ -199,4 +199,56 @@
     populateManual();
     updatePoolStatus();
     loadFromStorage();
+
+    (function initGrimoireCardPreview() {
+        var preview = document.getElementById('grimoire-card-preview');
+        var previewImg = preview && preview.querySelector('.grimoire-card-preview-img');
+        var backdrop = preview && preview.querySelector('.grimoire-card-preview-backdrop');
+        if (!preview || !previewImg || !backdrop) return;
+
+        var hideTimeout = null;
+        var pinned = false;
+
+        function show(src, alt) {
+            if (hideTimeout) clearTimeout(hideTimeout);
+            hideTimeout = null;
+            previewImg.src = src || '';
+            previewImg.alt = alt || '';
+            preview.classList.add('visible');
+            preview.setAttribute('aria-hidden', 'false');
+        }
+
+        function hide() {
+            if (hideTimeout) clearTimeout(hideTimeout);
+            hideTimeout = null;
+            preview.classList.remove('visible');
+            preview.setAttribute('aria-hidden', 'true');
+            pinned = false;
+        }
+
+        function scheduleHide() {
+            if (pinned) return;
+            hideTimeout = setTimeout(hide, 200);
+        }
+
+        document.querySelectorAll('.grimoire-card-img').forEach(function (img) {
+            img.addEventListener('mouseenter', function () {
+                show(img.src, img.alt);
+            });
+            img.addEventListener('mouseleave', function () {
+                scheduleHide();
+            });
+            img.addEventListener('click', function (e) {
+                e.preventDefault();
+                pinned = true;
+                show(img.src, img.alt);
+            });
+        });
+
+        backdrop.addEventListener('click', hide);
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && preview.classList.contains('visible')) hide();
+        });
+    })();
 })();

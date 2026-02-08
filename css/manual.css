@@ -170,6 +170,85 @@ th {
     font-weight: 600;
 }
 
+.grimoire-intro {
+    margin-bottom: 12px;
+    font-size: 0.9rem;
+    color: var(--text-muted, #888);
+}
+
+.grimoire-table .grimoire-card-img {
+    display: block;
+    width: 120px;
+    height: auto;
+    aspect-ratio: 56 / 80;
+    object-fit: contain;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-color);
+}
+
+.grimoire-table td:first-child {
+    width: 132px;
+    padding: 10px 14px 10px 12px;
+    vertical-align: middle;
+}
+
+.grimoire-table .grimoire-card-img {
+    cursor: pointer;
+}
+
+.grimoire-jokers-wrap {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 6px;
+    align-items: center;
+}
+
+.grimoire-jokers-wrap .grimoire-card-img {
+    width: 56px;
+    flex-shrink: 0;
+}
+
+/* Big card preview (hover or click) */
+.grimoire-card-preview {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.grimoire-card-preview.visible {
+    pointer-events: auto;
+    opacity: 1;
+    visibility: visible;
+}
+
+.grimoire-card-preview-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    cursor: pointer;
+}
+
+.grimoire-card-preview-img {
+    position: relative;
+    z-index: 1;
+    max-width: min(85vw, 320px);
+    width: 320px;
+    height: auto;
+    aspect-ratio: 56 / 80;
+    object-fit: contain;
+    border-radius: var(--radius-md);
+    border: 2px solid var(--accent-color);
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
+    pointer-events: none;
+}
+
 .manual-class-search-wrap {
     margin-bottom: 14px;
 }
