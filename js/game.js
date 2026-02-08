@@ -750,6 +750,7 @@
             if (hasFuneralBell && !gameState.funeralBellTriggeredThisTurn) {
                 gameState.funeralBellTriggeredThisTurn = true;
                 for (var bi = 0; bi < alive.length; bi++) {
+                    if (alive[bi].class && alive[bi].class.name === 'THE FUNERAL BELL') continue;
                     if (alive[bi].candle.length > 0) {
                         var burned = alive[bi].candle.shift();
                         gameState.lastDiscardByPlayerId = alive[bi].id;

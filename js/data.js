@@ -3,7 +3,7 @@ window.CLASSES = [
     { name: "THE PRIEST", desc: "When you Banish a Ghost, you may draw 1 card. (Does not trigger on Siphon)." },
     { name: "THE PYROMANIAC", desc: "Discard a Red card to the top of The Dark to choose a neighbour; they Burn 2 cards (to the top of The Dark). Once per turn; counts as your action." },
     { name: "THE LEECH", desc: "When you Banish a Ghost, you always Siphon it. (Spades are still destroyed)." },
-    { name: "THE FUNERAL BELL", desc: "When a player dies, each remaining player Burns 1 card." },
+    { name: "THE FUNERAL BELL", desc: "When a player dies, each other remaining player Burns 1 card. You are not affected." },
     { name: "THE EXORCIST", desc: "Your 7 (Cleanse) destroys 2 Ghosts from your Shadow. You may Siphon only one (to the bottom of your Candle); the other goes to the top of The Dark." },
     { name: "THE SKEPTIC", desc: "Immune to 4s (Drain)." },
     { name: "THE USERER", desc: "Discard 1 to The Dark to choose a neighbour; look at their hand and swap 1 card with theirs (one to your hand, one to theirs). Once per turn; counts as your action." },

@@ -170,6 +170,39 @@ th {
     font-weight: 600;
 }
 
+/* Passage of Time — terms list */
+.passage-terms {
+    margin: 0 0 24px 0;
+    padding: 16px 20px;
+    background: var(--bg-elevated, #1e1e28);
+    border-radius: var(--radius-sm);
+    border-left: 4px solid var(--accent-color);
+}
+
+.passage-terms dt {
+    margin: 0;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.passage-terms dt:not(:first-child) {
+    margin-top: 14px;
+}
+
+.passage-terms .game-term {
+    color: var(--accent-color);
+    font-family: var(--font-heading);
+    letter-spacing: 0.02em;
+}
+
+.passage-terms dd {
+    margin: 4px 0 0 0;
+    padding: 0;
+    font-size: 0.95rem;
+    color: var(--text-muted, #b0b0b8);
+    line-height: 1.5;
+}
+
 .grimoire-intro {
     margin-bottom: 12px;
     font-size: 0.9rem;
