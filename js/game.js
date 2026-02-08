@@ -410,8 +410,9 @@
                     });
                 }
             }
-            deck.push({ s: '★', r: 'JOKER', val: 99, isFace: false });
-            deck.push({ s: '★', r: 'JOKER', val: 99, isFace: false });
+            var jokerVariant = (d * 2) % 4 + 1;
+            deck.push({ s: '★', r: 'JOKER', val: 99, isFace: false, jokerVariant: jokerVariant });
+            deck.push({ s: '★', r: 'JOKER', val: 99, isFace: false, jokerVariant: jokerVariant === 4 ? 1 : jokerVariant + 1 });
         }
         for (var k = deck.length - 1; k > 0; k--) {
             var j = Math.floor(Math.random() * (k + 1));
@@ -883,7 +884,10 @@
 
     function getCardImageFilename(c) {
         if (!c || c.isWall) return null;
-        if (c.r === 'JOKER' || c.r === '★') return 'the_final_flicker_joker';
+        if (c.r === 'JOKER' || c.r === '★') {
+            var v = c.jokerVariant || 1;
+            return 'the_final_flicker_joker' + (v === 1 ? '' : v);
+        }
         var rankMap = { 'A': 'ace', '2': '2', '3': '3', '4': '4', '5': '5', '6': '6', '7': '7', '8': '8', '9': '9', '10': '10', 'J': 'jack', 'Q': 'queen', 'K': 'king' };
         var suitMap = { '♠': 'spades', '♥': 'hearts', '♣': 'clubs', '♦': 'diamonds' };
         var rank = rankMap[c.r];

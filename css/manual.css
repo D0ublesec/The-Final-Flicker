@@ -231,7 +231,7 @@ th {
 
 .grimoire-jokers-wrap {
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     gap: 6px;
     align-items: center;
 }
